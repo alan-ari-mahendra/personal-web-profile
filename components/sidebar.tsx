@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Home,
   ArrowUpRight,
@@ -10,13 +13,13 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { href: "#", icon: Home, label: "Home", active: true },
-  { href: "#", icon: ArrowUpRight, label: "Projects" },
-  { href: "#", icon: Briefcase, label: "Experience" },
-  { href: "#", icon: PenLine, label: "Blogs" },
-  { href: "#", icon: User, label: "About" },
-  { href: "#", icon: Wrench, label: "Tools" },
-  { href: "#", icon: Mail, label: "Contact" },
+  { href: "/", icon: Home, label: "Home" },
+  { href: "/projects", icon: ArrowUpRight, label: "Projects" },
+  { href: "/experience", icon: Briefcase, label: "Experience" },
+  { href: "/blogs", icon: PenLine, label: "Blogs" },
+  { href: "/about", icon: User, label: "About" },
+  { href: "/tools", icon: Wrench, label: "Tools" },
+  { href: "/contact", icon: Mail, label: "Contact" },
 ];
 
 const socialLinks = [
@@ -73,6 +76,8 @@ const socialLinks = [
 ];
 
 export function Sidebar() {
+  const pathname = usePathname();
+
   return (
     <aside className="fixed top-0 left-0 bottom-0 w-[240px] bg-[#EBEBEB] border-r border-[#E5E7EB] flex flex-col py-[18px] px-2.5 z-50 overflow-y-auto max-sm:w-14 max-sm:px-1.5">
       {/* Profile */}
@@ -92,23 +97,26 @@ export function Sidebar() {
 
       {/* Nav */}
       <nav className="flex flex-col gap-px">
-        {navItems.map(({ href, icon: Icon, label, active }) => (
-          <Link
-            key={label}
-            href={href}
-            className={`flex items-center gap-[9px] px-2.5 mx-2 my-0.5 py-2 rounded-[7px] text-sm transition-colors duration-100 max-sm:justify-center ${
-              active
-                ? "bg-[#111111] text-white"
-                : "text-[#111111] hover:bg-[#F3F4F6]"
-            }`}
-          >
-            <Icon
-              size={15}
-              className={`flex-shrink-0 ${active ? "text-white" : "text-[#111111]"}`}
-            />
-            <span className="max-sm:hidden">{label}</span>
-          </Link>
-        ))}
+        {navItems.map(({ href, icon: Icon, label }) => {
+          const active = pathname === href;
+          return (
+            <Link
+              key={label}
+              href={href}
+              className={`flex items-center gap-[9px] px-2.5 mx-2 my-0.5 py-2 rounded-[7px] text-sm transition-colors duration-100 max-sm:justify-center ${
+                active
+                  ? "bg-[#111111] text-white"
+                  : "text-[#111111] hover:bg-[#F3F4F6]"
+              }`}
+            >
+              <Icon
+                size={15}
+                className={`flex-shrink-0 ${active ? "text-white" : "text-[#111111]"}`}
+              />
+              <span className="max-sm:hidden">{label}</span>
+            </Link>
+          );
+        })}
       </nav>
 
       {/* Connect */}
