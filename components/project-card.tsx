@@ -1,32 +1,42 @@
 "use client"
-import type { Project } from "@/lib/projects";
-import { FollowerPointerCard } from "./ui/following-pointer";
+import type { Project } from "@prisma/client"
+import { FollowerPointerCard } from "./ui/following-pointer"
+
+type ProjectLink = { label: string; href: string }
 
 export function ProjectCard({ project }: { project: Project }) {
-  const { title, description, tags, status, links, gradient } = project;
+  const { title, description, tags, status, links, gradient, thumbnail } = project
+  const parsedLinks = links as ProjectLink[]
 
   return (
     <FollowerPointerCard
       title={
-        <TitleComponent
-          title={title}
-          // avatar={blogContent.authorAvatar}
-        />
+        <TitleComponent title={title} />
       }
     >
       <div className="group flex flex-col bg-gray-50 border border-[#E5E7EB] rounded-[12px] overflow-hidden hover:border-[#D1D5DB] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 ease-out group hover:scale-105">
         {/* Image / Screenshot area */}
         <div className="relative w-full h-[240px] overflow-hidden flex-shrink-0">
-          <div
-            className={`absolute inset-0 bg-gradient-to-br ${gradient} group-hover:scale-105 transition-transform duration-500 ease-out`}
-          />
-          <div
-            className="absolute inset-0 opacity-25 group-hover:opacity-40 transition-opacity duration-300"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 25% 35%, #818cf8 0%, transparent 55%), radial-gradient(circle at 75% 65%, #34d399 0%, transparent 55%)",
-            }}
-          />
+          {thumbnail ? (
+            <img
+              src={thumbnail}
+              alt={title}
+              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+            />
+          ) : (
+            <>
+              <div
+                className={`absolute inset-0 bg-gradient-to-br ${gradient} group-hover:scale-105 transition-transform duration-500 ease-out`}
+              />
+              <div
+                className="absolute inset-0 opacity-25 group-hover:opacity-40 transition-opacity duration-300"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(circle at 25% 35%, #818cf8 0%, transparent 55%), radial-gradient(circle at 75% 65%, #34d399 0%, transparent 55%)",
+                }}
+              />
+            </>
+          )}
 
           {/* Status badge — top right overlay */}
           <span
@@ -71,7 +81,7 @@ export function ProjectCard({ project }: { project: Project }) {
 
           {/* Links */}
           <div className="flex flex-wrap gap-1.5 mt-1">
-            {links.map(({ label, href }) => (
+            {parsedLinks.map(({ label, href }) => (
               <a
                 key={label}
                 href={href}
@@ -86,24 +96,11 @@ export function ProjectCard({ project }: { project: Project }) {
         </div>
       </div>
     </FollowerPointerCard>
-  );
+  )
 }
 
-const TitleComponent = ({
-  title,
-  // avatar,
-}: {
-  title: string;
-  // avatar: string;
-}) => (
+const TitleComponent = ({ title }: { title: string }) => (
   <div className="flex items-center space-x-2">
-    {/* <img
-      src={avatar}
-      height="20"
-      width="20"
-      alt="thumbnail"
-      className="rounded-full border-2 border-white"
-    /> */}
     <p>{title}</p>
   </div>
-);
+)

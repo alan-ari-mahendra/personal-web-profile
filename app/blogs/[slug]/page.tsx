@@ -1,12 +1,14 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import { blogs } from "@/lib/blogs"
+import { prisma } from "@/lib/prisma"
 import { BlogContentRenderer } from "@/components/blog-content-renderer"
 
-export function generateStaticParams() {
-  return blogs
-    .filter((b) => b.published)
-    .map((b) => ({ slug: b.slug }))
+export async function generateStaticParams() {
+  const blogs = await prisma.blog.findMany({
+    where: { published: true },
+    select: { slug: true },
+  })
+  return blogs.map((b) => ({ slug: b.slug }))
 }
 
 export default async function BlogPostPage({
@@ -15,9 +17,9 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const blog = blogs.find((b) => b.slug === slug && b.published)
+  const blog = await prisma.blog.findUnique({ where: { slug } })
 
-  if (!blog) notFound()
+  if (!blog || !blog.published) notFound()
 
   const formattedDate = new Date(blog.date).toLocaleDateString("en-US", {
     year: "numeric",
@@ -29,13 +31,21 @@ export default async function BlogPostPage({
     <div>
       {/* Hero */}
       <div className={`relative w-full h-[320px] bg-gradient-to-br ${blog.gradient} overflow-hidden`}>
-        <div
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 25% 35%, #818cf8 0%, transparent 55%), radial-gradient(circle at 75% 65%, #34d399 0%, transparent 55%)",
-          }}
-        />
+        {blog.thumbnail ? (
+          <img
+            src={blog.thumbnail}
+            alt={blog.title}
+            className="absolute inset-0 w-full h-full object-cover opacity-40"
+          />
+        ) : (
+          <div
+            className="absolute inset-0 opacity-30"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 25% 35%, #818cf8 0%, transparent 55%), radial-gradient(circle at 75% 65%, #34d399 0%, transparent 55%)",
+            }}
+          />
+        )}
         {/* Back link */}
         <Link
           href="/blogs"

@@ -1,8 +1,11 @@
-import { projects } from "@/lib/projects"
+import { prisma } from "@/lib/prisma"
 import { ProjectCard } from "@/components/project-card"
 
-export default function ProjectsPage() {
-  const activeProjects = projects.filter((p) => p.status === "active")
+export default async function ProjectsPage() {
+  const activeProjects = await prisma.project.findMany({
+    where: { status: "active" },
+    orderBy: { createdAt: "asc" },
+  })
 
   return (
     <div className="relative px-14 pt-28 pb-20 max-w-[960px] w-full mx-auto md:px-14 max-md:px-7 max-sm:px-5">
@@ -16,7 +19,7 @@ export default function ProjectsPage() {
       {/* Active — 2 col grid */}
       <div className="grid grid-cols-2 gap-4 mb-14 max-sm:grid-cols-1">
         {activeProjects.map((project) => (
-          <ProjectCard key={project.title} project={project} />
+          <ProjectCard key={project.id} project={project} />
         ))}
       </div>
 
