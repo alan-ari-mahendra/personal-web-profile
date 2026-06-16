@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+enum ProjectStatus {
+  active
+  archived
+}
+
+model Project {
+  id          String        @id @default(cuid())
+  title       String
+  description String
+  tags        String[]
+  status      ProjectStatus @default(active)
+  links       Json
+  gradient    String
+  thumbnail   String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Blog {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  tags        String[]
+  date        DateTime
+  readingTime String
+  slug        String   @unique
+  gradient    String
+  thumbnail   String?
+  published   Boolean  @default(false)
+  content     String   @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Experience {
+  id        String   @id @default(cuid())
+  period    String
+  role      String
+  company   String
+  bullets   String[]
+  tags      String[]
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
