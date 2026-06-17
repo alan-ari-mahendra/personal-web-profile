@@ -1,3 +1,5 @@
+"use client"
+
 import {
   X,
   Link,
@@ -9,9 +11,13 @@ import {
   Rss,
   Video,
   AtSign,
+  MessageCircle,
+  Phone,
+  ExternalLink,
+  Send,
 } from "lucide-react"
 
-const LUCIDE_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+export const LUCIDE_SOCIAL_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   X,
   Link,
   GitFork,
@@ -22,6 +28,10 @@ const LUCIDE_MAP: Record<string, React.ComponentType<{ size?: number; className?
   Rss,
   Video,
   AtSign,
+  MessageCircle,
+  Phone,
+  ExternalLink,
+  Send,
 }
 
 export function SocialLinkIcon({
@@ -36,7 +46,7 @@ export function SocialLinkIcon({
   className?: string
 }) {
   if (iconType === "LUCIDE") {
-    const Icon = LUCIDE_MAP[iconValue]
+    const Icon = LUCIDE_SOCIAL_MAP[iconValue]
     return Icon ? <Icon size={size} className={className} /> : <Globe size={size} className={className} />
   }
   return <img src={iconValue} width={size} height={size} alt="" className={`object-contain ${className ?? ""}`} />
