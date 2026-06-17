@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/sidebar";
 import { LiveClock } from "@/components/live-clock";
+import { prisma } from "@/lib/prisma";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -14,15 +15,17 @@ export const metadata: Metadata = {
   description: "Personal portfolio of Alan — AI Engineer & full-stack builder.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const socialLinks = await prisma.socialLink.findMany({ orderBy: { order: "asc" } })
+
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="h-full bg-gradient-to-r from-[#F9FAFB] to-[#EBEBEB] text-[#111111]">
-        <Sidebar />
+        <Sidebar socialLinks={socialLinks} />
         <div className="ml-[240px] max-sm:ml-14 min-h-screen flex flex-col">
           <main className="flex-1">
             {children}

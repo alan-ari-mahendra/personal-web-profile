@@ -569,6 +569,44 @@ The goal is to make illegal states unrepresentable — to design your types so t
   },
 ]
 
+const toolCategories = [
+  {
+    label: "Dev Tools",
+    order: 0,
+    tools: [
+      { name: "Cursor", description: "AI-first code editor", icon: "lucide:code-2", bg: "#F3F4F6", order: 0 },
+      { name: "Warp", description: "Modern terminal", icon: "lucide:terminal", bg: "#F3F4F6", order: 1 },
+      { name: "Git", description: "Version control", icon: "si:git", bg: "#F9EDE8", order: 2 },
+      { name: "GitHub", description: "Code hosting & CI", icon: "si:github", bg: "#F3F4F6", order: 3 },
+      { name: "Linear", description: "Issue tracking", icon: "si:linear", bg: "#F3F4F6", order: 4 },
+      { name: "Figma", description: "UI design & prototyping", icon: "si:figma", bg: "#F3F4F6", order: 5 },
+    ],
+  },
+  {
+    label: "AI Tools",
+    order: 1,
+    tools: [
+      { name: "Claude", description: "Anthropic — my daily driver LLM", icon: "si:anthropic", bg: "#FEF3C7", order: 0 },
+      { name: "ChatGPT", description: "OpenAI GPT-4o", icon: "lucide:bot", bg: "#F3F4F6", order: 1 },
+      { name: "Cursor AI", description: "In-editor AI pair programmer", icon: "lucide:sparkles", bg: "#EDE9FE", order: 2 },
+      { name: "v0 by Vercel", description: "UI generation from prompts", icon: "si:vercel", bg: "#F3F4F6", order: 3 },
+      { name: "Perplexity", description: "AI-powered search", icon: "si:perplexity", bg: "#F0F9FF", order: 4 },
+    ],
+  },
+  {
+    label: "Frameworks & Languages",
+    order: 2,
+    tools: [
+      { name: "Next.js", description: "React framework for production", icon: "si:nextdotjs", bg: "#F3F4F6", order: 0 },
+      { name: "TypeScript", description: "Typed JavaScript at scale", icon: "si:typescript", bg: "#EFF6FF", order: 1 },
+      { name: "Python", description: "AI/ML & backend scripting", icon: "si:python", bg: "#EEFBF0", order: 2 },
+      { name: "FastAPI", description: "High-perf Python API framework", icon: "si:fastapi", bg: "#EDFAF6", order: 3 },
+      { name: "Tailwind CSS", description: "Utility-first CSS", icon: "si:tailwindcss", bg: "#F0FDFA", order: 4 },
+      { name: "Prisma", description: "Type-safe ORM for Node.js", icon: "si:prisma", bg: "#F3F4F6", order: 5 },
+    ],
+  },
+]
+
 async function main() {
   console.log("Seeding projects...")
   for (const project of projects) {
@@ -645,6 +683,55 @@ async function main() {
         tags: exp.tags,
         order: i,
       },
+    })
+  }
+
+  console.log("Seeding tool categories and tools...")
+  for (const cat of toolCategories) {
+    const existing = await prisma.toolCategory.findFirst({ where: { label: cat.label } })
+    const category = await prisma.toolCategory.upsert({
+      where: { id: existing?.id ?? "" },
+      update: { label: cat.label, order: cat.order },
+      create: { label: cat.label, order: cat.order },
+    })
+    for (const tool of cat.tools) {
+      const existingTool = await prisma.tool.findFirst({
+        where: { name: tool.name, categoryId: category.id },
+      })
+      await prisma.tool.upsert({
+        where: { id: existingTool?.id ?? "" },
+        update: {
+          description: tool.description,
+          icon: tool.icon,
+          bg: tool.bg,
+          order: tool.order,
+        },
+        create: {
+          name: tool.name,
+          description: tool.description,
+          icon: tool.icon,
+          bg: tool.bg,
+          order: tool.order,
+          categoryId: category.id,
+        },
+      })
+    }
+  }
+
+  console.log("Seeding social links...")
+  const socialLinkData = [
+    { label: "X.com",     url: "#", iconType: "LUCIDE" as const, iconValue: "X",        order: 0 },
+    { label: "LinkedIn",  url: "#", iconType: "LUCIDE" as const, iconValue: "Link",     order: 1 },
+    { label: "GitHub",    url: "#", iconType: "LUCIDE" as const, iconValue: "GitFork",  order: 2 },
+    { label: "Medium",    url: "#", iconType: "LUCIDE" as const, iconValue: "BookOpen", order: 3 },
+    { label: "Instagram", url: "#", iconType: "LUCIDE" as const, iconValue: "Camera",   order: 4 },
+  ]
+  for (const link of socialLinkData) {
+    const existing = await prisma.socialLink.findFirst({ where: { label: link.label } })
+    await prisma.socialLink.upsert({
+      where: { id: existing?.id ?? "" },
+      update: { url: link.url, iconType: link.iconType, iconValue: link.iconValue, order: link.order },
+      create: link,
     })
   }
 
