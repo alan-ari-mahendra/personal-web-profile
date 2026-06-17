@@ -1,8 +1,8 @@
 import React from "react"
+import { codeToHtml } from "shiki"
 
 function parseInline(text: string): React.ReactNode[] {
   const parts: React.ReactNode[] = []
-  // Match **bold**, `inline code`
   const regex = /(\*\*(.+?)\*\*|`([^`]+)`)/g
   let last = 0
   let match: RegExpExecArray | null
@@ -28,80 +28,61 @@ function parseInline(text: string): React.ReactNode[] {
   return parts
 }
 
-export function BlogContentRenderer({ content }: { content: string }) {
-  const blocks: React.ReactNode[] = []
+type Block =
+  | { type: "code"; lang: string; code: string }
+  | { type: "h2"; text: string }
+  | { type: "h3"; text: string }
+  | { type: "ul"; items: string[] }
+  | { type: "p"; text: string }
+
+function parseBlocks(content: string): Block[] {
+  const blocks: Block[] = []
   const lines = content.split("\n")
   let i = 0
-  let key = 0
 
   while (i < lines.length) {
     const line = lines[i]
 
-    // Code block
     if (line.startsWith("```")) {
+      const lang = line.slice(3).trim() || "text"
       const codeLines: string[] = []
       i++
       while (i < lines.length && !lines[i].startsWith("```")) {
         codeLines.push(lines[i])
         i++
       }
-      blocks.push(
-        <pre key={key++} className="bg-[#0f172a] text-[#e2e8f0] rounded-xl p-5 overflow-x-auto text-xs font-mono leading-[1.7] my-6">
-          <code>{codeLines.join("\n")}</code>
-        </pre>
-      )
-      i++ // skip closing ```
+      blocks.push({ type: "code", lang, code: codeLines.join("\n") })
+      i++
       continue
     }
 
-    // h2
     if (line.startsWith("## ")) {
-      blocks.push(
-        <h2 key={key++} className="text-xl font-bold text-[#111111] tracking-[-0.02em] mt-10 mb-3 leading-[1.3]">
-          {line.slice(3)}
-        </h2>
-      )
+      blocks.push({ type: "h2", text: line.slice(3) })
       i++
       continue
     }
 
-    // h3
     if (line.startsWith("### ")) {
-      blocks.push(
-        <h3 key={key++} className="text-base font-semibold text-[#111111] tracking-[-0.01em] mt-6 mb-2 leading-[1.4]">
-          {line.slice(4)}
-        </h3>
-      )
+      blocks.push({ type: "h3", text: line.slice(4) })
       i++
       continue
     }
 
-    // List block — collect consecutive list items
     if (line.startsWith("- ")) {
       const items: string[] = []
       while (i < lines.length && lines[i].startsWith("- ")) {
         items.push(lines[i].slice(2))
         i++
       }
-      blocks.push(
-        <ul key={key++} className="my-4 space-y-1.5 pl-5">
-          {items.map((item, idx) => (
-            <li key={idx} className="text-sm text-[#374151] leading-[1.7] list-disc marker:text-[#9CA3AF]">
-              {parseInline(item)}
-            </li>
-          ))}
-        </ul>
-      )
+      blocks.push({ type: "ul", items })
       continue
     }
 
-    // Blank line — skip
     if (line.trim() === "") {
       i++
       continue
     }
 
-    // Paragraph — collect consecutive non-special lines
     const paraLines: string[] = []
     while (
       i < lines.length &&
@@ -115,13 +96,71 @@ export function BlogContentRenderer({ content }: { content: string }) {
       i++
     }
     if (paraLines.length > 0) {
-      blocks.push(
-        <p key={key++} className="text-sm text-[#374151] leading-[1.85] my-4">
-          {parseInline(paraLines.join(" "))}
+      blocks.push({ type: "p", text: paraLines.join(" ") })
+    }
+  }
+
+  return blocks
+}
+
+async function highlightCode(code: string, lang: string): Promise<string> {
+  try {
+    return await codeToHtml(code, {
+      lang,
+      theme: "one-dark-pro",
+    })
+  } catch {
+    // fallback for unknown languages
+    return await codeToHtml(code, { lang: "text", theme: "one-dark-pro" })
+  }
+}
+
+export async function BlogContentRenderer({ content }: { content: string }) {
+  const blocks = parseBlocks(content)
+  const rendered: React.ReactNode[] = []
+
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i]
+
+    if (block.type === "code") {
+      const html = await highlightCode(block.code, block.lang)
+      rendered.push(
+        <div
+          key={i}
+          className="my-6 rounded-xl overflow-hidden text-xs font-mono leading-[1.7] [&>pre]:p-5 [&>pre]:overflow-x-auto [&>pre]:!bg-[#282c34]"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      )
+    } else if (block.type === "h2") {
+      rendered.push(
+        <h2 key={i} className="text-xl font-bold text-[#111111] tracking-[-0.02em] mt-10 mb-3 leading-[1.3]">
+          {block.text}
+        </h2>
+      )
+    } else if (block.type === "h3") {
+      rendered.push(
+        <h3 key={i} className="text-base font-semibold text-[#111111] tracking-[-0.01em] mt-6 mb-2 leading-[1.4]">
+          {block.text}
+        </h3>
+      )
+    } else if (block.type === "ul") {
+      rendered.push(
+        <ul key={i} className="my-4 space-y-1.5 pl-5">
+          {block.items.map((item, idx) => (
+            <li key={idx} className="text-sm text-[#374151] leading-[1.7] list-disc marker:text-[#9CA3AF]">
+              {parseInline(item)}
+            </li>
+          ))}
+        </ul>
+      )
+    } else if (block.type === "p") {
+      rendered.push(
+        <p key={i} className="text-sm text-[#374151] leading-[1.85] my-4">
+          {parseInline(block.text)}
         </p>
       )
     }
   }
 
-  return <div className="mt-8">{blocks}</div>
+  return <div className="mt-8">{rendered}</div>
 }

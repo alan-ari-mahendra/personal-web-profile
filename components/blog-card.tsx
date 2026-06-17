@@ -14,7 +14,7 @@ export function BlogCard({ blog }: { blog: Blog }) {
 
   return (
     <FollowerPointerCard title={<TitleComponent title={title} />}>
-      <Link href={`/blogs/${slug}`} className="block group">
+      <Link href={`/blogs/${slug}`} className="block group cursor-none">
         <div className="flex flex-col bg-gray-50 border border-[#E5E7EB] rounded-[12px] overflow-hidden hover:border-[#D1D5DB] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 ease-out hover:scale-105">
           {/* Header image area */}
           <div className="relative w-full h-[240px] overflow-hidden flex-shrink-0">
