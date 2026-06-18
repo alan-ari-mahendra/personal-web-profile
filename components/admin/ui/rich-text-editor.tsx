@@ -62,7 +62,7 @@ export function RichTextEditor({ value, onChange }: Props) {
     ],
     content: value,
     onUpdate({ editor }) {
-      onChange(editor.storage.markdown.getMarkdown())
+      onChange((editor.storage as unknown as Record<string, { getMarkdown: () => string }>).markdown.getMarkdown())
     },
     editorProps: {
       attributes: {
@@ -75,7 +75,7 @@ export function RichTextEditor({ value, onChange }: Props) {
   // Sync value when switching between edit items
   useEffect(() => {
     if (!editor) return
-    const current = editor.storage.markdown.getMarkdown()
+    const current = (editor.storage as unknown as Record<string, { getMarkdown: () => string }>).markdown.getMarkdown()
     if (current !== value) {
       editor.commands.setContent(value)
     }

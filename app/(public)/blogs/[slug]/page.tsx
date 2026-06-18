@@ -64,7 +64,7 @@ export default async function BlogPostPage({
       <div className="max-w-[720px] mx-auto px-14 pt-10 pb-24 max-md:px-7 max-sm:px-5">
         {/* Tags */}
         <div className="flex flex-wrap gap-1.5 mb-4">
-          {blog.tags.map((tag) => (
+          {blog.tags.map((tag: string) => (
             <span
               key={tag}
               className="text-[10px] px-1.5 py-0.5 rounded-md bg-[#F3F4F6] text-[#6B7280] font-medium"
