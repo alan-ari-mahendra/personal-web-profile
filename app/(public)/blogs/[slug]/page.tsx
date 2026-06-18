@@ -8,7 +8,7 @@ export async function generateStaticParams() {
     where: { published: true },
     select: { slug: true },
   })
-  return blogs.map((b) => ({ slug: b.slug }))
+  return blogs.map((b: { slug: string }) => ({ slug: b.slug }))
 }
 
 export default async function BlogPostPage({
