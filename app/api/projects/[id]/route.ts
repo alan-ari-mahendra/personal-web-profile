@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { headers } from "next/headers"
+import { revalidatePath } from "next/cache"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { cloudinary } from "@/lib/cloudinary"
@@ -25,6 +26,8 @@ export async function PUT(req: Request, { params }: Params) {
     data: { title, description, tags, status, links, gradient, thumbnail },
   })
 
+  revalidatePath("/projects")
+  revalidatePath("/")
   return NextResponse.json(project)
 }
 
@@ -37,6 +40,9 @@ export async function DELETE(req: Request, { params }: Params) {
   if (!project) return NextResponse.json({ error: "Not found" }, { status: 404 })
 
   await prisma.project.delete({ where: { id } })
+
+  revalidatePath("/projects")
+  revalidatePath("/")
 
   if (project.thumbnail) {
     const publicId = extractPublicId(project.thumbnail)
