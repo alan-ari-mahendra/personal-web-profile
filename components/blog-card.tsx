@@ -1,7 +1,5 @@
-"use client"
 import Link from "next/link"
 import type { Blog } from "@prisma/client"
-import { FollowerPointerCard } from "./ui/following-pointer"
 
 export function BlogCard({ blog }: { blog: Blog }) {
   const { title, description, tags, date, readingTime, slug, gradient, thumbnail } = blog
@@ -13,24 +11,23 @@ export function BlogCard({ blog }: { blog: Blog }) {
   })
 
   return (
-    <FollowerPointerCard title={<TitleComponent title={title} />}>
-      <Link href={`/blogs/${slug}`} className="block group cursor-none">
-        <div className="flex flex-col bg-gray-50 border border-[#E5E7EB] rounded-[12px] overflow-hidden hover:border-[#D1D5DB] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 ease-out hover:scale-105">
+      <Link href={`/blogs/${slug}`} className="block group">
+        <div className="flex flex-col bg-gray-50 border border-[#E5E7EB] rounded-[12px] overflow-hidden hover:border-[#D1D5DB] hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-colors duration-300 ease-out">
           {/* Header image area */}
           <div className="relative w-full h-[240px] overflow-hidden flex-shrink-0">
             {thumbnail ? (
               <img
                 src={thumbnail}
                 alt={title}
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                className="absolute inset-0 w-full h-full object-cover"
               />
             ) : (
               <>
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${gradient} group-hover:scale-105 transition-transform duration-500 ease-out`}
+                  className={`absolute inset-0 bg-gradient-to-br ${gradient}`}
                 />
                 <div
-                  className="absolute inset-0 opacity-25 group-hover:opacity-40 transition-opacity duration-300"
+                  className="absolute inset-0 opacity-25"
                   style={{
                     backgroundImage:
                       "radial-gradient(circle at 25% 35%, #818cf8 0%, transparent 55%), radial-gradient(circle at 75% 65%, #34d399 0%, transparent 55%)",
@@ -82,12 +79,5 @@ export function BlogCard({ blog }: { blog: Blog }) {
           </div>
         </div>
       </Link>
-    </FollowerPointerCard>
   )
 }
-
-const TitleComponent = ({ title }: { title: string }) => (
-  <div className="flex items-center space-x-2">
-    <p>{title}</p>
-  </div>
-)

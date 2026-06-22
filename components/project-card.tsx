@@ -1,6 +1,4 @@
-"use client"
 import type { Project } from "@prisma/client"
-import { FollowerPointerCard } from "./ui/following-pointer"
 
 type ProjectLink = { label: string; href: string }
 
@@ -9,27 +7,22 @@ export function ProjectCard({ project }: { project: Project }) {
   const parsedLinks = links as ProjectLink[]
 
   return (
-    <FollowerPointerCard
-      title={
-        <TitleComponent title={title} />
-      }
-    >
-      <div className="group flex flex-col bg-gray-50 border border-[#E5E7EB] rounded-[12px] overflow-hidden hover:border-[#D1D5DB] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 ease-out group hover:scale-105">
+    <div className="group flex flex-col bg-gray-50 border border-[#E5E7EB] rounded-[12px] overflow-hidden hover:border-[#D1D5DB] hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-colors duration-300 ease-out">
         {/* Image / Screenshot area */}
         <div className="relative w-full h-[240px] overflow-hidden flex-shrink-0">
           {thumbnail ? (
             <img
               src={thumbnail}
               alt={title}
-              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+              className="absolute inset-0 w-full h-full object-cover"
             />
           ) : (
             <>
               <div
-                className={`absolute inset-0 bg-gradient-to-br ${gradient} group-hover:scale-105 transition-transform duration-500 ease-out`}
+                className={`absolute inset-0 bg-gradient-to-br ${gradient}`}
               />
               <div
-                className="absolute inset-0 opacity-25 group-hover:opacity-40 transition-opacity duration-300"
+                className="absolute inset-0 opacity-25"
                 style={{
                   backgroundImage:
                     "radial-gradient(circle at 25% 35%, #818cf8 0%, transparent 55%), radial-gradient(circle at 75% 65%, #34d399 0%, transparent 55%)",
@@ -94,13 +87,6 @@ export function ProjectCard({ project }: { project: Project }) {
             ))}
           </div>
         </div>
-      </div>
-    </FollowerPointerCard>
+    </div>
   )
 }
-
-const TitleComponent = ({ title }: { title: string }) => (
-  <div className="flex items-center space-x-2">
-    <p>{title}</p>
-  </div>
-)

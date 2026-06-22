@@ -5,6 +5,7 @@ import {
   SiGithub,
   SiFigma,
   SiLinear,
+  SiLaravel,
   SiAnthropic,
   SiVercel,
   SiPerplexity,
@@ -53,6 +54,8 @@ import {
   FileCode2,
   Workflow,
   Boxes,
+  Component,
+  Rocket,
 } from "lucide-react"
 
 type IconProps = { size?: number; className?: string }
@@ -62,6 +65,7 @@ export const SI_MAP: Record<string, React.ComponentType<IconProps>> = {
   github: SiGithub,
   figma: SiFigma,
   linear: SiLinear,
+  laravel: SiLaravel,
   anthropic: SiAnthropic,
   vercel: SiVercel,
   perplexity: SiPerplexity,
@@ -111,6 +115,8 @@ export const LUCIDE_TOOL_MAP: Record<string, React.ComponentType<IconProps>> = {
   "file-code-2": FileCode2,
   workflow: Workflow,
   boxes: Boxes,
+  component: Component,
+  rocket: Rocket,
 }
 
 export function ToolIcon({ icon, size = 20 }: { icon: string; size?: number }) {

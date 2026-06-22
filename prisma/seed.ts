@@ -1,80 +1,89 @@
 import { PrismaClient } from "@prisma/client"
 import { PrismaNeon } from "@prisma/adapter-neon"
-import { experiences } from "../lib/experiences"
 
 const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! })
 const prisma = new PrismaClient({ adapter })
 
 const projects = [
   {
-    title: "ProductA.ai",
-    description: "AI-powered platform that helps teams automate repetitive workflows. Built from 0 to seed funding in 8 months.",
-    tags: ["AI", "SaaS", "Agents"],
+    title: "DineLead",
+    description: "Restaurant CRM with AI-powered outreach automation. Helps restaurant owners follow up with leads, manage guest relationships, and run targeted campaigns — without manual effort.",
+    tags: ["Next.js", "Supabase", "Stripe", "AI"],
     status: "active" as const,
     links: [
-      { label: "Visit", href: "#" },
-      { label: "GitHub", href: "#" },
+      { label: "Visit", href: "https://dinelead.alanari.com/" },
+      { label: "GitHub", href: "https://github.com/alan-ari-mahendra" },
     ],
     gradient: "from-[#0f172a] via-[#1e293b] to-[#0f172a]",
-    thumbnail: "https://plus.unsplash.com/premium_photo-1683121710572-7723bd2e235d?w=800&q=80",
+    thumbnail: null,
   },
   {
-    title: "ProductB",
-    description: "Full-stack web app for [describe what it does]. Built with Next.js, TypeScript, and deployed on Vercel.",
-    tags: ["Next.js", "TypeScript", "Open Source"],
+    title: "Learnify",
+    description: "E-learning platform built for modern learners. Delivers structured courses, tracks learner progress, and supports instructors with content management tools — all in one place.",
+    tags: ["Next.js", "Supabase", "LMS"],
     status: "active" as const,
     links: [
-      { label: "Visit", href: "#" },
-      { label: "GitHub", href: "#" },
+      { label: "Visit", href: "https://learnify.alanari.com/" },
+      { label: "GitHub", href: "https://github.com/alan-ari-mahendra" },
     ],
     gradient: "from-[#1a0533] via-[#2d0a5e] to-[#1a0533]",
-    thumbnail: "https://plus.unsplash.com/premium_photo-1678566111481-8e275550b700?w=800&q=80",
+    thumbnail: null,
   },
   {
-    title: "ProductC",
-    description: "CLI tool for [describe purpose]. One command setup, works with any Node.js project.",
-    tags: ["CLI", "Node.js", "Open Source"],
+    title: "Finalstrip",
+    description: "Learning management system built for a competitive fencing academy. Manages training schedules, athlete progress tracking, and coach-student communication in one platform.",
+    tags: ["Flask", "React", "LMS"],
     status: "active" as const,
     links: [
-      { label: "npm", href: "#" },
-      { label: "GitHub", href: "#" },
+      { label: "Visit", href: "https://finalstrip.com" },
+      { label: "GitHub", href: "https://github.com/alan-ari-mahendra" },
     ],
     gradient: "from-[#0a2a1a] via-[#0f4a2e] to-[#0a2a1a]",
-    thumbnail: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&q=80",
+    thumbnail: null,
   },
   {
-    title: "AI Tool",
-    description: "Web-based AI tool that [describe capability]. Free tier available, no signup required.",
-    tags: ["AI", "LLM", "Productivity"],
+    title: "Zirpa",
+    description: "Franchise management system that centralizes operations for franchise owners — branch monitoring, standardized reporting, and inter-location coordination from a single dashboard.",
+    tags: ["Next.js", "Python"],
     status: "active" as const,
     links: [
-      { label: "Visit", href: "#" },
+      { label: "Visit", href: "https://zirpa-website.vercel.app" },
     ],
     gradient: "from-[#1a1a0a] via-[#3a3a0f] to-[#1a1a0a]",
-    thumbnail: "https://plus.unsplash.com/premium_photo-1764695595385-ed92175c3857?w=800&q=80",
+    thumbnail: null,
   },
   {
-    title: "Old Project",
-    description: "SaaS product for [describe]. Ran for 2 years, reached profitability. Shut down to focus on new ventures.",
-    tags: ["SaaS", "Chrome Extension"],
+    title: "Sizzledeck",
+    description: "Document and pitch deck builder for sales teams. Frontend work on a platform that lets users create branded decks from templates, with real-time collaboration and export.",
+    tags: ["Vue", "Nuxt"],
     status: "active" as const,
     links: [
-      { label: "Archive", href: "#" },
-      { label: "GitHub", href: "#" },
+      { label: "Visit", href: "https://my.alpha.sizzledeck.co.uk" },
     ],
     gradient: "from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]",
-    thumbnail: "https://plus.unsplash.com/premium_photo-1720287601920-ee8c503af775?w=800&q=80",
+    thumbnail: null,
   },
   {
-    title: "Side Project",
-    description: "Experimental project exploring [topic]. Never shipped publicly but learned a lot about [skill].",
-    tags: ["Personal", "Experiment"],
+    title: "Machinery List",
+    description: "B2B e-commerce marketplace for industrial machinery. Full-stack work on a high-traffic platform connecting equipment sellers with buyers across global markets.",
+    tags: ["Laravel", "JavaScript"],
     status: "active" as const,
     links: [
-      { label: "GitHub", href: "#" },
+      { label: "Visit", href: "https://machinerylist.com" },
     ],
     gradient: "from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]",
-    thumbnail: "https://plus.unsplash.com/premium_photo-1661434779070-cf8fc0e253ab?w=800&q=80",
+    thumbnail: null,
+  },
+  {
+    title: "Mubashir",
+    description: "Advertising platform frontend for a regional media company. Built performant, responsive ad-management interfaces enabling campaign creation and targeting across multiple placements.",
+    tags: ["React"],
+    status: "active" as const,
+    links: [
+      { label: "Visit", href: "https://mubashir.om" },
+    ],
+    gradient: "from-[#0f1a2e] via-[#1a2a4a] to-[#0f1a2e]",
+    thumbnail: null,
   },
 ]
 
@@ -571,66 +580,48 @@ The goal is to make illegal states unrepresentable — to design your types so t
 
 const toolCategories = [
   {
-    label: "Dev Tools",
+    label: "Frameworks & Languages",
     order: 0,
     tools: [
-      { name: "Cursor", description: "AI-first code editor", icon: "lucide:code-2", bg: "#F3F4F6", order: 0 },
-      { name: "Warp", description: "Modern terminal", icon: "lucide:terminal", bg: "#F3F4F6", order: 1 },
-      { name: "Git", description: "Version control", icon: "si:git", bg: "#F9EDE8", order: 2 },
-      { name: "GitHub", description: "Code hosting & CI", icon: "si:github", bg: "#F3F4F6", order: 3 },
-      { name: "Linear", description: "Issue tracking", icon: "si:linear", bg: "#F3F4F6", order: 4 },
-      { name: "Figma", description: "UI design & prototyping", icon: "si:figma", bg: "#F3F4F6", order: 5 },
+      { name: "Next.js",     description: "React framework for production",      icon: "si:nextdotjs",  bg: "#F3F4F6", order: 0 },
+      { name: "TypeScript",  description: "Typed JavaScript at scale",           icon: "si:typescript", bg: "#EFF6FF", order: 1 },
+      { name: "Python",      description: "AI/ML & backend scripting",           icon: "si:python",     bg: "#EEFBF0", order: 2 },
+      { name: "Laravel",     description: "PHP framework for web artisans",      icon: "si:laravel",    bg: "#FEF2F2", order: 3 },
+      { name: "FastAPI",     description: "High-perf Python API framework",      icon: "si:fastapi",    bg: "#EDFAF6", order: 4 },
+      { name: "ShadCN",      description: "Accessible component library",        icon: "lucide:component", bg: "#F3F4F6", order: 5 },
+      { name: "Prisma",      description: "Type-safe ORM for Node.js",           icon: "si:prisma",     bg: "#F3F4F6", order: 6 },
     ],
   },
   {
     label: "AI Tools",
     order: 1,
     tools: [
-      { name: "Claude", description: "Anthropic — my daily driver LLM", icon: "si:anthropic", bg: "#FEF3C7", order: 0 },
-      { name: "ChatGPT", description: "OpenAI GPT-4o", icon: "lucide:bot", bg: "#F3F4F6", order: 1 },
-      { name: "Cursor AI", description: "In-editor AI pair programmer", icon: "lucide:sparkles", bg: "#EDE9FE", order: 2 },
-      { name: "v0 by Vercel", description: "UI generation from prompts", icon: "si:vercel", bg: "#F3F4F6", order: 3 },
-      { name: "Perplexity", description: "AI-powered search", icon: "si:perplexity", bg: "#F0F9FF", order: 4 },
+      { name: "Claude",       description: "Anthropic — my daily driver LLM",   icon: "si:anthropic",  bg: "#FEF3C7", order: 0 },
+      { name: "ChatGPT",      description: "OpenAI GPT-4o",                      icon: "lucide:bot",    bg: "#F3F4F6", order: 1 },
+      { name: "Cursor AI",    description: "In-editor AI pair programmer",       icon: "lucide:sparkles", bg: "#EDE9FE", order: 2 },
+      { name: "v0 by Vercel", description: "UI generation from prompts",         icon: "si:vercel",     bg: "#F3F4F6", order: 3 },
+      { name: "Perplexity",   description: "AI-powered search",                  icon: "si:perplexity", bg: "#F0F9FF", order: 4 },
     ],
   },
   {
-    label: "Frameworks & Languages",
+    label: "Dev Tools",
     order: 2,
     tools: [
-      { name: "Next.js", description: "React framework for production", icon: "si:nextdotjs", bg: "#F3F4F6", order: 0 },
-      { name: "TypeScript", description: "Typed JavaScript at scale", icon: "si:typescript", bg: "#EFF6FF", order: 1 },
-      { name: "Python", description: "AI/ML & backend scripting", icon: "si:python", bg: "#EEFBF0", order: 2 },
-      { name: "FastAPI", description: "High-perf Python API framework", icon: "si:fastapi", bg: "#EDFAF6", order: 3 },
-      { name: "Tailwind CSS", description: "Utility-first CSS", icon: "si:tailwindcss", bg: "#F0FDFA", order: 4 },
-      { name: "Prisma", description: "Type-safe ORM for Node.js", icon: "si:prisma", bg: "#F3F4F6", order: 5 },
+      { name: "Cursor",      description: "AI-first code editor",               icon: "lucide:code-2",  bg: "#F3F4F6", order: 0 },
+      { name: "Git",         description: "Version control",                    icon: "si:git",         bg: "#F9EDE8", order: 1 },
+      { name: "GitHub",      description: "Code hosting & CI",                  icon: "si:github",      bg: "#F3F4F6", order: 2 },
+      { name: "Hermes",      description: "High-performance JS engine",         icon: "lucide:zap",     bg: "#FEF9C3", order: 3 },
+      { name: "OpenClaw",    description: "Web scraping & automation",          icon: "lucide:terminal", bg: "#F3F4F6", order: 4 },
+      { name: "Antigravity", description: "Lightweight deployment framework",   icon: "lucide:rocket",  bg: "#EDE9FE", order: 5 },
     ],
   },
 ]
 
 async function main() {
   console.log("Seeding projects...")
+  await prisma.project.deleteMany()
   for (const project of projects) {
-    const existing = await prisma.project.findFirst({ where: { title: project.title } })
-    await prisma.project.upsert({
-      where: { id: existing?.id ?? "" },
-      update: {
-        description: project.description,
-        tags: project.tags,
-        status: project.status,
-        links: project.links,
-        gradient: project.gradient,
-        thumbnail: project.thumbnail,
-      },
-      create: {
-        title: project.title,
-        description: project.description,
-        tags: project.tags,
-        status: project.status,
-        links: project.links,
-        gradient: project.gradient,
-        thumbnail: project.thumbnail,
-      },
-    })
+    await prisma.project.create({ data: project })
   }
 
   console.log("Seeding blogs...")
@@ -663,76 +654,30 @@ async function main() {
     })
   }
 
-  console.log("Seeding experiences...")
-  for (let i = 0; i < experiences.length; i++) {
-    const exp = experiences[i]
-    const existing = await prisma.experience.findFirst({ where: { role: exp.role, company: exp.company } })
-    await prisma.experience.upsert({
-      where: { id: existing?.id ?? "" },
-      update: {
-        period: exp.period,
-        bullets: exp.bullets,
-        tags: exp.tags,
-        order: i,
-      },
-      create: {
-        period: exp.period,
-        role: exp.role,
-        company: exp.company,
-        bullets: exp.bullets,
-        tags: exp.tags,
-        order: i,
-      },
-    })
-  }
-
   console.log("Seeding tool categories and tools...")
+  await prisma.toolCategory.deleteMany()
   for (const cat of toolCategories) {
-    const existing = await prisma.toolCategory.findFirst({ where: { label: cat.label } })
-    const category = await prisma.toolCategory.upsert({
-      where: { id: existing?.id ?? "" },
-      update: { label: cat.label, order: cat.order },
-      create: { label: cat.label, order: cat.order },
+    const category = await prisma.toolCategory.create({
+      data: { label: cat.label, order: cat.order },
     })
     for (const tool of cat.tools) {
-      const existingTool = await prisma.tool.findFirst({
-        where: { name: tool.name, categoryId: category.id },
-      })
-      await prisma.tool.upsert({
-        where: { id: existingTool?.id ?? "" },
-        update: {
-          description: tool.description,
-          icon: tool.icon,
-          bg: tool.bg,
-          order: tool.order,
-        },
-        create: {
-          name: tool.name,
-          description: tool.description,
-          icon: tool.icon,
-          bg: tool.bg,
-          order: tool.order,
-          categoryId: category.id,
-        },
+      await prisma.tool.create({
+        data: { ...tool, categoryId: category.id },
       })
     }
   }
 
   console.log("Seeding social links...")
   const socialLinkData = [
-    { label: "X.com",     url: "#", iconType: "LUCIDE" as const, iconValue: "X",        order: 0 },
-    { label: "LinkedIn",  url: "#", iconType: "LUCIDE" as const, iconValue: "Link",     order: 1 },
-    { label: "GitHub",    url: "#", iconType: "LUCIDE" as const, iconValue: "GitFork",  order: 2 },
-    { label: "Medium",    url: "#", iconType: "LUCIDE" as const, iconValue: "BookOpen", order: 3 },
-    { label: "Instagram", url: "#", iconType: "LUCIDE" as const, iconValue: "Camera",   order: 4 },
+    { label: "LinkedIn",  url: "https://www.linkedin.com/in/alanarimahendra/",       iconType: "LUCIDE" as const, iconValue: "Link",           order: 0 },
+    { label: "GitHub",    url: "https://github.com/alan-ari-mahendra",                iconType: "LUCIDE" as const, iconValue: "GitFork",        order: 1 },
+    { label: "Instagram", url: "#",                                                   iconType: "LUCIDE" as const, iconValue: "Camera",         order: 2 },
+    { label: "WhatsApp",  url: "https://api.whatsapp.com/send/?phone=6282314939437", iconType: "LUCIDE" as const, iconValue: "MessageCircle",  order: 3 },
+    { label: "Email",     url: "mailto:mail.alanari@gmail.com",                      iconType: "LUCIDE" as const, iconValue: "Mail",           order: 4 },
   ]
+  await prisma.socialLink.deleteMany()
   for (const link of socialLinkData) {
-    const existing = await prisma.socialLink.findFirst({ where: { label: link.label } })
-    await prisma.socialLink.upsert({
-      where: { id: existing?.id ?? "" },
-      update: { url: link.url, iconType: link.iconType, iconValue: link.iconValue, order: link.order },
-      create: link,
-    })
+    await prisma.socialLink.create({ data: link })
   }
 
   console.log("Seed complete.")

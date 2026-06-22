@@ -4,16 +4,14 @@ import type { Experience } from "@/lib/experiences"
 
 export function ExperienceCard({
   experience,
-  index,
 }: {
   experience: Experience
-  index: number
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.4, ease: "easeOut" }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
       className="grid grid-cols-[360px_1fr] gap-10 pb-12 last:pb-0 max-sm:grid-cols-1 max-sm:gap-1"
     >
       {/* Period — left column */}

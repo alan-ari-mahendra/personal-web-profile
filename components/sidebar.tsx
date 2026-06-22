@@ -11,8 +11,6 @@ import {
   Wrench,
   Mail,
 } from "lucide-react";
-import { TypeAnimation } from 'react-type-animation';
-import { SocialLinkIcon } from "./social-link-icon";
 
 const navItems = [
   { href: "/", icon: Home, label: "Home" },
@@ -24,16 +22,7 @@ const navItems = [
   { href: "/contact", icon: Mail, label: "Contact" },
 ];
 
-type SocialLinkData = {
-  id: string
-  label: string
-  url: string
-  iconType: string
-  iconValue: string
-  order: number
-}
-
-export function Sidebar({ socialLinks }: { socialLinks: SocialLinkData[] }) {
+export function Sidebar() {
   const pathname = usePathname();
 
   return (
@@ -48,26 +37,8 @@ export function Sidebar({ socialLinks }: { socialLinks: SocialLinkData[] }) {
           </svg>
         </div>
         <div className="max-sm:hidden leading-none">
-          <div className="font-semibold text-[#111111] mb-1">Alan</div>
-        
-            <TypeAnimation
-              sequence={[
-                "Fullstack",
-                3000,
-                "AI Enthusiast",
-                3000,
-                "Problem Solver",
-                3000,
-                "Lifelong Learner",
-                3000,
-                "AI Engineer",
-                3000,
-              ]}
-              wrapper="span"
-              speed={50}
-              style={{ fontSize: "0.875rem", display: "inline-block", color:"#6B7280" }}
-              repeat={Infinity}
-            />
+          <div className="font-semibold text-[#111111] mb-1">Alan Ari M.</div>
+          <span className="text-sm text-[#6B7280]">Full-stack Developer</span>
         </div>
       </div>
 
@@ -95,26 +66,6 @@ export function Sidebar({ socialLinks }: { socialLinks: SocialLinkData[] }) {
         })}
       </nav>
 
-      {/* Connect */}
-      <div className="text-base font-medium tracking-[0.04em] text-[#9CA3AF] px-2.5 mt-12 mb-1.5 max-sm:hidden">
-        Connect
-      </div>
-      <div className="flex flex-col gap-px">
-        {socialLinks.map(({ id, url, label, iconType, iconValue }) => (
-          <a
-            key={id}
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-[9px] px-2.5 py-2 rounded-[7px] text-sm text-[#111111] hover:bg-[#F3F4F6] transition-colors duration-100 max-sm:justify-center"
-          >
-            <span className="flex-shrink-0 text-[#111111]">
-              <SocialLinkIcon iconType={iconType} iconValue={iconValue} size={15} />
-            </span>
-            <span className="max-sm:hidden">{label}</span>
-          </a>
-        ))}
-      </div>
     </aside>
   );
 }
