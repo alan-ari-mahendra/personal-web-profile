@@ -3,17 +3,15 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
 export default async function DashboardPage() {
-  const [session, projectCount, blogCount, experienceCount] = await Promise.all([
+  const [session, projectCount, blogCount] = await Promise.all([
     auth.api.getSession({ headers: await headers() }),
     prisma.project.count(),
     prisma.blog.count(),
-    prisma.experience.count(),
   ])
 
   const stats = [
     { label: "Projects", value: projectCount },
     { label: "Blog posts", value: blogCount },
-    { label: "Experiences", value: experienceCount },
   ]
 
   return (
