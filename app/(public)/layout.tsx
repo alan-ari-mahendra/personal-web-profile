@@ -1,14 +1,17 @@
 import { Sidebar } from "@/components/sidebar"
 import { LiveClock } from "@/components/live-clock"
+import { prisma } from "@/lib/prisma"
 
-export default function PublicLayout({
+export default async function PublicLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const owner = await prisma.user.findFirst({ select: { image: true } })
+
   return (
     <>
-      <Sidebar />
+      <Sidebar imageUrl={owner?.image ?? null} />
       <div className="ml-[240px] max-sm:ml-14 min-h-screen flex flex-col">
         <main className="flex-1">{children}</main>
         <footer className="border-t border-[#E5E7EB] px-14 py-[14px] flex items-center justify-between max-md:px-7 max-sm:px-5">

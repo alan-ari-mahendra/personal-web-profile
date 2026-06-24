@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   Home,
@@ -22,7 +23,7 @@ const navItems = [
   { href: "/contact", icon: Mail, label: "Contact" },
 ];
 
-export function Sidebar() {
+export function Sidebar({ imageUrl }: { imageUrl?: string | null }) {
   const pathname = usePathname();
 
   return (
@@ -30,11 +31,15 @@ export function Sidebar() {
       {/* Profile */}
       <div className="flex items-center gap-3 px-2 mb-[22px] py-8">
         <div className="w-[48px] h-[48px] rounded-full bg-[#D1D5DB] flex-shrink-0 overflow-hidden">
-          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-            <rect width="48" height="48" fill="#D1D5DB" />
-            <circle cx="24" cy="19" r="9" fill="#9CA3AF" />
-            <ellipse cx="24" cy="42" rx="15" ry="11" fill="#9CA3AF" />
-          </svg>
+          {imageUrl ? (
+            <Image src={imageUrl} alt="Alan Ari M." width={48} height={48} className="w-full h-full object-cover" />
+          ) : (
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <rect width="48" height="48" fill="#D1D5DB" />
+              <circle cx="24" cy="19" r="9" fill="#9CA3AF" />
+              <ellipse cx="24" cy="42" rx="15" ry="11" fill="#9CA3AF" />
+            </svg>
+          )}
         </div>
         <div className="max-sm:hidden leading-none">
           <div className="font-semibold text-[#111111] mb-1">Alan Ari M.</div>
