@@ -29,19 +29,19 @@ export function Sidebar({ imageUrl }: { imageUrl?: string | null }) {
   return (
     <aside className="fixed top-0 left-0 bottom-0 w-[240px] bg-[#EBEBEB] border-r border-[#E5E7EB] flex flex-col py-[18px] px-2.5 z-50 overflow-y-auto max-sm:w-14 max-sm:px-1.5">
       {/* Profile */}
-      <div className="flex items-center gap-3 px-2 mb-[22px] py-8">
-        <div className="w-[48px] h-[48px] rounded-full bg-[#D1D5DB] flex-shrink-0 overflow-hidden">
+      <div className="flex flex-col items-center gap-2 px-2 mb-[22px] py-6 max-sm:py-3">
+        <div className="w-20 h-20 rounded-full bg-[#D1D5DB] flex-shrink-0 overflow-hidden max-sm:w-9 max-sm:h-9">
           {imageUrl ? (
-            <Image src={imageUrl} alt="Alan Ari M." width={48} height={48} className="w-full h-full object-cover" />
+            <Image src={imageUrl} alt="Alan Ari M." width={80} height={80} className="w-full h-full object-cover" />
           ) : (
-            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <rect width="48" height="48" fill="#D1D5DB" />
-              <circle cx="24" cy="19" r="9" fill="#9CA3AF" />
-              <ellipse cx="24" cy="42" rx="15" ry="11" fill="#9CA3AF" />
+            <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+              <rect width="80" height="80" fill="#D1D5DB" />
+              <circle cx="40" cy="32" r="15" fill="#9CA3AF" />
+              <ellipse cx="40" cy="70" rx="25" ry="18" fill="#9CA3AF" />
             </svg>
           )}
         </div>
-        <div className="max-sm:hidden leading-none">
+        <div className="max-sm:hidden leading-none text-center">
           <div className="font-semibold text-[#111111] mb-1">Alan Ari M.</div>
           <span className="text-sm text-[#6B7280]">Full-stack Developer</span>
         </div>
