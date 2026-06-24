@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server"
 import { headers } from "next/headers"
-import { writeFile, mkdir } from "fs/promises"
-import { join, extname } from "path"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { cloudinary } from "@/lib/cloudinary"
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"]
 const MAX_SIZE = 2 * 1024 * 1024
@@ -21,18 +20,20 @@ export async function POST(req: Request) {
   if (file.size > MAX_SIZE)
     return NextResponse.json({ error: "File exceeds 2 MB limit" }, { status: 400 })
 
-  const ext = extname(file.name) || ".jpg"
-  const filename = `avatar-${session.user.id}${ext}`
-  const avatarsDir = join(process.cwd(), "public", "avatars")
+  const buffer = Buffer.from(await file.arrayBuffer())
+  const dataUri = `data:${file.type};base64,${buffer.toString("base64")}`
 
-  await mkdir(avatarsDir, { recursive: true })
-  await writeFile(join(avatarsDir, filename), Buffer.from(await file.arrayBuffer()))
-
-  const publicPath = `/avatars/${filename}`
-  await prisma.user.update({
-    where: { id: session.user.id },
-    data: { image: publicPath },
+  const result = await cloudinary.uploader.upload(dataUri, {
+    public_id: `avatars/avatar-${session.user.id}`,
+    overwrite: true,
+    invalidate: true,
+    folder: undefined,
   })
 
-  return NextResponse.json({ url: publicPath })
+  await prisma.user.update({
+    where: { id: session.user.id },
+    data: { image: result.secure_url },
+  })
+
+  return NextResponse.json({ url: result.secure_url })
 }
