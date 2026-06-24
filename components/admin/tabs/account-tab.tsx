@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { authClient } from "@/lib/auth-client"
 
 type User = { id: string; name: string; email: string; image?: string | null }
@@ -10,8 +11,10 @@ const inputCls =
   "border border-[#E5E7EB] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#111111]/20 bg-white w-full"
 
 export function AccountTab({ user }: { user: User }) {
+  const router = useRouter()
   const [name, setName] = useState(user.name)
   const [avatarUrl, setAvatarUrl] = useState<string | null>(user.image ?? null)
+  const [avatarKey, setAvatarKey] = useState(0)
   const [status, setStatus] = useState<{ msg: string; ok: boolean } | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -23,8 +26,10 @@ export function AccountTab({ user }: { user: User }) {
     const res = await fetch("/api/admin/avatar", { method: "POST", body: form })
     const data = await res.json()
     if (data.url) {
-      setAvatarUrl(data.url + "?t=" + Date.now())
+      setAvatarUrl(data.url)
+      setAvatarKey((k) => k + 1)
       setStatus({ msg: "Avatar updated.", ok: true })
+      router.refresh()
     } else {
       setStatus({ msg: data.error ?? "Upload failed.", ok: false })
     }
@@ -44,7 +49,7 @@ export function AccountTab({ user }: { user: User }) {
         <div className="flex items-center gap-4">
           <div className="w-20 h-20 rounded-full bg-[#D1D5DB] overflow-hidden flex-shrink-0">
             {avatarUrl ? (
-              <Image src={avatarUrl} alt="Avatar" width={80} height={80} className="w-full h-full object-cover" />
+              <Image key={avatarKey} src={avatarUrl} alt="Avatar" width={80} height={80} className="w-full h-full object-cover" />
             ) : (
               <svg viewBox="0 0 80 80" className="w-full h-full">
                 <rect width="80" height="80" fill="#D1D5DB" />
