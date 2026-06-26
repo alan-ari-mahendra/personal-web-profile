@@ -1,5 +1,7 @@
+import { headers } from "next/headers"
 import { Sidebar } from "@/components/sidebar"
 import { LiveClock } from "@/components/live-clock"
+import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
 export default async function PublicLayout({
@@ -7,11 +9,15 @@ export default async function PublicLayout({
 }: {
   children: React.ReactNode
 }) {
-  const owner = await prisma.user.findFirst({ select: { image: true } })
+  const session = await auth.api.getSession({ headers: await headers() })
+  const imageUrl =
+    session?.user?.image ??
+    (await prisma.user.findFirst({ select: { image: true } }))?.image ??
+    null
 
   return (
     <>
-      <Sidebar imageUrl={owner?.image ?? null} />
+      <Sidebar imageUrl={imageUrl} />
       <div className="ml-[240px] max-sm:ml-14 min-h-screen flex flex-col">
         <main className="flex-1">{children}</main>
         <footer className="border-t border-[#E5E7EB] px-14 py-[14px] flex items-center justify-between max-md:px-7 max-sm:px-5">
