@@ -7,7 +7,7 @@ const prisma = new PrismaClient({ adapter })
 const projects = [
   {
     title: "DineLead",
-    description: "Restaurant CRM with AI-powered outreach automation. Helps restaurant owners follow up with leads, manage guest relationships, and run targeted campaigns — without manual effort.",
+    description: "Restaurant CRM with an AI-powered outreach engine. Automates lead follow-up and campaign targeting so owners stop chasing guests by hand. Built on Next.js, Supabase, and Stripe with LLM-driven messaging.",
     tags: ["Next.js", "Supabase", "Stripe", "AI"],
     status: "active" as const,
     links: [
@@ -19,7 +19,7 @@ const projects = [
   },
   {
     title: "Learnify",
-    description: "E-learning platform built for modern learners. Delivers structured courses, tracks learner progress, and supports instructors with content management tools — all in one place.",
+    description: "E-learning platform with AI-assisted course tools, including auto-generated quizzes and progress summaries. Structured courses, learner tracking, and instructor content management in one place.",
     tags: ["Next.js", "Supabase", "LMS"],
     status: "active" as const,
     links: [
@@ -31,7 +31,7 @@ const projects = [
   },
   {
     title: "Finalstrip",
-    description: "Learning management system built for a competitive fencing academy. Manages training schedules, athlete progress tracking, and coach-student communication in one platform.",
+    description: "Learning and scoring system for a competitive fencing academy. Manages training schedules, athlete progress, and coach-student communication, with a rebuilt frontend and scoring engine.",
     tags: ["Flask", "React", "LMS"],
     status: "active" as const,
     links: [
@@ -76,7 +76,7 @@ const projects = [
   },
   {
     title: "Mubashir",
-    description: "Advertising platform frontend for a regional media company. Built performant, responsive ad-management interfaces enabling campaign creation and targeting across multiple placements.",
+    description: "Advertising platform frontend for a regional media company. Performant, responsive ad-management interfaces for campaign creation and targeting across placements.",
     tags: ["React"],
     status: "active" as const,
     links: [
@@ -590,13 +590,26 @@ const toolCategories = [
       { name: "FastAPI",     description: "High-perf Python API framework",      icon: "si:fastapi",    bg: "#EDFAF6", order: 4 },
       { name: "ShadCN",      description: "Accessible component library",        icon: "lucide:component", bg: "#F3F4F6", order: 5 },
       { name: "Prisma",      description: "Type-safe ORM for Node.js",           icon: "si:prisma",     bg: "#F3F4F6", order: 6 },
+      { name: "Node.js",     description: "JavaScript runtime for backends",     icon: "si:nodedotjs",  bg: "#EEFBF0", order: 7 },
+      { name: "PostgreSQL",  description: "Relational database",                 icon: "si:postgresql", bg: "#EFF6FF", order: 8 },
+    ],
+  },
+  {
+    label: "AI Engineering",
+    order: 1,
+    tools: [
+      { name: "RAG",                description: "Retrieval-augmented generation pipelines", icon: "lucide:database", bg: "#EDE9FE", order: 0 },
+      { name: "Vector Search",      description: "Semantic search over embeddings",          icon: "lucide:boxes",    bg: "#EFF6FF", order: 1 },
+      { name: "LangChain",          description: "LLM orchestration framework",              icon: "lucide:workflow", bg: "#EEFBF0", order: 2 },
+      { name: "Prompt Engineering", description: "Structured, testable LLM prompts",          icon: "lucide:braces",   bg: "#FEF3C7", order: 3 },
+      { name: "Evals",              description: "Measuring LLM output quality",              icon: "lucide:shield",   bg: "#FEF2F2", order: 4 },
     ],
   },
   {
     label: "AI Tools",
-    order: 1,
+    order: 2,
     tools: [
-      { name: "Claude",       description: "Anthropic — my daily driver LLM",   icon: "si:anthropic",  bg: "#FEF3C7", order: 0 },
+      { name: "Claude",       description: "Anthropic, my daily driver LLM",    icon: "si:anthropic",  bg: "#FEF3C7", order: 0 },
       { name: "ChatGPT",      description: "OpenAI GPT-4o",                      icon: "lucide:bot",    bg: "#F3F4F6", order: 1 },
       { name: "Cursor AI",    description: "In-editor AI pair programmer",       icon: "lucide:sparkles", bg: "#EDE9FE", order: 2 },
       { name: "v0 by Vercel", description: "UI generation from prompts",         icon: "si:vercel",     bg: "#F3F4F6", order: 3 },
@@ -605,7 +618,7 @@ const toolCategories = [
   },
   {
     label: "Dev Tools",
-    order: 2,
+    order: 3,
     tools: [
       { name: "Cursor",      description: "AI-first code editor",               icon: "lucide:code-2",  bg: "#F3F4F6", order: 0 },
       { name: "Git",         description: "Version control",                    icon: "si:git",         bg: "#F9EDE8", order: 1 },
@@ -613,6 +626,7 @@ const toolCategories = [
       { name: "Hermes",      description: "High-performance JS engine",         icon: "lucide:zap",     bg: "#FEF9C3", order: 3 },
       { name: "OpenClaw",    description: "Web scraping & automation",          icon: "lucide:terminal", bg: "#F3F4F6", order: 4 },
       { name: "Antigravity", description: "Lightweight deployment framework",   icon: "lucide:rocket",  bg: "#EDE9FE", order: 5 },
+      { name: "Docker",      description: "Containerized deployments",           icon: "si:docker",      bg: "#EFF6FF", order: 6 },
     ],
   },
 ]

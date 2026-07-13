@@ -43,7 +43,7 @@ export function Sidebar({ imageUrl }: { imageUrl?: string | null }) {
         </div>
         <div className="max-sm:hidden leading-none text-center">
           <div className="font-semibold text-ink mb-1">Alan Ari M.</div>
-          <span className="text-sm text-subtle">Full-stack Developer</span>
+          <span className="text-sm text-subtle">AI Engineer · Full-Stack</span>
         </div>
       </div>
 

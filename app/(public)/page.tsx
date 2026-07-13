@@ -4,82 +4,50 @@ import { ProjectCard } from "@/components/project-card"
 import { ToolIcon } from "@/components/tool-icon"
 import { Reveal } from "@/components/reveal"
 import {
-  Layers,
   LayoutDashboard,
-  GitMerge,
-  Cpu,
   Zap,
   Network,
   Cloud,
-  Sparkles,
   Quote,
 } from "lucide-react"
 
 const FEATURED_TITLES = ["DineLead", "Learnify", "Finalstrip", "Mubashir"]
 
 const PROOF_STATS = [
-  { value: "3+", label: "Years experience" },
+  { value: "3+", label: "Years shipping web & AI products" },
   { value: "38+", label: "Projects shipped" },
-  { value: "SaaS · CRM · LMS", label: "Product types" },
+  { value: "SaaS · AI · Automation", label: "Focus" },
   { value: "Global", label: "Async-first" },
 ]
 
 const SERVICES = [
   {
     number: "01",
-    Icon: Layers,
-    title: "Full Stack Development",
+    Icon: LayoutDashboard,
+    title: "AI-Powered SaaS Development",
     description:
-      "End-to-end development of scalable web applications using modern frontend and backend technologies.",
+      "Full SaaS builds with AI at the core: auth, subscriptions, dashboards, and LLM features shipped as one production system, not bolted on after.",
   },
   {
     number: "02",
-    Icon: LayoutDashboard,
-    title: "SaaS Platform Development",
+    Icon: Network,
+    title: "LLM Integration & RAG Systems",
     description:
-      "Building complete SaaS systems including authentication, subscription, dashboards, and automation workflows.",
+      "Grounding AI in your real data. RAG pipelines, vector search, and structured LLM outputs built to cut hallucinations and stay reliable in production.",
   },
   {
     number: "03",
-    Icon: GitMerge,
-    title: "API & System Integration",
+    Icon: Zap,
+    title: "AI Automation & Agentic Workflows",
     description:
-      "Designing robust APIs and integrating third-party services such as payment gateways, automation tools, and external platforms.",
+      "Multi-step automation and agentic workflows that handle real work like lead enrichment, outreach, and data pipelines, cutting manual effort without losing control.",
   },
   {
     number: "04",
-    Icon: Cpu,
-    title: "Automation & Backend Systems",
-    description:
-      "Developing automation pipelines, background processing, and backend systems to improve efficiency and scalability.",
-  },
-  {
-    number: "05",
-    Icon: Zap,
-    title: "Performance Optimization",
-    description:
-      "Optimizing applications for speed, scalability, and reliability with production-ready performance standards.",
-  },
-  {
-    number: "06",
-    Icon: Network,
-    title: "System Architecture",
-    description:
-      "Designing scalable and maintainable system architecture for complex web platforms and long-term growth.",
-  },
-  {
-    number: "07",
     Icon: Cloud,
-    title: "Cloud & Deployment",
+    title: "Architecture & Production Deployment",
     description:
-      "Deploying and managing applications with modern cloud infrastructure, CI/CD, and reliable production environments.",
-  },
-  {
-    number: "08",
-    Icon: Sparkles,
-    title: "AI & Automation Integration",
-    description:
-      "Integrating AI and automation into web systems to build smarter, more efficient, and intelligent applications.",
+      "The engineering underneath the product: scalable system design, robust APIs, CI/CD, and the monitoring that keeps AI features dependable at scale.",
   },
 ]
 
@@ -136,15 +104,15 @@ export default async function Home() {
         </Reveal>
         <Reveal delay={0.08}>
           <p className="text-2xl font-semibold tracking-[-0.02em] text-ink/80 mb-4 max-md:text-xl">
-            Building Scalable <span className="text-brand-2">Digital Experiences</span>
+            Building <span className="text-brand-2">AI-Powered SaaS</span>, End-to-End
           </p>
         </Reveal>
         <Reveal delay={0.16}>
           <p className="text-base text-subtle mb-8 leading-[1.7] max-w-[560px]">
-            Helping startups, businesses, and agencies build scalable,
-            high-performance web applications and{" "}
-            <span className="text-brand-2 font-medium">AI-integrated systems</span> —
-            end-to-end, with clean and reliable code.
+            I help startups and agencies ship production SaaS with{" "}
+            <span className="text-brand-2 font-medium">AI baked in</span>: LLM
+            features, RAG, and automation, with clean and reliable code from
+            architecture to deploy.
           </p>
         </Reveal>
         <Reveal delay={0.24}>
@@ -295,7 +263,7 @@ export default async function Home() {
           Let&apos;s build something together
         </h2>
         <p className="text-sm text-subtle mb-6 max-w-[380px] mx-auto leading-[1.65]">
-          Open to new projects — SaaS, e-commerce, internal tools, or anything
+          Open to new projects: SaaS, e-commerce, internal tools, or anything
           interesting. Async-first, available across global timezones.
         </p>
         <Link

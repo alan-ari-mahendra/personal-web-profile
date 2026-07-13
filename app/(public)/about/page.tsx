@@ -9,7 +9,7 @@ export default function AboutPage() {
           Alan Ari Mahendra
         </h1>
         <p className="text-sm text-subtle mb-12">
-          Full-stack Developer · Indonesia
+          Applied AI Engineer · Full-Stack · Indonesia
         </p>
       </Reveal>
 
@@ -20,23 +20,25 @@ export default function AboutPage() {
         </h2>
         <div className="space-y-4">
           <p className="text-base text-ink/85 leading-[1.85]">
-            I&apos;m a Full-stack Developer with over 3 years of experience building
-            scalable SaaS platforms, high-traffic e-commerce systems, and custom
-            internal tools. I work with distributed product teams across different
-            time zones — AEST, SGT, and CET — delivering solutions for{" "}
-            <span className="text-brand-2 font-medium">global clients</span>.
+            I started as a full-stack developer, building SaaS platforms, dashboards,
+            and internal tools with Next.js, TypeScript, and Node. Over the last
+            couple of years my work shifted toward the part clients now care about
+            most:{" "}
+            <span className="text-brand-2 font-medium">getting AI to actually work inside a product</span>.
           </p>
           <p className="text-base text-ink/85 leading-[1.85]">
-            My core stack is the JavaScript/TypeScript ecosystem (React, Next.js,
-            Node.js) and PHP (Laravel). To maximize delivery speed and code quality,
-            I integrate{" "}
-            <span className="text-brand-2 font-medium">AI-assisted development tools</span> —
-            Claude, Cursor, GitHub Copilot — into my daily workflow.
+            That is the gap I fill. Plenty of people can call an LLM API. Far fewer
+            can{" "}
+            <span className="text-brand-2 font-medium">ship an AI feature that stays reliable in production</span>:
+            grounded in real data with RAG, resilient to bad outputs, monitored, and
+            fast enough to ship. Because I own the full stack, I do not hand off at
+            the model. I take an AI idea from architecture and API design through
+            deployment, and I stay accountable for how it behaves once real users hit it.
           </p>
           <p className="text-base text-ink/85 leading-[1.85]">
-            My portfolio spans SaaS products, CRM systems, LMS platforms, franchise
-            management tools, e-commerce marketplaces, and AI-integrated applications
-            — all built end-to-end, from architecture to deployment.
+            I work async-first with founders and agencies across global timezones,
+            mostly on SaaS products, automation systems, and AI-integrated tools.
+            Clean code, clear communication, and delivery you can build on.
           </p>
         </div>
       </Reveal>
@@ -52,7 +54,7 @@ export default function AboutPage() {
           {[
             "Building and shipping full-stack products for global clients",
             "Exploring AI agent tooling and LLM-integrated applications",
-            "Actively taking on new projects — open to async collaboration",
+            "Actively taking on new projects, open to async collaboration",
           ].map((item) => (
             <li key={item} className="flex items-start gap-3 text-sm text-ink/80 leading-[1.7]">
               <span className="mt-[7px] w-1 h-1 rounded-full bg-subtle flex-shrink-0" />
@@ -76,13 +78,13 @@ export default function AboutPage() {
             asynchronously across time zones with distributed teams.
           </p>
           <p className="text-base text-ink/85 leading-[1.85]">
-            I use AI tools heavily — not as a crutch, but as a force multiplier.
+            I use AI tools heavily, not as a crutch, but as a force multiplier.
             The goal is always to keep the feedback loop tight: understand the
             problem, build a solution, get it in front of real users, iterate.
           </p>
           <p className="text-base text-ink/85 leading-[1.85]">
             I&apos;m most effective when given clear requirements and autonomy on
-            implementation — I handle the full stack, from database schema to
+            implementation. I handle the full stack, from database schema to
             deployed UI, without needing to hand off between specializations.
           </p>
         </div>
