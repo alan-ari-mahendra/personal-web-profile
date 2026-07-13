@@ -34,7 +34,7 @@ const emptyForm = {
 }
 
 const inputCls =
-  "border border-[#E5E7EB] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#111111]/20 bg-white w-full"
+  "border border-line rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand/50 bg-surface w-full"
 
 function slugify(text: string) {
   return text
@@ -172,7 +172,7 @@ export function BlogsAdmin() {
       <div className="space-y-3">
         <div className="grid grid-cols-2 gap-3">
           <div className="col-span-2">
-            <label className="block text-xs font-medium text-[#6B7280] mb-1">Title *</label>
+            <label className="block text-xs font-medium text-subtle mb-1">Title *</label>
             <input
               className={inputCls}
               value={data.title}
@@ -185,7 +185,7 @@ export function BlogsAdmin() {
           </div>
 
           <div className="col-span-2">
-            <label className="block text-xs font-medium text-[#6B7280] mb-1">Slug *</label>
+            <label className="block text-xs font-medium text-subtle mb-1">Slug *</label>
             <input
               className={inputCls}
               value={data.slug}
@@ -195,7 +195,7 @@ export function BlogsAdmin() {
           </div>
 
           <div className="col-span-2">
-            <label className="block text-xs font-medium text-[#6B7280] mb-1">Description *</label>
+            <label className="block text-xs font-medium text-subtle mb-1">Description *</label>
             <textarea
               className={inputCls + " resize-none"}
               rows={2}
@@ -206,7 +206,7 @@ export function BlogsAdmin() {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-[#6B7280] mb-1">Date</label>
+            <label className="block text-xs font-medium text-subtle mb-1">Date</label>
             <input
               type="date"
               className={inputCls}
@@ -216,7 +216,7 @@ export function BlogsAdmin() {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-[#6B7280] mb-1">Reading time</label>
+            <label className="block text-xs font-medium text-subtle mb-1">Reading time</label>
             <input
               className={inputCls}
               value={data.readingTime}
@@ -226,7 +226,7 @@ export function BlogsAdmin() {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-[#6B7280] mb-1">Tags (comma-separated)</label>
+            <label className="block text-xs font-medium text-subtle mb-1">Tags (comma-separated)</label>
             <input
               className={inputCls}
               value={data.tags}
@@ -236,7 +236,7 @@ export function BlogsAdmin() {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-[#6B7280] mb-1">Gradient *</label>
+            <label className="block text-xs font-medium text-subtle mb-1">Gradient *</label>
             <input
               className={inputCls}
               value={data.gradient}
@@ -251,9 +251,9 @@ export function BlogsAdmin() {
               type="checkbox"
               checked={data.published}
               onChange={(e) => setData({ ...data, published: e.target.checked })}
-              className="w-4 h-4 rounded accent-[#111111]"
+              className="w-4 h-4 rounded accent-brand"
             />
-            <label htmlFor="published-toggle" className="text-sm text-[#111111]">
+            <label htmlFor="published-toggle" className="text-sm text-ink">
               Published
             </label>
           </div>
@@ -261,9 +261,9 @@ export function BlogsAdmin() {
 
         {/* Thumbnail */}
         <div>
-          <label className="block text-xs font-medium text-[#6B7280] mb-1">Thumbnail</label>
+          <label className="block text-xs font-medium text-subtle mb-1">Thumbnail</label>
           {data.thumbnail && (
-            <div className="relative w-full h-32 rounded-lg overflow-hidden mb-2 bg-[#F3F4F6]">
+            <div className="relative w-full h-32 rounded-lg overflow-hidden mb-2 bg-surface-2">
               <Image src={data.thumbnail} alt="thumbnail" fill className="object-cover" />
               <button
                 type="button"
@@ -293,7 +293,7 @@ export function BlogsAdmin() {
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={isUploading}
-            className="flex items-center gap-1.5 text-xs border border-[#E5E7EB] rounded-lg px-3 py-1.5 hover:bg-[#F3F4F6] transition-colors disabled:opacity-50"
+            className="flex items-center gap-1.5 text-xs border border-line rounded-lg px-3 py-1.5 hover:bg-surface-2 transition-colors disabled:opacity-50"
           >
             <Upload size={12} />
             {isUploading ? "Uploading…" : "Upload thumbnail"}
@@ -302,7 +302,7 @@ export function BlogsAdmin() {
 
         {/* Content */}
         <div>
-          <label className="block text-xs font-medium text-[#6B7280] mb-1">Content *</label>
+          <label className="block text-xs font-medium text-subtle mb-1">Content *</label>
           <RichTextEditor
             value={data.content}
             onChange={(md) => setData({ ...data, content: md })}
@@ -312,7 +312,7 @@ export function BlogsAdmin() {
         <button
           type="button"
           onClick={onSubmit}
-          className="bg-[#111111] text-white text-sm px-4 py-2 rounded-lg hover:bg-[#222222] transition-colors"
+          className="bg-brand text-black text-sm px-4 py-2 rounded-lg hover:opacity-90 transition-colors"
         >
           {submitLabel}
         </button>
@@ -324,13 +324,13 @@ export function BlogsAdmin() {
     <div className="max-w-3xl">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-[#111111]">Blog</h1>
-          <p className="text-sm text-[#6B7280] mt-0.5">Manage blog posts</p>
+          <h1 className="text-2xl font-bold text-ink">Blog</h1>
+          <p className="text-sm text-subtle mt-0.5">Manage blog posts</p>
         </div>
         {!showAdd && (
           <button
             onClick={() => setShowAdd(true)}
-            className="flex items-center gap-1.5 bg-[#111111] text-white text-sm px-3 py-1.5 rounded-lg hover:bg-[#222222] transition-colors"
+            className="flex items-center gap-1.5 bg-brand text-black text-sm px-3 py-1.5 rounded-lg hover:opacity-90 transition-colors"
           >
             <Plus size={14} /> New post
           </button>
@@ -338,10 +338,10 @@ export function BlogsAdmin() {
       </div>
 
       {showAdd && (
-        <div className="border border-[#E5E7EB] rounded-xl p-5 mb-6 bg-white">
+        <div className="border border-line rounded-xl p-5 mb-6 bg-surface">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm font-semibold text-[#111111]">New blog post</span>
-            <button onClick={() => { setShowAdd(false); setForm(emptyForm) }} className="text-[#9CA3AF] hover:text-[#111111]">
+            <span className="text-sm font-semibold text-ink">New blog post</span>
+            <button onClick={() => { setShowAdd(false); setForm(emptyForm) }} className="text-subtle hover:text-ink">
               <X size={16} />
             </button>
           </div>
@@ -358,18 +358,18 @@ export function BlogsAdmin() {
       )}
 
       {loading ? (
-        <p className="text-sm text-[#6B7280]">Loading…</p>
+        <p className="text-sm text-subtle">Loading…</p>
       ) : blogs.length === 0 ? (
-        <p className="text-sm text-[#6B7280]">No blog posts yet.</p>
+        <p className="text-sm text-subtle">No blog posts yet.</p>
       ) : (
         <div className="space-y-3">
           {blogs.map((b) => (
-            <div key={b.id} className="border border-[#E5E7EB] rounded-xl bg-white overflow-hidden">
+            <div key={b.id} className="border border-line rounded-xl bg-surface overflow-hidden">
               {editId === b.id ? (
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-semibold text-[#111111]">Edit post</span>
-                    <button onClick={() => setEditId(null)} className="text-[#9CA3AF] hover:text-[#111111]">
+                    <span className="text-sm font-semibold text-ink">Edit post</span>
+                    <button onClick={() => setEditId(null)} className="text-subtle hover:text-ink">
                       <X size={16} />
                     </button>
                   </div>
@@ -386,7 +386,7 @@ export function BlogsAdmin() {
               ) : (
                 <div className="flex items-start gap-4 p-4">
                   {b.thumbnail ? (
-                    <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-[#F3F4F6]">
+                    <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-surface-2">
                       <Image src={b.thumbnail} alt={b.title} fill className="object-cover" />
                     </div>
                   ) : (
@@ -394,19 +394,19 @@ export function BlogsAdmin() {
                   )}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-                      <span className="text-sm font-semibold text-[#111111] truncate">{b.title}</span>
+                      <span className="text-sm font-semibold text-ink truncate">{b.title}</span>
                       <span
-                        className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium flex-shrink-0 ${
+                        className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium font-mono flex-shrink-0 ${
                           b.published
-                            ? "bg-green-50 text-green-700"
-                            : "bg-[#F3F4F6] text-[#6B7280]"
+                            ? "bg-green-950/60 text-green-400"
+                            : "bg-surface-2 text-subtle"
                         }`}
                       >
                         {b.published ? "published" : "draft"}
                       </span>
                     </div>
-                    <p className="text-xs text-[#6B7280] mb-1 line-clamp-1">{b.description}</p>
-                    <div className="flex items-center gap-2 text-[10px] text-[#9CA3AF]">
+                    <p className="text-xs text-subtle mb-1 line-clamp-1">{b.description}</p>
+                    <div className="flex items-center gap-2 text-[10px] text-subtle font-mono">
                       <span>{new Date(b.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</span>
                       {b.readingTime && <><span>·</span><span>{b.readingTime}</span></>}
                       <span>·</span>
@@ -417,19 +417,19 @@ export function BlogsAdmin() {
                     <button
                       onClick={() => togglePublished(b)}
                       title={b.published ? "Unpublish" : "Publish"}
-                      className="p-1.5 rounded-lg text-[#9CA3AF] hover:text-[#111111] hover:bg-[#F3F4F6] transition-colors"
+                      className="p-1.5 rounded-lg text-subtle hover:text-ink hover:bg-surface-2 transition-colors"
                     >
                       {b.published ? <EyeOff size={14} /> : <Eye size={14} />}
                     </button>
                     <button
                       onClick={() => startEdit(b)}
-                      className="p-1.5 rounded-lg text-[#9CA3AF] hover:text-[#111111] hover:bg-[#F3F4F6] transition-colors"
+                      className="p-1.5 rounded-lg text-subtle hover:text-ink hover:bg-surface-2 transition-colors"
                     >
                       <Pencil size={14} />
                     </button>
                     <button
                       onClick={() => handleDelete(b.id)}
-                      className="p-1.5 rounded-lg text-[#9CA3AF] hover:text-red-500 hover:bg-red-50 transition-colors"
+                      className="p-1.5 rounded-lg text-subtle hover:text-red-400 hover:bg-red-950/60 transition-colors"
                     >
                       <Trash2 size={14} />
                     </button>
@@ -441,7 +441,7 @@ export function BlogsAdmin() {
         </div>
       )}
 
-      {statusMsg && <p className="mt-4 text-sm text-[#6B7280]">{statusMsg}</p>}
+      {statusMsg && <p className="mt-4 text-sm text-subtle">{statusMsg}</p>}
     </div>
   )
 }

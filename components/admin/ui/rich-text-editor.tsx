@@ -37,8 +37,8 @@ function ToolbarBtn({
       onClick={onClick}
       className={`p-1.5 rounded-md transition-colors ${
         active
-          ? "bg-[#111111] text-white"
-          : "text-[#6B7280] hover:text-[#111111] hover:bg-[#F3F4F6]"
+          ? "bg-brand text-black"
+          : "text-subtle hover:text-ink hover:bg-surface-2"
       }`}
     >
       {children}
@@ -67,7 +67,7 @@ export function RichTextEditor({ value, onChange }: Props) {
     editorProps: {
       attributes: {
         class:
-          "prose prose-sm max-w-none min-h-[300px] px-4 py-3 text-[#111111] focus:outline-none [&_h2]:text-lg [&_h2]:font-bold [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:mt-4 [&_h3]:mb-1 [&_ul]:pl-5 [&_ul]:list-disc [&_li]:my-0.5 [&_code]:bg-[#F3F4F6] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-xs [&_code]:font-mono [&_pre]:bg-[#1e1e1e] [&_pre]:text-white [&_pre]:rounded-lg [&_pre]:p-4 [&_pre]:overflow-x-auto [&_pre]:text-xs [&_pre_code]:bg-transparent [&_pre_code]:p-0",
+          "prose prose-sm max-w-none min-h-[300px] px-4 py-3 text-ink focus:outline-none [&_h2]:text-lg [&_h2]:font-bold [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:mt-4 [&_h3]:mb-1 [&_ul]:pl-5 [&_ul]:list-disc [&_li]:my-0.5 [&_code]:bg-surface-2 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-xs [&_code]:font-mono [&_pre]:bg-[#1e1e1e] [&_pre]:text-white [&_pre]:rounded-lg [&_pre]:p-4 [&_pre]:overflow-x-auto [&_pre]:text-xs [&_pre_code]:bg-transparent [&_pre_code]:p-0",
       },
     },
   })
@@ -84,9 +84,9 @@ export function RichTextEditor({ value, onChange }: Props) {
   if (!editor) return null
 
   return (
-    <div className="border border-[#E5E7EB] rounded-lg overflow-hidden bg-white focus-within:ring-2 focus-within:ring-[#111111]/20">
+    <div className="border border-line rounded-lg overflow-hidden bg-surface focus-within:ring-2 focus-within:ring-brand/30">
       {/* Toolbar */}
-      <div className="flex items-center gap-0.5 px-2 py-1.5 border-b border-[#E5E7EB] bg-[#F9FAFB] flex-wrap">
+      <div className="flex items-center gap-0.5 px-2 py-1.5 border-b border-line bg-surface-2 flex-wrap">
         <ToolbarBtn
           active={editor.isActive("bold")}
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -95,7 +95,7 @@ export function RichTextEditor({ value, onChange }: Props) {
           <Bold size={14} />
         </ToolbarBtn>
 
-        <span className="w-px h-4 bg-[#E5E7EB] mx-1" />
+        <span className="w-px h-4 bg-line mx-1" />
 
         <ToolbarBtn
           active={editor.isActive("heading", { level: 2 })}
@@ -112,7 +112,7 @@ export function RichTextEditor({ value, onChange }: Props) {
           <Heading3 size={14} />
         </ToolbarBtn>
 
-        <span className="w-px h-4 bg-[#E5E7EB] mx-1" />
+        <span className="w-px h-4 bg-line mx-1" />
 
         <ToolbarBtn
           active={editor.isActive("bulletList")}
@@ -122,7 +122,7 @@ export function RichTextEditor({ value, onChange }: Props) {
           <List size={14} />
         </ToolbarBtn>
 
-        <span className="w-px h-4 bg-[#E5E7EB] mx-1" />
+        <span className="w-px h-4 bg-line mx-1" />
 
         <ToolbarBtn
           active={editor.isActive("code")}
@@ -139,7 +139,7 @@ export function RichTextEditor({ value, onChange }: Props) {
           <FileCode size={14} />
         </ToolbarBtn>
 
-        <span className="w-px h-4 bg-[#E5E7EB] mx-1" />
+        <span className="w-px h-4 bg-line mx-1" />
 
         <ToolbarBtn
           onClick={() => editor.chain().focus().setHorizontalRule().run()}

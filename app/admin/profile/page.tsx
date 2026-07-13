@@ -7,7 +7,7 @@ export default async function ProfilePage() {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-2xl font-bold text-[#111111] mb-6">Settings</h1>
+      <h1 className="text-2xl font-bold text-ink mb-6">Settings</h1>
       <ProfileTabs user={session!.user} />
     </div>
   )

@@ -8,7 +8,7 @@ import { authClient } from "@/lib/auth-client"
 type User = { id: string; name: string; email: string; image?: string | null }
 
 const inputCls =
-  "border border-[#E5E7EB] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#111111]/20 bg-white w-full"
+  "border border-line rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand/50 bg-surface-2 text-ink w-full"
 
 export function AccountTab({ user }: { user: User }) {
   const router = useRouter()
@@ -45,16 +45,16 @@ export function AccountTab({ user }: { user: User }) {
     <div className="flex flex-col gap-8 max-w-md">
       {/* Avatar */}
       <section className="flex flex-col gap-4">
-        <h2 className="text-base font-semibold text-[#111111]">Avatar</h2>
+        <h2 className="text-base font-semibold text-ink">Avatar</h2>
         <div className="flex items-center gap-4">
-          <div className="w-20 h-20 rounded-full bg-[#D1D5DB] overflow-hidden flex-shrink-0">
+          <div className="w-20 h-20 rounded-full bg-surface-2 overflow-hidden flex-shrink-0">
             {avatarUrl ? (
               <Image key={avatarKey} src={avatarUrl} alt="Avatar" width={80} height={80} className="w-full h-full object-cover" />
             ) : (
               <svg viewBox="0 0 80 80" className="w-full h-full">
-                <rect width="80" height="80" fill="#D1D5DB" />
-                <circle cx="40" cy="32" r="15" fill="#9CA3AF" />
-                <ellipse cx="40" cy="70" rx="25" ry="18" fill="#9CA3AF" />
+                <rect width="80" height="80" fill="#17181a" />
+                <circle cx="40" cy="32" r="15" fill="#8a8a8a" />
+                <ellipse cx="40" cy="70" rx="25" ry="18" fill="#8a8a8a" />
               </svg>
             )}
           </div>
@@ -62,32 +62,32 @@ export function AccountTab({ user }: { user: User }) {
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
-              className="border border-[#E5E7EB] bg-white text-[#111111] text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-[#F9FAFB] transition-colors"
+              className="border border-line bg-surface text-ink text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-surface-2 transition-colors"
             >
               Change avatar
             </button>
             <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
-            <p className="text-xs text-[#6B7280] mt-1">JPEG, PNG, WebP or GIF. Max 2 MB.</p>
+            <p className="text-xs text-subtle mt-1">JPEG, PNG, WebP or GIF. Max 2 MB.</p>
           </div>
         </div>
       </section>
 
       {/* Profile info */}
       <section className="flex flex-col gap-4">
-        <h2 className="text-base font-semibold text-[#111111]">Profile Info</h2>
+        <h2 className="text-base font-semibold text-ink">Profile Info</h2>
         <form onSubmit={handleSave} className="flex flex-col gap-3">
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-[#111111]">Name</label>
+            <label className="text-sm font-medium text-ink">Name</label>
             <input value={name} onChange={(e) => setName(e.target.value)} className={inputCls} />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-[#111111]">Email</label>
+            <label className="text-sm font-medium text-ink">Email</label>
             <input type="email" value={user.email} className={inputCls + " opacity-50 cursor-not-allowed"} disabled />
-            <p className="text-xs text-[#9CA3AF]">Email cannot be changed.</p>
+            <p className="text-xs text-subtle">Email cannot be changed.</p>
           </div>
           <button
             type="submit"
-            className="self-start bg-[#111111] text-white text-sm font-medium px-4 py-1.5 rounded-lg hover:bg-[#222222] transition-colors"
+            className="self-start bg-brand text-black text-sm font-medium px-4 py-1.5 rounded-lg hover:opacity-90 transition-colors"
           >
             Save changes
           </button>
@@ -95,7 +95,7 @@ export function AccountTab({ user }: { user: User }) {
       </section>
 
       {status && (
-        <p className={`text-sm border rounded-lg px-3 py-2 ${status.ok ? "border-[#E5E7EB] text-[#6B7280] bg-white" : "border-red-200 text-red-600 bg-red-50"}`}>
+        <p className={`text-sm border rounded-lg px-3 py-2 ${status.ok ? "border-line text-subtle bg-surface" : "border-red-900/50 text-red-400 bg-red-950/60"}`}>
           {status.msg}
         </p>
       )}

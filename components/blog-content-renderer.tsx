@@ -12,10 +12,10 @@ function parseInline(text: string): React.ReactNode[] {
       parts.push(text.slice(last, match.index))
     }
     if (match[0].startsWith("**")) {
-      parts.push(<strong key={match.index} className="font-semibold text-[#111111]">{match[2]}</strong>)
+      parts.push(<strong key={match.index} className="font-semibold text-ink">{match[2]}</strong>)
     } else {
       parts.push(
-        <code key={match.index} className="bg-[#F3F4F6] text-[#111111] px-1.5 py-0.5 rounded text-[0.85em] font-mono">
+        <code key={match.index} className="bg-surface-2 text-ink px-1.5 py-0.5 rounded text-[0.85em] font-mono">
           {match[3]}
         </code>
       )
@@ -133,13 +133,13 @@ export async function BlogContentRenderer({ content }: { content: string }) {
       )
     } else if (block.type === "h2") {
       rendered.push(
-        <h2 key={i} className="text-xl font-bold text-[#111111] tracking-[-0.02em] mt-10 mb-3 leading-[1.3]">
+        <h2 key={i} className="text-xl font-bold text-ink tracking-[-0.02em] mt-10 mb-3 leading-[1.3]">
           {block.text}
         </h2>
       )
     } else if (block.type === "h3") {
       rendered.push(
-        <h3 key={i} className="text-base font-semibold text-[#111111] tracking-[-0.01em] mt-6 mb-2 leading-[1.4]">
+        <h3 key={i} className="text-base font-semibold text-ink tracking-[-0.01em] mt-6 mb-2 leading-[1.4]">
           {block.text}
         </h3>
       )
@@ -147,7 +147,7 @@ export async function BlogContentRenderer({ content }: { content: string }) {
       rendered.push(
         <ul key={i} className="my-4 space-y-1.5 pl-5">
           {block.items.map((item, idx) => (
-            <li key={idx} className="text-sm text-[#374151] leading-[1.7] list-disc marker:text-[#9CA3AF]">
+            <li key={idx} className="text-sm text-ink/80 leading-[1.7] list-disc marker:text-subtle">
               {parseInline(item)}
             </li>
           ))}
@@ -155,7 +155,7 @@ export async function BlogContentRenderer({ content }: { content: string }) {
       )
     } else if (block.type === "p") {
       rendered.push(
-        <p key={i} className="text-sm text-[#374151] leading-[1.85] my-4">
+        <p key={i} className="text-sm text-ink/80 leading-[1.85] my-4">
           {parseInline(block.text)}
         </p>
       )

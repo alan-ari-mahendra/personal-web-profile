@@ -4,7 +4,7 @@ import { useState } from "react"
 import { authClient } from "@/lib/auth-client"
 
 const inputCls =
-  "border border-[#E5E7EB] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#111111]/20 bg-white w-full"
+  "border border-line rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 bg-surface-2 w-full"
 
 export function SecurityTab() {
   const [current, setCurrent] = useState("")
@@ -30,10 +30,10 @@ export function SecurityTab() {
   return (
     <div className="flex flex-col gap-6 max-w-md">
       <section className="flex flex-col gap-4">
-        <h2 className="text-base font-semibold text-[#111111]">Change Password</h2>
+        <h2 className="text-base font-semibold text-ink">Change Password</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-[#111111]">Current password</label>
+            <label className="text-sm font-medium text-ink">Current password</label>
             <input
               type="password"
               value={current}
@@ -44,7 +44,7 @@ export function SecurityTab() {
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-[#111111]">New password</label>
+            <label className="text-sm font-medium text-ink">New password</label>
             <input
               type="password"
               value={next}
@@ -54,11 +54,11 @@ export function SecurityTab() {
               required
               minLength={8}
             />
-            <p className="text-xs text-[#9CA3AF]">Minimum 8 characters. All other sessions will be signed out.</p>
+            <p className="text-xs text-subtle">Minimum 8 characters. All other sessions will be signed out.</p>
           </div>
           <button
             type="submit"
-            className="self-start border border-[#E5E7EB] bg-white text-[#111111] text-sm font-medium px-4 py-1.5 rounded-lg hover:bg-[#F9FAFB] transition-colors"
+            className="self-start border border-line bg-surface text-ink text-sm font-medium px-4 py-1.5 rounded-lg hover:bg-surface-2 transition-colors"
           >
             Update password
           </button>
@@ -66,7 +66,7 @@ export function SecurityTab() {
       </section>
 
       {status && (
-        <p className={`text-sm border rounded-lg px-3 py-2 ${status.ok ? "border-[#E5E7EB] text-[#6B7280] bg-white" : "border-red-200 text-red-600 bg-red-50"}`}>
+        <p className={`text-sm border rounded-lg px-3 py-2 ${status.ok ? "border-line text-subtle bg-surface" : "border-red-900/50 text-red-400 bg-red-950/60"}`}>
           {status.msg}
         </p>
       )}

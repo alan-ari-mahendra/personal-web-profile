@@ -54,7 +54,7 @@ export default async function BlogPostPage({
           ← Blog
         </Link>
         {/* Reading time */}
-        <span className="absolute top-6 right-6 inline-flex items-center gap-1.5 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/80 text-[#6B7280]">
+        <span className="absolute top-6 right-6 inline-flex items-center gap-1.5 text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-black/60 text-subtle">
           <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
           {blog.readingTime}
         </span>
@@ -67,7 +67,7 @@ export default async function BlogPostPage({
           {blog.tags.map((tag: string) => (
             <span
               key={tag}
-              className="text-[10px] px-1.5 py-0.5 rounded-md bg-[#F3F4F6] text-[#6B7280] font-medium"
+              className="text-[10px] font-mono px-1.5 py-0.5 rounded-md bg-surface-2 text-subtle font-medium"
             >
               {tag}
             </span>
@@ -75,26 +75,26 @@ export default async function BlogPostPage({
         </div>
 
         {/* Title */}
-        <h1 className="text-4xl font-bold tracking-[-0.03em] leading-[1.15] text-[#111111] mb-3 max-md:text-3xl max-sm:text-2xl">
+        <h1 className="text-4xl font-bold tracking-[-0.03em] leading-[1.15] text-ink mb-3 max-md:text-3xl max-sm:text-2xl">
           {blog.title}
         </h1>
 
         {/* Meta */}
-        <p className="text-xs text-[#9CA3AF] font-medium">
+        <p className="text-xs font-mono text-subtle font-medium">
           {formattedDate} · {blog.readingTime}
         </p>
 
-        <hr className="border-[#E5E7EB] my-6" />
+        <hr className="border-line my-6" />
 
         {/* Content */}
         <BlogContentRenderer content={blog.content} />
 
-        <hr className="border-[#E5E7EB] mt-12 mb-6" />
+        <hr className="border-line mt-12 mb-6" />
 
         {/* Bottom nav */}
         <Link
           href="/blogs"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-[#6B7280] hover:text-[#111111] transition-colors duration-150"
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-subtle hover:text-brand transition-colors duration-150"
         >
           ← Back to Blog
         </Link>

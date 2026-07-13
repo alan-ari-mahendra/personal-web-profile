@@ -17,15 +17,15 @@ export function ProfileTabs({ user }: { user: User }) {
   return (
     <div className="flex flex-col gap-6">
       {/* Tab bar */}
-      <div className="flex gap-1 border-b border-[#E5E7EB] pb-0">
+      <div className="flex gap-1 border-b border-line pb-0">
         {TABS.map((tab) => (
           <button
             key={tab}
             onClick={() => setActive(tab)}
             className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors -mb-px border-b-2 ${
               active === tab
-                ? "border-[#111111] text-[#111111]"
-                : "border-transparent text-[#6B7280] hover:text-[#111111] hover:border-[#D1D5DB]"
+                ? "border-brand text-ink"
+                : "border-transparent text-subtle hover:text-ink hover:border-white/20"
             }`}
           >
             {tab}

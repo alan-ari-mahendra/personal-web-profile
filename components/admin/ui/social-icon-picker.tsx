@@ -51,24 +51,24 @@ export function SocialIconPicker({ iconType, iconValue, onChange, onCustomFile, 
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
       onClick={(e) => { if (e.target === overlayRef.current) onClose() }}
     >
-      <div className="bg-[#111111] rounded-2xl shadow-2xl w-[420px] max-h-[70vh] flex flex-col overflow-hidden border border-white/10">
+      <div className="bg-surface rounded-2xl shadow-2xl w-[420px] max-h-[70vh] flex flex-col overflow-hidden border border-line">
         {/* Header */}
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-white/10">
+        <div className="flex items-center gap-3 px-4 py-3 border-b border-line">
           <div className="flex gap-1 flex-1">
             <button
               onClick={() => { setTab("LUCIDE"); setSearch("") }}
-              className={`px-3 py-1 text-xs font-medium rounded-lg transition-colors ${tab === "LUCIDE" ? "bg-white text-[#111111]" : "text-white/50 hover:text-white"}`}
+              className={`px-3 py-1 text-xs font-medium rounded-lg transition-colors ${tab === "LUCIDE" ? "bg-brand text-black" : "text-subtle hover:text-ink"}`}
             >
               Icons
             </button>
-            <button    
+            <button
               onClick={() => setTab("CUSTOM")}
-              className={`px-3 py-1 text-xs font-medium rounded-lg transition-colors ${tab === "CUSTOM" ? "bg-white text-[#111111]" : "text-white/50 hover:text-white"}`}
+              className={`px-3 py-1 text-xs font-medium rounded-lg transition-colors ${tab === "CUSTOM" ? "bg-brand text-black" : "text-subtle hover:text-ink"}`}
             >
               Custom SVG
             </button>
           </div>
-          <button onClick={onClose} className="text-white/40 hover:text-white transition-colors">
+          <button onClick={onClose} className="text-subtle hover:text-ink transition-colors">
             <X size={16} />
           </button>
         </div>
@@ -76,14 +76,14 @@ export function SocialIconPicker({ iconType, iconValue, onChange, onCustomFile, 
         {tab === "LUCIDE" ? (
           <>
             {/* Search */}
-            <div className="flex items-center gap-3 px-4 py-2 border-b border-white/10">
-              <Search size={14} className="text-white/40 flex-shrink-0" />
+            <div className="flex items-center gap-3 px-4 py-2 border-b border-line">
+              <Search size={14} className="text-subtle flex-shrink-0" />
               <input
                 autoFocus
                 placeholder="Search…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="flex-1 bg-transparent text-sm text-white placeholder:text-white/30 outline-none"
+                className="flex-1 bg-transparent text-sm text-ink placeholder:text-subtle outline-none"
               />
             </div>
 
@@ -101,26 +101,26 @@ export function SocialIconPicker({ iconType, iconValue, onChange, onCustomFile, 
                 ))}
               </div>
               {filtered.length === 0 && (
-                <p className="text-sm text-white/30 text-center py-8">No icons match "{search}"</p>
+                <p className="text-sm text-subtle text-center py-8">No icons match "{search}"</p>
               )}
             </div>
           </>
         ) : (
           <div className="p-6 flex flex-col items-center gap-4">
-            <div className="w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-xl bg-surface-2 flex items-center justify-center">
               {iconType === "CUSTOM" && iconValue ? (
                 <img src={iconValue} width={32} height={32} alt="" className="object-contain" />
               ) : (
-                <Upload size={24} className="text-white/40" />
+                <Upload size={24} className="text-subtle" />
               )}
             </div>
-            <p className="text-sm text-white/50 text-center">
+            <p className="text-sm text-subtle text-center">
               Upload an SVG file to use as icon.<br />Stored as base64 data URL.
             </p>
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
-              className="px-4 py-2 text-sm font-medium bg-white text-[#111111] rounded-lg hover:bg-white/90 transition-colors"
+              className="px-4 py-2 text-sm font-medium bg-brand text-black rounded-lg hover:opacity-90 transition-colors"
             >
               Choose SVG file
             </button>
@@ -146,12 +146,12 @@ function SocialIconBtn({ iconValue, label, selected, onSelect }: { iconValue: st
       onClick={onSelect}
       className={`group relative flex items-center justify-center w-full aspect-square rounded-lg transition-all ${
         selected
-          ? "bg-white text-[#111111]"
-          : "text-white/70 hover:bg-white/10 hover:text-white"
+          ? "bg-brand text-black"
+          : "text-ink/70 hover:bg-surface-2 hover:text-ink"
       }`}
     >
       <SocialLinkIcon iconType="LUCIDE" iconValue={iconValue} size={18} />
-      <span className="pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#222] text-white text-[10px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10">
+      <span className="pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap bg-surface-2 text-ink text-[10px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10">
         {label}
       </span>
     </button>

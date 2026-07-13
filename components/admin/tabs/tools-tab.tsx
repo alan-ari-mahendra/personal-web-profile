@@ -23,7 +23,7 @@ type Category = {
 }
 
 const inputCls =
-  "border border-[#E5E7EB] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#111111]/20 bg-white"
+  "border border-line rounded-lg px-3 py-2 text-sm bg-surface-2 text-ink placeholder:text-subtle focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand/50"
 
 const blankTool = { name: "", description: "", icon: "lucide:code-2", bg: "#F3F4F6", order: 0 }
 
@@ -32,13 +32,13 @@ function IconPickerTrigger({ icon, bg, onClick }: { icon: string; bg: string; on
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center gap-2 border border-[#E5E7EB] rounded-lg px-3 py-2 bg-white hover:bg-[#F9FAFB] transition-colors text-sm text-[#6B7280] w-full"
+      className="flex items-center gap-2 border border-line rounded-lg px-3 py-2 bg-surface-2 hover:bg-surface transition-colors text-sm text-subtle w-full"
     >
-      <div className="w-6 h-6 rounded flex items-center justify-center flex-shrink-0" style={{ background: bg }}>
+      <div className="w-6 h-6 rounded flex items-center justify-center flex-shrink-0 text-black" style={{ background: bg }}>
         <ToolIcon icon={icon} size={14} />
       </div>
       <span className="flex-1 text-left truncate text-xs font-mono">{icon}</span>
-      <span className="text-[10px] text-[#9CA3AF]">change</span>
+      <span className="text-[10px] text-subtle">change</span>
     </button>
   )
 }
@@ -170,7 +170,7 @@ export function ToolsTab() {
     setPicker(null)
   }
 
-  if (loading) return <p className="text-sm text-[#6B7280]">Loading…</p>
+  if (loading) return <p className="text-sm text-subtle">Loading…</p>
 
   return (
     <>
@@ -184,10 +184,10 @@ export function ToolsTab() {
 
       <div className="flex flex-col gap-6 max-w-2xl">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-[#111111]">Tools & Stack</h2>
+          <h2 className="text-base font-semibold text-ink">Tools & Stack</h2>
           <button
             onClick={() => setShowAddCat((v) => !v)}
-            className="flex items-center gap-1.5 text-sm font-medium bg-[#111111] text-white px-3 py-1.5 rounded-lg hover:bg-[#222222] transition-colors"
+            className="flex items-center gap-1.5 text-sm font-medium bg-brand text-black px-3 py-1.5 rounded-lg hover:opacity-90 transition-colors"
           >
             <Plus size={14} />
             Add category
@@ -196,8 +196,8 @@ export function ToolsTab() {
 
         {/* Add category form */}
         {showAddCat && (
-          <form onSubmit={handleAddCategory} className="border border-[#E5E7EB] rounded-xl p-4 flex flex-col gap-3 bg-[#F9FAFB]">
-            <h3 className="text-sm font-semibold text-[#111111]">New category</h3>
+          <form onSubmit={handleAddCategory} className="border border-line rounded-xl p-4 flex flex-col gap-3 bg-surface-2">
+            <h3 className="text-sm font-semibold text-ink">New category</h3>
             <div className="flex gap-3">
               <input
                 placeholder="Label"
@@ -215,19 +215,19 @@ export function ToolsTab() {
               />
             </div>
             <div className="flex gap-2">
-              <button type="submit" className="text-sm font-medium bg-[#111111] text-white px-4 py-1.5 rounded-lg hover:bg-[#222222] transition-colors">Add</button>
-              <button type="button" onClick={() => setShowAddCat(false)} className="text-sm font-medium border border-[#E5E7EB] bg-white px-4 py-1.5 rounded-lg hover:bg-[#F9FAFB] transition-colors">Cancel</button>
+              <button type="submit" className="text-sm font-medium border border-line text-ink px-4 py-1.5 rounded-lg hover:bg-surface-2 transition-colors">Add</button>
+              <button type="button" onClick={() => setShowAddCat(false)} className="text-sm font-medium border border-line text-ink px-4 py-1.5 rounded-lg hover:bg-surface-2 transition-colors">Cancel</button>
             </div>
           </form>
         )}
 
         {/* Categories */}
-        {categories.length === 0 && <p className="text-sm text-[#9CA3AF]">No categories yet.</p>}
+        {categories.length === 0 && <p className="text-sm text-subtle">No categories yet.</p>}
         {categories.map((cat) => (
-          <div key={cat.id} className="border border-[#E5E7EB] rounded-xl overflow-hidden bg-white">
+          <div key={cat.id} className="border border-line rounded-xl overflow-hidden bg-surface">
             {/* Category header */}
             {editCatId === cat.id ? (
-              <div className="px-4 py-3 bg-[#F9FAFB] flex items-center gap-3">
+              <div className="px-4 py-3 bg-surface-2 flex items-center gap-3">
                 <input
                   value={editCatData.label}
                   onChange={(e) => setEditCatData((d) => ({ ...d, label: e.target.value }))}
@@ -239,32 +239,32 @@ export function ToolsTab() {
                   onChange={(e) => setEditCatData((d) => ({ ...d, order: +e.target.value }))}
                   className={inputCls + " w-20"}
                 />
-                <button onClick={() => handleUpdateCategory(cat.id)} className="p-1.5 rounded-lg bg-[#111111] text-white hover:bg-[#222222] transition-colors">
+                <button onClick={() => handleUpdateCategory(cat.id)} className="p-1.5 rounded-lg border border-line text-ink hover:bg-surface-2 transition-colors">
                   <Check size={14} />
                 </button>
-                <button onClick={() => setEditCatId(null)} className="p-1.5 rounded-lg border border-[#E5E7EB] text-[#6B7280] hover:bg-[#F3F4F6] transition-colors">
+                <button onClick={() => setEditCatId(null)} className="p-1.5 rounded-lg border border-line text-subtle hover:bg-surface-2 transition-colors">
                   <X size={14} />
                 </button>
               </div>
             ) : (
-              <div className="px-4 py-3 flex items-center gap-2 bg-[#F9FAFB] group">
+              <div className="px-4 py-3 flex items-center gap-2 bg-surface-2 group">
                 <button
                   type="button"
                   onClick={() => setCollapsed((c) => ({ ...c, [cat.id]: !c[cat.id] }))}
-                  className="text-[#9CA3AF] hover:text-[#111111] transition-colors"
+                  className="text-subtle hover:text-ink transition-colors"
                 >
                   {collapsed[cat.id] ? <ChevronRight size={16} /> : <ChevronDown size={16} />}
                 </button>
-                <span className="flex-1 text-sm font-semibold text-[#111111]">{cat.label}</span>
-                <span className="text-xs text-[#D1D5DB] tabular-nums">#{cat.order}</span>
+                <span className="flex-1 text-sm font-semibold text-ink">{cat.label}</span>
+                <span className="text-xs text-subtle font-mono tabular-nums">#{cat.order}</span>
                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button
                     onClick={() => { setEditCatId(cat.id); setEditCatData({ label: cat.label, order: cat.order }) }}
-                    className="p-1.5 rounded-lg hover:bg-[#E5E7EB] text-[#6B7280] transition-colors"
+                    className="p-1.5 rounded-lg hover:bg-surface-2 text-subtle transition-colors"
                   >
                     <Pencil size={13} />
                   </button>
-                  <button onClick={() => handleDeleteCategory(cat.id)} className="p-1.5 rounded-lg hover:bg-red-50 text-red-400 transition-colors">
+                  <button onClick={() => handleDeleteCategory(cat.id)} className="p-1.5 rounded-lg hover:bg-red-950/60 text-red-400 transition-colors">
                     <Trash2 size={13} />
                   </button>
                 </div>
@@ -273,17 +273,17 @@ export function ToolsTab() {
 
             {/* Tools list */}
             {!collapsed[cat.id] && (
-              <div className="divide-y divide-[#F3F4F6]">
+              <div className="divide-y divide-line">
                 {cat.tools.map((tool) =>
                   editToolId === tool.id ? (
                     <div key={tool.id} className="p-4 flex flex-col gap-3">
                       <div className="grid grid-cols-2 gap-3">
                         <div className="flex flex-col gap-1">
-                          <label className="text-xs font-medium text-[#6B7280]">Name</label>
+                          <label className="text-xs font-medium text-subtle">Name</label>
                           <input value={editToolData.name} onChange={(e) => setEditToolData((d) => ({ ...d, name: e.target.value }))} className={inputCls} />
                         </div>
                         <div className="flex flex-col gap-1">
-                          <label className="text-xs font-medium text-[#6B7280]">Icon</label>
+                          <label className="text-xs font-medium text-subtle">Icon</label>
                           <IconPickerTrigger
                             icon={editToolData.icon}
                             bg={editToolData.bg}
@@ -291,51 +291,51 @@ export function ToolsTab() {
                           />
                         </div>
                         <div className="flex flex-col gap-1">
-                          <label className="text-xs font-medium text-[#6B7280]">Description</label>
+                          <label className="text-xs font-medium text-subtle">Description</label>
                           <input value={editToolData.description} onChange={(e) => setEditToolData((d) => ({ ...d, description: e.target.value }))} className={inputCls} />
                         </div>
                         <div className="flex flex-col gap-1">
-                          <label className="text-xs font-medium text-[#6B7280]">BG color</label>
+                          <label className="text-xs font-medium text-subtle">BG color</label>
                           <div className="flex gap-2 items-center">
                             <input value={editToolData.bg} onChange={(e) => setEditToolData((d) => ({ ...d, bg: e.target.value }))} className={inputCls + " flex-1"} placeholder="#F3F4F6" />
-                            <input type="color" value={editToolData.bg} onChange={(e) => setEditToolData((d) => ({ ...d, bg: e.target.value }))} className="w-8 h-8 rounded border border-[#E5E7EB] cursor-pointer p-0.5" />
+                            <input type="color" value={editToolData.bg} onChange={(e) => setEditToolData((d) => ({ ...d, bg: e.target.value }))} className="w-8 h-8 rounded border border-line cursor-pointer p-0.5" />
                           </div>
                         </div>
                         <div className="flex flex-col gap-1">
-                          <label className="text-xs font-medium text-[#6B7280]">Order</label>
+                          <label className="text-xs font-medium text-subtle">Order</label>
                           <input type="number" value={editToolData.order} onChange={(e) => setEditToolData((d) => ({ ...d, order: +e.target.value }))} className={inputCls} />
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        <button onClick={() => handleUpdateTool(tool.id)} className="flex items-center gap-1 text-sm font-medium bg-[#111111] text-white px-3 py-1.5 rounded-lg hover:bg-[#222222] transition-colors">
+                        <button onClick={() => handleUpdateTool(tool.id)} className="flex items-center gap-1 text-sm font-medium border border-line text-ink px-3 py-1.5 rounded-lg hover:bg-surface-2 transition-colors">
                           <Check size={13} /> Save
                         </button>
-                        <button onClick={() => setEditToolId(null)} className="flex items-center gap-1 text-sm border border-[#E5E7EB] bg-white text-[#111111] px-3 py-1.5 rounded-lg hover:bg-[#F9FAFB] transition-colors">
+                        <button onClick={() => setEditToolId(null)} className="flex items-center gap-1 text-sm border border-line text-ink px-3 py-1.5 rounded-lg hover:bg-surface-2 transition-colors">
                           <X size={13} /> Cancel
                         </button>
                       </div>
                     </div>
                   ) : (
                     <div key={tool.id} className="px-4 py-3 flex items-center gap-3 group">
-                      <div className="w-7 h-7 rounded flex items-center justify-center flex-shrink-0" style={{ background: tool.bg }}>
+                      <div className="w-7 h-7 rounded flex items-center justify-center flex-shrink-0 text-black" style={{ background: tool.bg }}>
                         <ToolIcon icon={tool.icon} size={15} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-[#111111]">{tool.name}</p>
-                        <p className="text-xs text-[#9CA3AF] truncate">{tool.description}</p>
+                        <p className="text-sm font-medium text-ink">{tool.name}</p>
+                        <p className="text-xs text-subtle truncate">{tool.description}</p>
                       </div>
-                      <span className="text-xs text-[#D1D5DB] tabular-nums">#{tool.order}</span>
+                      <span className="text-xs text-subtle font-mono tabular-nums">#{tool.order}</span>
                       <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
                           onClick={() => {
                             setEditToolId(tool.id)
                             setEditToolData({ name: tool.name, description: tool.description, icon: tool.icon, bg: tool.bg, order: tool.order, categoryId: tool.categoryId })
                           }}
-                          className="p-1.5 rounded-lg hover:bg-[#F3F4F6] text-[#6B7280] transition-colors"
+                          className="p-1.5 rounded-lg hover:bg-surface-2 text-subtle transition-colors"
                         >
                           <Pencil size={13} />
                         </button>
-                        <button onClick={() => handleDeleteTool(tool.id, cat.id)} className="p-1.5 rounded-lg hover:bg-red-50 text-red-400 transition-colors">
+                        <button onClick={() => handleDeleteTool(tool.id, cat.id)} className="p-1.5 rounded-lg hover:bg-red-950/60 text-red-400 transition-colors">
                           <Trash2 size={13} />
                         </button>
                       </div>
@@ -345,15 +345,15 @@ export function ToolsTab() {
 
                 {/* Add tool form */}
                 {addToolCatId === cat.id ? (
-                  <form onSubmit={(e) => handleAddTool(e, cat.id)} className="p-4 flex flex-col gap-3 bg-[#F9FAFB]">
-                    <p className="text-xs font-semibold text-[#6B7280]">New tool in {cat.label}</p>
+                  <form onSubmit={(e) => handleAddTool(e, cat.id)} className="p-4 flex flex-col gap-3 bg-surface-2">
+                    <p className="text-xs font-semibold text-subtle">New tool in {cat.label}</p>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="flex flex-col gap-1">
-                        <label className="text-xs font-medium text-[#6B7280]">Name</label>
+                        <label className="text-xs font-medium text-subtle">Name</label>
                         <input value={newTool.name} onChange={(e) => setNewTool((d) => ({ ...d, name: e.target.value }))} className={inputCls} required />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-xs font-medium text-[#6B7280]">Icon</label>
+                        <label className="text-xs font-medium text-subtle">Icon</label>
                         <IconPickerTrigger
                           icon={newTool.icon}
                           bg={newTool.bg}
@@ -361,30 +361,30 @@ export function ToolsTab() {
                         />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-xs font-medium text-[#6B7280]">Description</label>
+                        <label className="text-xs font-medium text-subtle">Description</label>
                         <input value={newTool.description} onChange={(e) => setNewTool((d) => ({ ...d, description: e.target.value }))} className={inputCls} />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-xs font-medium text-[#6B7280]">BG color</label>
+                        <label className="text-xs font-medium text-subtle">BG color</label>
                         <div className="flex gap-2 items-center">
                           <input value={newTool.bg} onChange={(e) => setNewTool((d) => ({ ...d, bg: e.target.value }))} className={inputCls + " flex-1"} placeholder="#F3F4F6" />
-                          <input type="color" value={newTool.bg} onChange={(e) => setNewTool((d) => ({ ...d, bg: e.target.value }))} className="w-8 h-8 rounded border border-[#E5E7EB] cursor-pointer p-0.5" />
+                          <input type="color" value={newTool.bg} onChange={(e) => setNewTool((d) => ({ ...d, bg: e.target.value }))} className="w-8 h-8 rounded border border-line cursor-pointer p-0.5" />
                         </div>
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-xs font-medium text-[#6B7280]">Order</label>
+                        <label className="text-xs font-medium text-subtle">Order</label>
                         <input type="number" value={newTool.order} onChange={(e) => setNewTool((d) => ({ ...d, order: +e.target.value }))} className={inputCls} />
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <button type="submit" className="text-sm font-medium bg-[#111111] text-white px-4 py-1.5 rounded-lg hover:bg-[#222222] transition-colors">Add</button>
-                      <button type="button" onClick={() => { setAddToolCatId(null); setNewTool({ ...blankTool }) }} className="text-sm font-medium border border-[#E5E7EB] bg-white px-4 py-1.5 rounded-lg hover:bg-[#F9FAFB] transition-colors">Cancel</button>
+                      <button type="submit" className="text-sm font-medium border border-line text-ink px-4 py-1.5 rounded-lg hover:bg-surface-2 transition-colors">Add</button>
+                      <button type="button" onClick={() => { setAddToolCatId(null); setNewTool({ ...blankTool }) }} className="text-sm font-medium border border-line text-ink px-4 py-1.5 rounded-lg hover:bg-surface-2 transition-colors">Cancel</button>
                     </div>
                   </form>
                 ) : (
                   <button
                     onClick={() => { setAddToolCatId(cat.id); setNewTool({ ...blankTool }) }}
-                    className="w-full px-4 py-2.5 flex items-center gap-2 text-xs font-medium text-[#9CA3AF] hover:text-[#111111] hover:bg-[#F9FAFB] transition-colors"
+                    className="w-full px-4 py-2.5 flex items-center gap-2 text-xs font-medium text-subtle hover:text-ink hover:bg-surface-2 transition-colors"
                   >
                     <Plus size={13} /> Add tool to {cat.label}
                   </button>
@@ -395,7 +395,7 @@ export function ToolsTab() {
         ))}
 
         {status && (
-          <p className="text-sm border border-[#E5E7EB] text-[#6B7280] bg-white rounded-lg px-3 py-2">{status}</p>
+          <p className="text-sm border border-line text-subtle bg-surface rounded-lg px-3 py-2">{status}</p>
         )}
       </div>
     </>

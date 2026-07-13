@@ -19,7 +19,7 @@ export function LiveClock() {
   }, []);
 
   return (
-    <span className="text-sm text-[#6B7280] tabular-nums tracking-[0.03em] min-w-[68px] text-right">
+    <span className="text-sm text-subtle font-mono tabular-nums tracking-[0.03em] min-w-[68px] text-right">
       {time}
     </span>
   );

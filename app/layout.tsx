@@ -1,10 +1,15 @@
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Outfit, Source_Code_Pro } from "next/font/google"
 import "./globals.css"
 import { Analytics } from "@vercel/analytics/next"
 
-const inter = Inter({
+const outfit = Outfit({
   variable: "--font-sans",
+  subsets: ["latin"],
+})
+
+const sourceCodePro = Source_Code_Pro({
+  variable: "--font-mono",
   subsets: ["latin"],
 })
 
@@ -19,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`} style={{ colorScheme: "light" }}>
-      <body className="h-full bg-gradient-to-r from-[#F9FAFB] to-[#EBEBEB] text-[#111111]">
+    <html lang="en" className={`${outfit.variable} ${sourceCodePro.variable} h-full antialiased`} style={{ colorScheme: "dark" }}>
+      <body className="h-full bg-bg text-ink">
         {children}
       </body>
     </html>

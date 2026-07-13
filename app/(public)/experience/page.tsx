@@ -8,11 +8,11 @@ export default function ExperiencePage() {
       <div key={idx}>
         {/* Role · Company */}
         <div className="flex flex-wrap items-baseline gap-1.5 mb-4">
-          <span className="text-base font-bold text-neutral-800 dark:text-neutral-200">
+          <span className="text-base font-bold text-ink">
             {exp.role}
           </span>
-          <span className="text-base text-neutral-300 dark:text-neutral-600">·</span>
-          <span className="text-base font-medium text-neutral-500 dark:text-neutral-400">
+          <span className="text-base text-white/20">·</span>
+          <span className="text-base font-medium text-subtle">
             {exp.company}
           </span>
         </div>
@@ -22,9 +22,9 @@ export default function ExperiencePage() {
           {exp.bullets.map((bullet, i) => (
             <li
               key={i}
-              className="flex gap-2 text-xs font-normal text-neutral-700 md:text-sm dark:text-neutral-300 leading-[1.7]"
+              className="flex gap-2 text-xs font-normal text-ink/80 md:text-sm leading-[1.7]"
             >
-              <span className="mt-[8px] w-1.5 h-1.5 rounded-full bg-neutral-300 dark:bg-neutral-600 flex-shrink-0" />
+              <span className="mt-[8px] w-1.5 h-1.5 rounded-full bg-white/25 flex-shrink-0" />
               {bullet}
             </li>
           ))}
@@ -35,7 +35,7 @@ export default function ExperiencePage() {
           {exp.tags.map((tag) => (
             <span
               key={tag}
-              className="text-[11px] font-medium px-2.5 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400"
+              className="text-[11px] font-mono font-medium px-2.5 py-0.5 rounded-md bg-surface-2 text-subtle"
             >
               {tag}
             </span>

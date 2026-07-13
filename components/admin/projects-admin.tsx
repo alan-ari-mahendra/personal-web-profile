@@ -29,7 +29,7 @@ const emptyForm = {
 }
 
 const inputCls =
-  "border border-[#E5E7EB] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#111111]/20 bg-white w-full"
+  "border border-line rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand/50 bg-surface w-full"
 
 export function ProjectsAdmin() {
   const [projects, setProjects] = useState<Project[]>([])
@@ -171,7 +171,7 @@ export function ProjectsAdmin() {
       <div className="space-y-3">
         <div className="grid grid-cols-2 gap-3">
           <div className="col-span-2">
-            <label className="block text-xs font-medium text-[#6B7280] mb-1">Title *</label>
+            <label className="block text-xs font-medium text-subtle mb-1">Title *</label>
             <input
               className={inputCls}
               value={data.title}
@@ -180,7 +180,7 @@ export function ProjectsAdmin() {
             />
           </div>
           <div className="col-span-2">
-            <label className="block text-xs font-medium text-[#6B7280] mb-1">Description *</label>
+            <label className="block text-xs font-medium text-subtle mb-1">Description *</label>
             <textarea
               className={inputCls + " resize-none"}
               rows={3}
@@ -190,7 +190,7 @@ export function ProjectsAdmin() {
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-[#6B7280] mb-1">Tags (comma-separated)</label>
+            <label className="block text-xs font-medium text-subtle mb-1">Tags (comma-separated)</label>
             <input
               className={inputCls}
               value={data.tags}
@@ -199,7 +199,7 @@ export function ProjectsAdmin() {
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-[#6B7280] mb-1">Status</label>
+            <label className="block text-xs font-medium text-subtle mb-1">Status</label>
             <select
               className={inputCls}
               value={data.status}
@@ -210,7 +210,7 @@ export function ProjectsAdmin() {
             </select>
           </div>
           <div className="col-span-2">
-            <label className="block text-xs font-medium text-[#6B7280] mb-1">Gradient *</label>
+            <label className="block text-xs font-medium text-subtle mb-1">Gradient *</label>
             <input
               className={inputCls}
               value={data.gradient}
@@ -222,7 +222,7 @@ export function ProjectsAdmin() {
 
         {/* Links */}
         <div>
-          <label className="block text-xs font-medium text-[#6B7280] mb-1">Links</label>
+          <label className="block text-xs font-medium text-subtle mb-1">Links</label>
           <div className="space-y-2">
             {data.links.map((link, idx) => (
               <div key={idx} className="flex gap-2 items-center">
@@ -242,7 +242,7 @@ export function ProjectsAdmin() {
                   <button
                     type="button"
                     onClick={() => removeLink(data, setData, idx)}
-                    className="text-[#9CA3AF] hover:text-red-400 transition-colors flex-shrink-0"
+                    className="text-subtle hover:text-red-400 transition-colors flex-shrink-0"
                   >
                     <X size={14} />
                   </button>
@@ -252,7 +252,7 @@ export function ProjectsAdmin() {
             <button
               type="button"
               onClick={() => addLink(data, setData)}
-              className="flex items-center gap-1 text-xs text-[#6B7280] hover:text-[#111111] transition-colors"
+              className="flex items-center gap-1 text-xs text-subtle hover:text-ink transition-colors"
             >
               <Plus size={12} /> Add link
             </button>
@@ -261,9 +261,9 @@ export function ProjectsAdmin() {
 
         {/* Thumbnail */}
         <div>
-          <label className="block text-xs font-medium text-[#6B7280] mb-1">Thumbnail</label>
+          <label className="block text-xs font-medium text-subtle mb-1">Thumbnail</label>
           {data.thumbnail && (
-            <div className="relative w-full h-32 rounded-lg overflow-hidden mb-2 bg-[#F3F4F6]">
+            <div className="relative w-full h-32 rounded-lg overflow-hidden mb-2 bg-surface-2">
               <Image src={data.thumbnail} alt="thumbnail" fill className="object-cover" />
               <button
                 type="button"
@@ -293,7 +293,7 @@ export function ProjectsAdmin() {
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={isUploading}
-            className="flex items-center gap-1.5 text-xs border border-[#E5E7EB] rounded-lg px-3 py-1.5 hover:bg-[#F3F4F6] transition-colors disabled:opacity-50"
+            className="flex items-center gap-1.5 text-xs border border-line rounded-lg px-3 py-1.5 hover:bg-surface-2 transition-colors disabled:opacity-50"
           >
             <Upload size={12} />
             {isUploading ? "Uploading…" : "Upload thumbnail"}
@@ -303,7 +303,7 @@ export function ProjectsAdmin() {
         <button
           type="button"
           onClick={onSubmit}
-          className="bg-[#111111] text-white text-sm px-4 py-2 rounded-lg hover:bg-[#222222] transition-colors"
+          className="bg-brand text-black text-sm px-4 py-2 rounded-lg hover:opacity-90 transition-colors"
         >
           {submitLabel}
         </button>
@@ -315,13 +315,13 @@ export function ProjectsAdmin() {
     <div className="max-w-3xl">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-[#111111]">Projects</h1>
-          <p className="text-sm text-[#6B7280] mt-0.5">Manage portfolio projects</p>
+          <h1 className="text-2xl font-bold text-ink">Projects</h1>
+          <p className="text-sm text-subtle mt-0.5">Manage portfolio projects</p>
         </div>
         {!showAdd && (
           <button
             onClick={() => setShowAdd(true)}
-            className="flex items-center gap-1.5 bg-[#111111] text-white text-sm px-3 py-1.5 rounded-lg hover:bg-[#222222] transition-colors"
+            className="flex items-center gap-1.5 bg-brand text-black text-sm px-3 py-1.5 rounded-lg hover:opacity-90 transition-colors"
           >
             <Plus size={14} /> Add project
           </button>
@@ -329,10 +329,10 @@ export function ProjectsAdmin() {
       </div>
 
       {showAdd && (
-        <div className="border border-[#E5E7EB] rounded-xl p-5 mb-6 bg-white">
+        <div className="border border-line rounded-xl p-5 mb-6 bg-surface">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm font-semibold text-[#111111]">New project</span>
-            <button onClick={() => { setShowAdd(false); setForm(emptyForm) }} className="text-[#9CA3AF] hover:text-[#111111]">
+            <span className="text-sm font-semibold text-ink">New project</span>
+            <button onClick={() => { setShowAdd(false); setForm(emptyForm) }} className="text-subtle hover:text-ink">
               <X size={16} />
             </button>
           </div>
@@ -349,18 +349,18 @@ export function ProjectsAdmin() {
       )}
 
       {loading ? (
-        <p className="text-sm text-[#6B7280]">Loading…</p>
+        <p className="text-sm text-subtle">Loading…</p>
       ) : projects.length === 0 ? (
-        <p className="text-sm text-[#6B7280]">No projects yet.</p>
+        <p className="text-sm text-subtle">No projects yet.</p>
       ) : (
         <div className="space-y-3">
           {projects.map((p) => (
-            <div key={p.id} className="border border-[#E5E7EB] rounded-xl bg-white overflow-hidden">
+            <div key={p.id} className="border border-line rounded-xl bg-surface overflow-hidden">
               {editId === p.id ? (
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-semibold text-[#111111]">Edit project</span>
-                    <button onClick={() => setEditId(null)} className="text-[#9CA3AF] hover:text-[#111111]">
+                    <span className="text-sm font-semibold text-ink">Edit project</span>
+                    <button onClick={() => setEditId(null)} className="text-subtle hover:text-ink">
                       <X size={16} />
                     </button>
                   </div>
@@ -377,7 +377,7 @@ export function ProjectsAdmin() {
               ) : (
                 <div className="flex items-start gap-4 p-4">
                   {p.thumbnail ? (
-                    <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-[#F3F4F6]">
+                    <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-surface-2">
                       <Image src={p.thumbnail} alt={p.title} fill className="object-cover" />
                     </div>
                   ) : (
@@ -387,21 +387,21 @@ export function ProjectsAdmin() {
                   )}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <span className="text-sm font-semibold text-[#111111] truncate">{p.title}</span>
+                      <span className="text-sm font-semibold text-ink truncate">{p.title}</span>
                       <span
                         className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${
                           p.status === "active"
-                            ? "bg-green-50 text-green-700"
-                            : "bg-[#F3F4F6] text-[#6B7280]"
+                            ? "bg-green-950/60 text-green-400"
+                            : "bg-surface-2 text-subtle"
                         }`}
                       >
                         {p.status}
                       </span>
                     </div>
-                    <p className="text-xs text-[#6B7280] mb-1.5 line-clamp-2">{p.description}</p>
+                    <p className="text-xs text-subtle mb-1.5 line-clamp-2">{p.description}</p>
                     <div className="flex flex-wrap gap-1">
                       {p.tags.map((tag) => (
-                        <span key={tag} className="text-[10px] bg-[#F3F4F6] text-[#6B7280] px-1.5 py-0.5 rounded-full">
+                        <span key={tag} className="text-[10px] bg-surface-2 text-subtle px-1.5 py-0.5 rounded-full">
                           {tag}
                         </span>
                       ))}
@@ -414,7 +414,7 @@ export function ProjectsAdmin() {
                             href={link.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-0.5 text-[10px] text-[#6B7280] hover:text-[#111111] transition-colors"
+                            className="flex items-center gap-0.5 text-[10px] text-subtle hover:text-ink transition-colors"
                           >
                             <ExternalLink size={10} /> {link.label}
                           </a>
@@ -425,13 +425,13 @@ export function ProjectsAdmin() {
                   <div className="flex items-center gap-1 flex-shrink-0">
                     <button
                       onClick={() => startEdit(p)}
-                      className="p-1.5 rounded-lg text-[#9CA3AF] hover:text-[#111111] hover:bg-[#F3F4F6] transition-colors"
+                      className="p-1.5 rounded-lg text-subtle hover:text-ink hover:bg-surface-2 transition-colors"
                     >
                       <Pencil size={14} />
                     </button>
                     <button
                       onClick={() => handleDelete(p.id)}
-                      className="p-1.5 rounded-lg text-[#9CA3AF] hover:text-red-500 hover:bg-red-50 transition-colors"
+                      className="p-1.5 rounded-lg text-subtle hover:text-red-400 hover:bg-red-950/60 transition-colors"
                     >
                       <Trash2 size={14} />
                     </button>
@@ -444,7 +444,7 @@ export function ProjectsAdmin() {
       )}
 
       {status && (
-        <p className="mt-4 text-sm text-[#6B7280]">{status}</p>
+        <p className="mt-4 text-sm text-subtle">{status}</p>
       )}
     </div>
   )

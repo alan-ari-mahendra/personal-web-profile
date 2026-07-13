@@ -19,7 +19,7 @@ type LinkForm = { label: string; url: string; iconType: "LUCIDE" | "CUSTOM"; ico
 const LUCIDE_ICONS = ["X", "Link", "GitFork", "Camera", "Globe", "Mail", "BookOpen", "Rss", "Video", "AtSign", "MessageCircle", "Phone", "ExternalLink", "Send"]
 
 const inputCls =
-  "border border-[#E5E7EB] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#111111]/20 bg-white"
+  "border border-line rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand/50 bg-surface-2"
 
 const blankForm: LinkForm = { label: "", url: "", iconType: "LUCIDE", iconValue: "Globe", order: 0 }
 
@@ -30,13 +30,13 @@ function IconPickerTrigger({ iconType, iconValue, onClick }: { iconType: "LUCIDE
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center gap-2 border border-[#E5E7EB] rounded-lg px-3 py-2 bg-white hover:bg-[#F9FAFB] transition-colors text-sm text-[#6B7280] w-full"
+      className="flex items-center gap-2 border border-line rounded-lg px-3 py-2 bg-surface hover:bg-surface-2 transition-colors text-sm text-subtle w-full"
     >
-      <div className="w-5 h-5 flex items-center justify-center text-[#111111]">
+      <div className="w-5 h-5 flex items-center justify-center text-ink">
         <SocialLinkIcon iconType={iconType} iconValue={iconValue} size={16} />
       </div>
       <span className="flex-1 text-left text-xs truncate">{iconType === "LUCIDE" ? iconValue : "Custom SVG"}</span>
-      <span className="text-[10px] text-[#9CA3AF]">change</span>
+      <span className="text-[10px] text-subtle">change</span>
     </button>
   )
 }
@@ -139,7 +139,7 @@ export function SocialLinksTab() {
     else setEditCustomFile(file)
   }
 
-  if (loading) return <p className="text-sm text-[#6B7280]">Loading…</p>
+  if (loading) return <p className="text-sm text-subtle">Loading…</p>
 
   return (
     <>
@@ -155,10 +155,10 @@ export function SocialLinksTab() {
 
       <div className="flex flex-col gap-6 max-w-2xl">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-[#111111]">Social Links</h2>
+          <h2 className="text-base font-semibold text-ink">Social Links</h2>
           <button
             onClick={() => setShowAdd((v) => !v)}
-            className="flex items-center gap-1.5 text-sm font-medium bg-[#111111] text-white px-3 py-1.5 rounded-lg hover:bg-[#222222] transition-colors"
+            className="flex items-center gap-1.5 text-sm font-medium border border-line text-ink px-3 py-1.5 rounded-lg hover:bg-surface-2 transition-colors"
           >
             <Plus size={14} />
             Add link
@@ -167,19 +167,19 @@ export function SocialLinksTab() {
 
         {/* Add form */}
         {showAdd && (
-          <form onSubmit={handleAdd} className="border border-[#E5E7EB] rounded-xl p-4 flex flex-col gap-3 bg-[#F9FAFB]">
-            <h3 className="text-sm font-semibold text-[#111111]">New link</h3>
+          <form onSubmit={handleAdd} className="border border-line rounded-xl p-4 flex flex-col gap-3 bg-surface-2">
+            <h3 className="text-sm font-semibold text-ink">New link</h3>
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-1">
-                <label className="text-xs font-medium text-[#6B7280]">Label</label>
+                <label className="text-xs font-medium text-subtle">Label</label>
                 <input value={form.label} onChange={(e) => setForm((f) => ({ ...f, label: e.target.value }))} className={inputCls} required />
               </div>
               <div className="flex flex-col gap-1">
-                <label className="text-xs font-medium text-[#6B7280]">URL</label>
+                <label className="text-xs font-medium text-subtle">URL</label>
                 <input type="url" value={form.url} onChange={(e) => setForm((f) => ({ ...f, url: e.target.value }))} className={inputCls} required />
               </div>
               <div className="flex flex-col gap-1">
-                <label className="text-xs font-medium text-[#6B7280]">Icon</label>
+                <label className="text-xs font-medium text-subtle">Icon</label>
                 <IconPickerTrigger
                   iconType={form.iconType}
                   iconValue={form.iconValue}
@@ -187,15 +187,15 @@ export function SocialLinksTab() {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <label className="text-xs font-medium text-[#6B7280]">Order</label>
+                <label className="text-xs font-medium text-subtle">Order</label>
                 <input type="number" value={form.order} onChange={(e) => setForm((f) => ({ ...f, order: +e.target.value }))} className={inputCls} />
               </div>
             </div>
             <div className="flex gap-2">
-              <button type="submit" className="text-sm font-medium bg-[#111111] text-white px-4 py-1.5 rounded-lg hover:bg-[#222222] transition-colors">
+              <button type="submit" className="text-sm font-medium bg-brand text-black px-4 py-1.5 rounded-lg hover:opacity-90 transition-colors">
                 Add
               </button>
-              <button type="button" onClick={() => setShowAdd(false)} className="text-sm font-medium border border-[#E5E7EB] bg-white px-4 py-1.5 rounded-lg hover:bg-[#F9FAFB] transition-colors">
+              <button type="button" onClick={() => setShowAdd(false)} className="text-sm font-medium border border-line bg-surface px-4 py-1.5 rounded-lg hover:bg-surface-2 transition-colors">
                 Cancel
               </button>
             </div>
@@ -204,21 +204,21 @@ export function SocialLinksTab() {
 
         {/* List */}
         <div className="flex flex-col gap-2">
-          {links.length === 0 && <p className="text-sm text-[#9CA3AF]">No social links yet.</p>}
+          {links.length === 0 && <p className="text-sm text-subtle">No social links yet.</p>}
           {links.map((link) =>
             editId === link.id ? (
-              <div key={link.id} className="border border-[#111111]/20 rounded-xl p-4 flex flex-col gap-3 bg-white">
+              <div key={link.id} className="border border-brand/30 rounded-xl p-4 flex flex-col gap-3 bg-surface">
                 <div className="grid grid-cols-2 gap-3">
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs font-medium text-[#6B7280]">Label</label>
+                    <label className="text-xs font-medium text-subtle">Label</label>
                     <input value={editData.label} onChange={(e) => setEditData((d) => ({ ...d, label: e.target.value }))} className={inputCls} />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs font-medium text-[#6B7280]">URL</label>
+                    <label className="text-xs font-medium text-subtle">URL</label>
                     <input type="url" value={editData.url} onChange={(e) => setEditData((d) => ({ ...d, url: e.target.value }))} className={inputCls} />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs font-medium text-[#6B7280]">Icon</label>
+                    <label className="text-xs font-medium text-subtle">Icon</label>
                     <IconPickerTrigger
                       iconType={editData.iconType}
                       iconValue={editData.iconValue}
@@ -226,34 +226,34 @@ export function SocialLinksTab() {
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs font-medium text-[#6B7280]">Order</label>
+                    <label className="text-xs font-medium text-subtle">Order</label>
                     <input type="number" value={editData.order} onChange={(e) => setEditData((d) => ({ ...d, order: +e.target.value }))} className={inputCls} />
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => handleUpdate(link.id)} className="flex items-center gap-1 text-sm font-medium bg-[#111111] text-white px-3 py-1.5 rounded-lg hover:bg-[#222222] transition-colors">
+                  <button onClick={() => handleUpdate(link.id)} className="flex items-center gap-1 text-sm font-medium bg-brand text-black px-3 py-1.5 rounded-lg hover:opacity-90 transition-colors">
                     <Check size={13} /> Save
                   </button>
-                  <button onClick={() => setEditId(null)} className="flex items-center gap-1 text-sm border border-[#E5E7EB] bg-white text-[#111111] px-3 py-1.5 rounded-lg hover:bg-[#F9FAFB] transition-colors">
+                  <button onClick={() => setEditId(null)} className="flex items-center gap-1 text-sm border border-line bg-surface text-ink px-3 py-1.5 rounded-lg hover:bg-surface-2 transition-colors">
                     <X size={13} /> Cancel
                   </button>
                 </div>
               </div>
             ) : (
-              <div key={link.id} className="border border-[#E5E7EB] rounded-xl px-4 py-3 flex items-center gap-3 bg-white group">
-                <div className="w-8 h-8 flex items-center justify-center text-[#111111]">
+              <div key={link.id} className="border border-line rounded-xl px-4 py-3 flex items-center gap-3 bg-surface group">
+                <div className="w-8 h-8 flex items-center justify-center text-ink">
                   <SocialLinkIcon iconType={link.iconType} iconValue={link.iconValue} size={18} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-[#111111]">{link.label}</p>
-                  <p className="text-xs text-[#9CA3AF] truncate">{link.url}</p>
+                  <p className="text-sm font-medium text-ink">{link.label}</p>
+                  <p className="text-xs text-subtle truncate">{link.url}</p>
                 </div>
-                <span className="text-xs text-[#D1D5DB] tabular-nums">#{link.order}</span>
+                <span className="text-xs text-subtle tabular-nums font-mono">#{link.order}</span>
                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button onClick={() => startEdit(link)} className="p-1.5 rounded-lg hover:bg-[#F3F4F6] text-[#6B7280] transition-colors">
+                  <button onClick={() => startEdit(link)} className="p-1.5 rounded-lg hover:bg-surface-2 text-subtle transition-colors">
                     <Pencil size={14} />
                   </button>
-                  <button onClick={() => handleDelete(link.id)} className="p-1.5 rounded-lg hover:bg-red-50 text-red-400 transition-colors">
+                  <button onClick={() => handleDelete(link.id)} className="p-1.5 rounded-lg hover:bg-red-950/60 text-red-400 transition-colors">
                     <Trash2 size={14} />
                   </button>
                 </div>
@@ -263,7 +263,7 @@ export function SocialLinksTab() {
         </div>
 
         {status && (
-          <p className="text-sm border border-[#E5E7EB] text-[#6B7280] bg-white rounded-lg px-3 py-2">{status}</p>
+          <p className="text-sm border border-line text-subtle bg-surface rounded-lg px-3 py-2">{status}</p>
         )}
       </div>
     </>
