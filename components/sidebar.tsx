@@ -70,7 +70,7 @@ export function Sidebar({ imageUrl }: { imageUrl?: string | null }) {
       </div>
       <div className="leading-none text-center">
         <div className="font-semibold text-ink mb-1">Alan Ari M.</div>
-        <span className="text-sm text-subtle">Full-Stack · AI Engineer</span>
+        <span className="text-sm text-subtle">Fullstack Developer · AI Code Auditor</span>
         {pathname !== "/" && (
           <div className="mt-2 flex justify-center">
             <span className="inline-flex items-center gap-1 text-[9px] font-mono font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full bg-green-950/80 text-green-400 border border-green-900/50">

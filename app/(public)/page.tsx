@@ -4,10 +4,10 @@ import { ProjectCard } from "@/components/project-card"
 import { ToolIcon } from "@/components/tool-icon"
 import { Reveal } from "@/components/reveal"
 import {
-  LayoutDashboard,
-  Zap,
+  ScanSearch,
+  Wrench,
+  ShieldCheck,
   Network,
-  Cloud,
   Quote,
   Languages,
 } from "lucide-react"
@@ -15,40 +15,40 @@ import {
 const FEATURED_TITLES = ["DineLead", "Learnify", "Finalstrip", "Mubashir"]
 
 const PROOF_STATS = [
-  { value: "3+", label: "Professional Experience" },
-  { value: "38+", label: "Projects shipped" },
-  { value: "9+", label: "Industries served" },
-  { value: "90%", label: "Client retention rate" },
+  { value: "3+", label: "Years shipping production code" },
+  { value: "38+", label: "Projects shipped & reviewed" },
+  { value: "6+", label: "Tech stacks audited (Next.js, Laravel, Flask, Vue...)" },
+  { value: "End-to-end", label: "From code review to deploy" },
 ]
 
 const SERVICES = [
   {
     number: "01",
-    Icon: LayoutDashboard,
-    title: "AI-Powered SaaS Development",
+    Icon: ScanSearch,
+    title: "AI Code Audit",
     description:
-      "Full SaaS builds with AI at the core: auth, subscriptions, dashboards, and LLM features shipped as one production system, not bolted on after.",
+      "Deep review of AI-generated codebases: security holes, performance bottlenecks, architectural flaws, and hidden tech debt. You get a clear report of what's broken and what's risky before it hits production.",
   },
   {
     number: "02",
+    Icon: Wrench,
+    title: "Refactoring & Tech Debt Cleanup",
+    description:
+      "Turning \"it works on my machine\" into maintainable code. Restructuring messy AI output into clean, typed, testable modules your team can actually build on.",
+  },
+  {
+    number: "03",
+    Icon: ShieldCheck,
+    title: "Production Hardening",
+    description:
+      "The layer AI skips: proper error handling, tests, input validation, CI/CD, and monitoring. Making sure the app survives real users, not just the happy path.",
+  },
+  {
+    number: "04",
     Icon: Network,
     title: "LLM Integration & RAG Systems",
     description:
       "Grounding AI in your real data. RAG pipelines, vector search, and structured LLM outputs built to cut hallucinations and stay reliable in production.",
-  },
-  {
-    number: "03",
-    Icon: Zap,
-    title: "AI Automation & Agentic Workflows",
-    description:
-      "Multi-step automation and agentic workflows that handle real work like lead enrichment, outreach, and data pipelines, cutting manual effort without losing control.",
-  },
-  {
-    number: "04",
-    Icon: Cloud,
-    title: "Architecture & Production Deployment",
-    description:
-      "The engineering underneath the product: scalable system design, robust APIs, CI/CD, and the monitoring that keeps AI features dependable at scale.",
   },
 ]
 
@@ -117,15 +117,16 @@ export default async function Home() {
         </Reveal>
         <Reveal delay={0.16}>
           <p className="text-2xl font-semibold tracking-[-0.02em] text-ink/80 mb-4 max-md:text-xl">
-            Building <span className="text-brand-2">AI-Powered SaaS</span>, End-to-End
+            Production-Ready Code, <span className="text-brand-2">After the AI Wrote It</span>
           </p>
         </Reveal>
         <Reveal delay={0.24}>
           <p className="text-base text-subtle mb-8 leading-[1.7] max-w-[560px]">
-            I help startups and agencies ship production SaaS with{" "}
-            <span className="text-brand-2 font-medium">AI baked in</span>: LLM
-            features, RAG, and automation, with clean and reliable code from
-            architecture to deploy.
+            Startups ship fast with AI, then hit the wall: fragile code, no tests,
+            security gaps, and architecture that cracks under real traffic. I{" "}
+            <span className="text-brand-2 font-medium">audit and refactor AI-generated codebases</span>{" "}
+            into clean, secure, production-grade systems, backed by years of building
+            and shipping SaaS myself, so I know exactly what production actually demands.
           </p>
         </Reveal>
         <Reveal delay={0.32}>
@@ -162,9 +163,12 @@ export default async function Home() {
 
       {/* Featured projects */}
       <Reveal as="section" className="mb-16">
-        <h2 className="text-xs font-mono font-semibold tracking-[0.08em] uppercase text-subtle mb-5">
+        <h2 className="text-xs font-mono font-semibold tracking-[0.08em] uppercase text-subtle mb-2">
           Featured projects
         </h2>
+        <p className="text-sm text-subtle mb-5 leading-[1.6] max-w-[560px]">
+          The systems I&apos;ve built end-to-end. The same standard I hold your code to.
+        </p>
         <div className="grid grid-cols-2 gap-4 mb-4 max-sm:grid-cols-1">
           {featuredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
@@ -216,11 +220,11 @@ export default async function Home() {
             Services
           </span>
           <h2 className="text-3xl font-bold tracking-[-0.03em] text-ink mb-3 max-sm:text-2xl">
-            What I Build
+            What I Do
           </h2>
-          <p className="text-sm text-subtle max-w-[420px] mx-auto leading-[1.65]">
-            Comprehensive solutions tailored to bring your{" "}
-            <span className="text-brand-2 font-medium">vision to life</span>.
+          <p className="text-sm text-subtle max-w-[440px] mx-auto leading-[1.65]">
+            The work that turns a fast AI build into{" "}
+            <span className="text-brand-2 font-medium">production-grade software</span>.
           </p>
         </div>
         <div className="grid grid-cols-2 gap-3 max-sm:grid-cols-1">
@@ -273,11 +277,12 @@ export default async function Home() {
       {/* CTA */}
       <Reveal as="section" className="py-10 px-8 rounded-xl border border-line bg-surface text-center max-sm:px-5 max-sm:py-8">
         <h2 className="text-2xl font-bold tracking-[-0.02em] text-ink mb-2 max-sm:text-xl">
-          Let&apos;s build something together
+          Not sure your codebase is production-ready?
         </h2>
-        <p className="text-sm text-subtle mb-6 max-w-[380px] mx-auto leading-[1.65]">
-          Open to new projects: SaaS, e-commerce, internal tools, or anything
-          interesting. Async-first, available across global timezones.
+        <p className="text-sm text-subtle mb-6 max-w-[420px] mx-auto leading-[1.65]">
+          Whether it&apos;s a quick audit, a full refactor, or a new build done right,
+          let&apos;s talk about what it takes to make it solid. Async-first, available
+          across global timezones.
         </p>
         <Link
           href="/contact"

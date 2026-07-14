@@ -14,8 +14,8 @@ const sourceCodePro = Source_Code_Pro({
 })
 
 export const metadata: Metadata = {
-  title: "Alan Ari Mahendra | Applied AI Engineer & Full-Stack SaaS Developer",
-  description: "Alan Ari Mahendra, Applied AI Engineer and full-stack developer building production SaaS with AI baked in: LLM features, RAG, and automation, end to end.",
+  title: "Alan Ari Mahendra | Fullstack Developer & AI Code Auditor",
+  description: "Alan Ari Mahendra, AI Code Auditor and Fullstack Developer. I turn fragile, AI-generated codebases into clean, secure, production-grade systems. Full-stack, end to end.",
 }
 
 export default function RootLayout({

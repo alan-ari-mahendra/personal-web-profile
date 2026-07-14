@@ -155,7 +155,12 @@ export function ProjectsAdmin() {
     setData({ ...data, links: data.links.filter((_, i) => i !== idx) })
   }
 
-  function ProjectForm({
+  // Render helper (NOT a nested component). Rendering this via a JSX element
+  // (<ProjectForm/>) would give it a fresh component identity on every parent
+  // render, remounting the inputs and dropping focus after each keystroke.
+  // Calling it as a plain function inlines its elements into the parent tree,
+  // so the inputs keep their DOM identity and focus is preserved.
+  function renderProjectForm({
     data,
     setData,
     onSubmit,
@@ -350,15 +355,15 @@ export function ProjectsAdmin() {
               <X size={16} />
             </button>
           </div>
-          <ProjectForm
-            data={form}
-            setData={setForm}
-            onSubmit={handleAdd}
-            submitLabel="Create project"
-            fileRef={addFileRef}
-            isUploading={uploading}
-            setIsUploading={setUploading}
-          />
+          {renderProjectForm({
+            data: form,
+            setData: setForm,
+            onSubmit: handleAdd,
+            submitLabel: "Create project",
+            fileRef: addFileRef,
+            isUploading: uploading,
+            setIsUploading: setUploading,
+          })}
         </div>
       )}
 
@@ -378,15 +383,15 @@ export function ProjectsAdmin() {
                       <X size={16} />
                     </button>
                   </div>
-                  <ProjectForm
-                    data={editData}
-                    setData={setEditData}
-                    onSubmit={handleUpdate}
-                    submitLabel="Save changes"
-                    fileRef={editFileRef}
-                    isUploading={editUploading}
-                    setIsUploading={setEditUploading}
-                  />
+                  {renderProjectForm({
+                    data: editData,
+                    setData: setEditData,
+                    onSubmit: handleUpdate,
+                    submitLabel: "Save changes",
+                    fileRef: editFileRef,
+                    isUploading: editUploading,
+                    setIsUploading: setEditUploading,
+                  })}
                 </div>
               ) : (
                 <div className="flex items-start gap-4 p-4">
