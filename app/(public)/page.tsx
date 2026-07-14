@@ -15,10 +15,10 @@ import {
 const FEATURED_TITLES = ["DineLead", "Learnify", "Finalstrip", "Mubashir"]
 
 const PROOF_STATS = [
-  { value: "3+", label: "Years shipping web & AI products" },
+  { value: "3+", label: "Professional Experience" },
   { value: "38+", label: "Projects shipped" },
-  { value: "SaaS · AI · Automation", label: "Focus" },
-  { value: "Global", label: "Async-first" },
+  { value: "9+", label: "Industries served" },
+  { value: "90%", label: "Client retention rate" },
 ]
 
 const SERVICES = [
