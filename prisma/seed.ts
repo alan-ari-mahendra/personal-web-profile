@@ -683,11 +683,11 @@ async function main() {
 
   console.log("Seeding social links...")
   const socialLinkData = [
-    { label: "LinkedIn",  url: "https://www.linkedin.com/in/alanarimahendra/",       iconType: "LUCIDE" as const, iconValue: "Link",           order: 0 },
-    { label: "GitHub",    url: "https://github.com/alan-ari-mahendra",                iconType: "LUCIDE" as const, iconValue: "GitFork",        order: 1 },
-    { label: "Instagram", url: "#",                                                   iconType: "LUCIDE" as const, iconValue: "Camera",         order: 2 },
-    { label: "WhatsApp",  url: "https://api.whatsapp.com/send/?phone=6282314939437", iconType: "LUCIDE" as const, iconValue: "MessageCircle",  order: 3 },
-    { label: "Email",     url: "mailto:mail.alanari@gmail.com",                      iconType: "LUCIDE" as const, iconValue: "Mail",           order: 4 },
+    { label: "LinkedIn",  url: "https://www.linkedin.com/in/alanarimahendra/",          iconType: "LUCIDE" as const, iconValue: "Link",           order: 0 },
+    { label: "GitHub",    url: "https://github.com/alan-ari-mahendra",                  iconType: "LUCIDE" as const, iconValue: "GitFork",        order: 1 },
+    { label: "Instagram", url: "https://www.instagram.com/alanarimahendra",             iconType: "LUCIDE" as const, iconValue: "Camera",         order: 2 },
+    { label: "WhatsApp",  url: "https://api.whatsapp.com/send/?phone=6282314939437",    iconType: "LUCIDE" as const, iconValue: "MessageCircle",  order: 3 },
+    { label: "Email",     url: "mailto:dev.alanari14@gmail.com",                        iconType: "LUCIDE" as const, iconValue: "Mail",           order: 4 },
   ]
   await prisma.socialLink.deleteMany()
   for (const link of socialLinkData) {
