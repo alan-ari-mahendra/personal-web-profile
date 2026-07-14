@@ -9,6 +9,7 @@ const projects = [
     title: "DineLead",
     description: "Restaurant CRM with an AI-powered outreach engine. Automates lead follow-up and campaign targeting so owners stop chasing guests by hand. Built on Next.js, Supabase, and Stripe with LLM-driven messaging.",
     tags: ["Next.js", "Supabase", "Stripe", "AI"],
+    category: ["SaaS", "LLM", "Automation"],
     status: "active" as const,
     links: [
       { label: "Visit", href: "https://dinelead.alanari.com/" },
@@ -21,6 +22,7 @@ const projects = [
     title: "Learnify",
     description: "E-learning platform with AI-assisted course tools, including auto-generated quizzes and progress summaries. Structured courses, learner tracking, and instructor content management in one place.",
     tags: ["Next.js", "Supabase", "LMS"],
+    category: ["SaaS", "LLM"],
     status: "active" as const,
     links: [
       { label: "Visit", href: "https://learnify.alanari.com/" },
@@ -33,6 +35,7 @@ const projects = [
     title: "Finalstrip",
     description: "Learning and scoring system for a competitive fencing academy. Manages training schedules, athlete progress, and coach-student communication, with a rebuilt frontend and scoring engine.",
     tags: ["Flask", "React", "LMS"],
+    category: ["SaaS"],
     status: "active" as const,
     links: [
       { label: "Visit", href: "https://finalstrip.com" },
@@ -45,6 +48,7 @@ const projects = [
     title: "Zirpa",
     description: "Franchise management system that centralizes operations for franchise owners — branch monitoring, standardized reporting, and inter-location coordination from a single dashboard.",
     tags: ["Next.js", "Python"],
+    category: ["SaaS"],
     status: "active" as const,
     links: [
       { label: "Visit", href: "https://zirpa-website.vercel.app" },
@@ -56,6 +60,7 @@ const projects = [
     title: "Sizzledeck",
     description: "Document and pitch deck builder for sales teams. Frontend work on a platform that lets users create branded decks from templates, with real-time collaboration and export.",
     tags: ["Vue", "Nuxt"],
+    category: ["SaaS"],
     status: "active" as const,
     links: [
       { label: "Visit", href: "https://my.alpha.sizzledeck.co.uk" },
@@ -67,6 +72,7 @@ const projects = [
     title: "Machinery List",
     description: "B2B e-commerce marketplace for industrial machinery. Full-stack work on a high-traffic platform connecting equipment sellers with buyers across global markets.",
     tags: ["Laravel", "JavaScript"],
+    category: ["Marketplace"],
     status: "active" as const,
     links: [
       { label: "Visit", href: "https://machinerylist.com" },
@@ -78,6 +84,7 @@ const projects = [
     title: "Mubashir",
     description: "Advertising platform frontend for a regional media company. Performant, responsive ad-management interfaces for campaign creation and targeting across placements.",
     tags: ["React"],
+    category: ["SaaS"],
     status: "active" as const,
     links: [
       { label: "Visit", href: "https://mubashir.om" },

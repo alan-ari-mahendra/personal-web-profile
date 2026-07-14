@@ -16,6 +16,7 @@ model Project {
   title       String
   description String
   tags        String[]
+  category    String[]      @default([])
   status      ProjectStatus @default(active)
   links       Json
   gradient    String

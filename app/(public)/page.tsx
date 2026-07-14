@@ -9,6 +9,7 @@ import {
   Network,
   Cloud,
   Quote,
+  Languages,
 } from "lucide-react"
 
 const FEATURED_TITLES = ["DineLead", "Learnify", "Finalstrip", "Mubashir"]
@@ -98,16 +99,28 @@ export default async function Home() {
       {/* Hero */}
       <section className="mb-16">
         <Reveal>
+          <div className="flex items-center gap-2 flex-wrap mb-4">
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-semibold uppercase tracking-wide px-2.5 py-1 rounded-full bg-green-950/80 text-green-400 border border-green-900/50">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
+              Available
+            </span>
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-semibold uppercase tracking-wide px-2.5 py-1 rounded-full text-subtle border border-line">
+              <Languages size={11} className="flex-shrink-0" />
+              English · Fluent
+            </span>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
           <h1 className="text-5xl font-bold tracking-[-0.04em] leading-[1.1] text-ink mb-3 max-md:text-4xl max-sm:text-3xl">
             Alan Ari Mahendra
           </h1>
         </Reveal>
-        <Reveal delay={0.08}>
+        <Reveal delay={0.16}>
           <p className="text-2xl font-semibold tracking-[-0.02em] text-ink/80 mb-4 max-md:text-xl">
             Building <span className="text-brand-2">AI-Powered SaaS</span>, End-to-End
           </p>
         </Reveal>
-        <Reveal delay={0.16}>
+        <Reveal delay={0.24}>
           <p className="text-base text-subtle mb-8 leading-[1.7] max-w-[560px]">
             I help startups and agencies ship production SaaS with{" "}
             <span className="text-brand-2 font-medium">AI baked in</span>: LLM
@@ -115,7 +128,7 @@ export default async function Home() {
             architecture to deploy.
           </p>
         </Reveal>
-        <Reveal delay={0.24}>
+        <Reveal delay={0.32}>
           <div className="flex items-center gap-3 flex-wrap">
             <Link
               href="/projects"

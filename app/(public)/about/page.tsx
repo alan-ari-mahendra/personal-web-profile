@@ -9,7 +9,7 @@ export default function AboutPage() {
           Alan Ari Mahendra
         </h1>
         <p className="text-sm text-subtle mb-12">
-          Applied AI Engineer · Full-Stack · Indonesia
+          Full-Stack · Applied AI Engineer
         </p>
       </Reveal>
 

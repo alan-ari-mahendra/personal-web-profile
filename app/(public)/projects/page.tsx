@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma"
-import { ProjectCard } from "@/components/project-card"
+import { ProjectsFilter } from "@/components/projects-filter"
 import { Reveal } from "@/components/reveal"
 
 export default async function ProjectsPage() {
@@ -19,12 +19,8 @@ export default async function ProjectsPage() {
         </p>
       </Reveal>
 
-      {/* Active — 2 col grid */}
-      <Reveal delay={0.05} className="grid grid-cols-2 gap-4 mb-14 max-sm:grid-cols-1">
-        {activeProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
-      </Reveal>
+      {/* Category filter + grid */}
+      <ProjectsFilter projects={activeProjects} />
 
     </div>
   )

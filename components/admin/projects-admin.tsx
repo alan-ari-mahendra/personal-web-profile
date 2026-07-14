@@ -11,6 +11,7 @@ type Project = {
   title: string
   description: string
   tags: string[]
+  category: string[]
   status: "active" | "archived"
   links: ProjectLink[]
   gradient: string
@@ -22,6 +23,7 @@ const emptyForm = {
   title: "",
   description: "",
   tags: "",
+  category: "",
   status: "active" as "active" | "archived",
   links: [{ label: "", href: "" }] as ProjectLink[],
   gradient: "from-[#111111] via-[#222222] to-[#111111]",
@@ -82,6 +84,7 @@ export function ProjectsAdmin() {
       body: JSON.stringify({
         ...form,
         tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
+        category: form.category.split(",").map((c) => c.trim()).filter(Boolean),
         links: form.links.filter((l) => l.label && l.href),
       }),
     })
@@ -100,6 +103,7 @@ export function ProjectsAdmin() {
       body: JSON.stringify({
         ...editData,
         tags: editData.tags.split(",").map((t) => t.trim()).filter(Boolean),
+        category: editData.category.split(",").map((c) => c.trim()).filter(Boolean),
         links: editData.links.filter((l) => l.label && l.href),
       }),
     })
@@ -123,6 +127,7 @@ export function ProjectsAdmin() {
       title: p.title,
       description: p.description,
       tags: p.tags.join(", "),
+      category: (p.category ?? []).join(", "),
       status: p.status,
       links: p.links.length ? p.links : [{ label: "", href: "" }],
       gradient: p.gradient,
@@ -196,6 +201,15 @@ export function ProjectsAdmin() {
               value={data.tags}
               onChange={(e) => setData({ ...data, tags: e.target.value })}
               placeholder="Next.js, TypeScript, AI"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-subtle mb-1">Category (comma-separated, for /projects filter)</label>
+            <input
+              className={inputCls}
+              value={data.category}
+              onChange={(e) => setData({ ...data, category: e.target.value })}
+              placeholder="SaaS, LLM, Automation"
             />
           </div>
           <div>
@@ -399,6 +413,13 @@ export function ProjectsAdmin() {
                       </span>
                     </div>
                     <p className="text-xs text-subtle mb-1.5 line-clamp-2">{p.description}</p>
+                    <div className="flex flex-wrap gap-1 mb-1">
+                      {(p.category ?? []).map((cat) => (
+                        <span key={cat} className="text-[10px] bg-brand/15 text-brand px-1.5 py-0.5 rounded-full font-medium">
+                          {cat}
+                        </span>
+                      ))}
+                    </div>
                     <div className="flex flex-wrap gap-1">
                       {p.tags.map((tag) => (
                         <span key={tag} className="text-[10px] bg-surface-2 text-subtle px-1.5 py-0.5 rounded-full">

@@ -19,11 +19,11 @@ export async function PUT(req: Request, { params }: Params) {
 
   const { id } = await params
   const body = await req.json()
-  const { title, description, tags, status, links, gradient, thumbnail } = body
+  const { title, description, tags, category, status, links, gradient, thumbnail } = body
 
   const project = await prisma.project.update({
     where: { id },
-    data: { title, description, tags, status, links, gradient, thumbnail },
+    data: { title, description, tags, category, status, links, gradient, thumbnail },
   })
 
   revalidatePath("/projects")
