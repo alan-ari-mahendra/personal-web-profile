@@ -19,6 +19,31 @@
   --color-brand-2: var(--brand-2);
   --color-brand-3: var(--brand-3);
 
+  /* Marketing landing palette (light theme, "/" route group) */
+  --color-primary-50: #f4eefe;
+  --color-primary-100: #e9dcfb;
+  --color-primary-200: #d1b8f7;
+  --color-primary-300: #b48ef0;
+  --color-primary-400: #9566e6;
+  --color-primary-500: #580ac7;
+  --color-primary-600: #4f09b3;
+  --color-primary-700: #43078f;
+  --color-primary-800: #3c0680;
+  --color-primary-900: #350677;
+  --color-secondary-50: #e6fbfb;
+  --color-secondary-100: #ccf7f6;
+  --color-secondary-200: #99efee;
+  --color-secondary-300: #66e6e5;
+  --color-secondary-400: #33dedc;
+  --color-secondary-500: #16c8c7;
+  --color-secondary-600: #12a0a0;
+  --color-secondary-700: #0d7878;
+  --color-secondary-800: #095050;
+  --color-secondary-900: #062828;
+
+  --font-open-sans: var(--font-open-sans);
+  --font-rubik: var(--font-rubik);
+
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-heading: var(--font-sans);

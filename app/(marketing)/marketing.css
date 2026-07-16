@@ -1,0 +1,32 @@
+/* Landing-page-only styles. Imported by the (marketing) layout, so these load
+   only on the marketing routes and do not leak into the dark app shell. */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(64px);
+  opacity: 0.65;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Display font (Rubik) for headings on the marketing page. */
+.font-display {
+  font-family: var(--font-rubik), ui-sans-serif, system-ui;
+}
+
+/* Native <details> FAQ accordion: hide the default marker, rotate the chevron. */
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] .chev {
+  transform: rotate(180deg);
+}
