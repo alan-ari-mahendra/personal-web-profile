@@ -35,6 +35,8 @@ export default async function ContactPage() {
   // Show the real, non-placeholder socials from the DB. The email channel is
   // rendered separately below with the marketing email, so drop the DB "Email".
   const socials = dbLinks.filter((l) => l.url !== "#" && l.label.toLowerCase() !== "email")
+  const whatsapp = socials.find((l) => l.label.toLowerCase().includes("whatsapp"))
+  const restSocials = socials.filter((l) => l !== whatsapp)
 
   return (
     <main className="relative overflow-hidden">
@@ -63,16 +65,6 @@ export default async function ContactPage() {
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a
-              href={`mailto:${EMAIL}`}
-              className="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary-600/25 transition hover:bg-primary-700"
-            >
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                <rect x="3" y="5" width="18" height="14" rx="2" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="m3.5 6.5 8.5 6 8.5-6" />
-              </svg>
-              Email me
-            </a>
-            <a
               href="/cv.pdf"
               download
               className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-primary-300 hover:text-primary-600"
@@ -87,8 +79,30 @@ export default async function ContactPage() {
 
         {/* Contact channels + form, side by side */}
         <div className="mt-14 grid gap-6 lg:grid-cols-2 lg:items-start">
-          {/* Left: contact channels */}
+          {/* Left: contact channels — WhatsApp first, highlighted in green */}
           <div className="flex flex-col gap-4">
+            {whatsapp && (
+              <a
+                href={whatsapp.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50/40 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-lg"
+              >
+                <span className="flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-emerald-600 text-white">
+                  <SocialLinkIcon iconType={whatsapp.iconType} iconValue={whatsapp.iconValue} size={20} />
+                </span>
+                <span className="min-w-0">
+                  <span className="flex items-center gap-2">
+                    <span className="font-semibold text-slate-900">{whatsapp.label}</span>
+                    <span className="rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                      Fastest reply
+                    </span>
+                  </span>
+                  <span className="block truncate text-sm text-slate-500">{realAddress(whatsapp.label, whatsapp.url)}</span>
+                </span>
+              </a>
+            )}
+
             {/* Email */}
             <a
               href={`mailto:${EMAIL}`}
@@ -106,8 +120,8 @@ export default async function ContactPage() {
               </span>
             </a>
 
-            {/* Social / contact links from the DB */}
-            {socials.map((link) => (
+            {/* Remaining social / contact links from the DB */}
+            {restSocials.map((link) => (
               <a
                 key={link.id}
                 href={link.url}
@@ -130,7 +144,7 @@ export default async function ContactPage() {
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <h2 className="font-display text-xl font-bold text-slate-900">Send a message directly</h2>
             <p className="mt-1.5 text-sm text-slate-500">
-              This opens your email app with everything pre-filled, ready to send.
+              Fill this in and it goes straight to me, no email app needed.
             </p>
             <div className="mt-6">
               <ContactForm />

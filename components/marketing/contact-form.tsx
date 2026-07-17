@@ -2,22 +2,49 @@
 
 import { useState } from "react"
 
-const EMAIL = "dev.alanari14@gmail.com"
+type FormState = "idle" | "submitting" | "success" | "error"
 
-// No backend email service is wired up yet, so this opens the visitor's own
-// mail client with the message pre-filled (a real, working send path that
-// needs no API keys). Swap for a real API route later if silent/no-redirect
-// delivery is needed (e.g. via Resend).
 export function ContactForm() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
+  const [state, setState] = useState<FormState>("idle")
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    const subject = `Project inquiry from ${name || "website"}`
-    const body = `${message}\n\n— ${name} (${email})`
-    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    setState("submitting")
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      })
+      if (!res.ok) throw new Error("Request failed")
+      setState("success")
+      setName("")
+      setEmail("")
+      setMessage("")
+    } catch {
+      setState("error")
+    }
+  }
+
+  if (state === "success") {
+    return (
+      <div className="flex flex-col items-center gap-3 text-center">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 text-lg text-emerald-600">
+          ✓
+        </div>
+        <p className="text-base font-semibold text-slate-900">Message sent!</p>
+        <p className="text-sm text-slate-500">I&apos;ll get back to you as soon as possible.</p>
+        <button
+          onClick={() => setState("idle")}
+          className="mt-1 text-xs text-slate-500 underline underline-offset-2 hover:text-primary-600"
+        >
+          Send another
+        </button>
+      </div>
+    )
   }
 
   return (
@@ -59,11 +86,16 @@ export function ContactForm() {
         />
       </div>
 
+      {state === "error" && (
+        <p className="text-sm text-red-600">Something went wrong. Please try again.</p>
+      )}
+
       <button
         type="submit"
-        className="w-full rounded-lg bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary-600/25 transition hover:bg-primary-700"
+        disabled={state === "submitting"}
+        className="w-full rounded-lg bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary-600/25 transition hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Send message
+        {state === "submitting" ? "Sending…" : "Send message"}
       </button>
     </form>
   )

@@ -232,13 +232,13 @@ export default async function MarketingPage() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <a
-                href={`mailto:${EMAIL}`}
+              <Link
+                href="/contact"
                 className="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary-600/25 transition hover:bg-primary-700"
               >
                 Tell me about your project
                 <ArrowIcon />
-              </a>
+              </Link>
               <a
                 href="/cv.pdf"
                 download
@@ -313,6 +313,14 @@ export default async function MarketingPage() {
                   ))}
                 </div>
               </div>
+
+              <Link
+                href="/contact"
+                className="mt-8 inline-flex items-center gap-2 rounded-lg bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary-600/25 transition hover:bg-primary-700"
+              >
+                Hire me
+                <ArrowIcon />
+              </Link>
             </div>
           </div>
 
@@ -375,7 +383,7 @@ export default async function MarketingPage() {
                   </div>
                 </div>
                 <a
-                  href={`mailto:${EMAIL}`}
+                  href='/contact'
                   className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-white underline underline-offset-4"
                 >
                   Describe your project →
@@ -466,12 +474,13 @@ export default async function MarketingPage() {
             live site, is enough for me to tell you if I&apos;m the right person for it.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href={`mailto:${EMAIL}`}
+            <Link
+              href="/contact"
               className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-primary-700 shadow-lg transition hover:bg-primary-50"
             >
-              {EMAIL}
-            </a>
+              Let&apos;s start your project
+              <ArrowIcon />
+            </Link>
             <a
               href="https://github.com/alan-ari-mahendra"
               target="_blank"
