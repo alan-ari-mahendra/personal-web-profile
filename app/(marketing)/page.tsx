@@ -63,13 +63,30 @@ const SERVICES = [
   },
 ]
 
-// Core tech stack, shown inside the "Who am I" section. Kept minimal and
-// focused on the main tools (AI included), no per-item icons.
+// Core tech stack, shown inside the "Who am I" section. Flat single list
+// (kept compact so it fits under the bio paragraph), AI included.
 const TECH_STACK = [
-  { label: "Frontend", items: ["Next.js", "React", "TypeScript", "Vue"] },
-  { label: "Backend", items: ["Node.js", "Flask", "Laravel"] },
-  { label: "Data", items: ["PostgreSQL", "Prisma", "Supabase"] },
-  { label: "AI & Automation", items: ["ClaudeAI / LLMs", "RAG", "n8n"] },
+  "Next.js",
+  "React",
+  "Vue",
+  "TypeScript",
+  "JavaScript",
+  "TailwindCSS",
+  "Node.js",
+  "Laravel",
+  "Flask",
+  "PHP",
+  "PostgreSQL",
+  "MySQL",
+  "Prisma",
+  "Supabase",
+  "AWS",
+  "ClaudeAI / LLMs",
+  "RAG",
+  "n8n",
+  "Zapier automation",
+  "Git",
+  "CI/CD",
 ]
 
 // Schema.org Person structured data — emitted as JSON-LD for SEO / AI crawlers.
@@ -110,10 +127,10 @@ const PERSON_SCHEMA = {
 }
 
 const STATS = [
-  { value: "3+", label: "Years shipping production code" },
-  { value: "38+", label: "Projects shipped & reviewed" },
-  { value: "6+", label: "Business systems delivered" },
-  { value: "End-to-end", label: "Build to automation", small: true },
+  { value: "3+", label: "Years of Experience" },
+  { value: "38+", label: "Projects" },
+  { value: "5", label: "Countries Served" },
+  { value: "Fluent", label: "English", small: true },
 ]
 
 const TESTIMONIALS = [
@@ -165,12 +182,14 @@ const ArrowIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
 )
 
 export default async function MarketingPage() {
-  const allFeatured = await prisma.project.findMany({
-    where: { title: { in: FEATURED_TITLES } },
-  })
+  const [allFeatured, profile] = await Promise.all([
+    prisma.project.findMany({ where: { title: { in: FEATURED_TITLES } } }),
+    prisma.user.findFirst({ select: { image: true } }),
+  ])
   const portfolio = FEATURED_TITLES.map((t) => allFeatured.find((p) => p.title === t)).filter(
     Boolean
   ) as typeof allFeatured
+  const profileImage = profile?.image ?? null
 
   return (
     <main id="top">
@@ -201,15 +220,15 @@ export default async function MarketingPage() {
             </span>
 
             <h1 className="font-display mt-6 text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-              Systems that run your business.{" "}
+              Reliable Full-Stack Developer{" "}
               <span className="bg-gradient-to-r from-primary-600 to-indigo-400 bg-clip-text text-transparent">
-                Automated to run themselves.
+                &amp; AI Developer Expert
               </span>
             </h1>
 
             <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-600">
               Custom ERP, CRM, websites, workflow automation, and AI chatbots, built
-              end-to-end, in fluent English, for teams in the US, Australia, and Europe.
+              end-to-end, for teams in the US, Australia, and Europe.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -249,54 +268,48 @@ export default async function MarketingPage() {
       {/* Who am I + core tech stack */}
       <section id="about" className="border-t border-slate-100 bg-white py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-5 lg:gap-12">
-            <div className="lg:col-span-3">
-              <span className="text-sm font-semibold uppercase tracking-wide text-primary-600">Who am I</span>
-              <h2 className="font-display mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                A fullstack developer who ships systems that run themselves
-              </h2>
-              <div className="mt-6 space-y-4 text-slate-600">
-                <p>
-                  I&apos;m <strong className="font-semibold text-slate-900">Alan Ari Mahendra</strong>, a fullstack
-                  developer based in Indonesia, building custom ERP, CRM, and web systems for startups and
-                  teams across the US, Australia, and Europe. Over the past 3+ years I&apos;ve shipped 38+ production
-                  projects, working remotely and async-first, and communicating written-first in fluent English, so
-                  distance and time zones never slow a project down.
-                </p>
-                <p>
-                  My focus is systems that run a business, and the automation that runs them. I design management
-                  platforms and CRMs around how a company actually operates, wire the workflows between their tools so
-                  repetitive manual work disappears, and build AI chatbots and LLM-powered features that plug straight
-                  into their existing data. When a team has already shipped fast with AI coding tools, I audit the
-                  fragile parts, refactor them, and harden the result for real production traffic.
-                </p>
-                <p>
-                  From database schema to deployed UI, I own the full stack, so there is no hand-off gap between
-                  building a feature, automating it, and keeping it reliable once real users arrive.
-                </p>
+          <div className="grid gap-10 lg:grid-cols-5 lg:gap-12 lg:items-start">
+            {/* Photo — left */}
+            <div className="lg:col-span-2">
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
+                {profileImage ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={profileImage}
+                    alt="Alan Ari Mahendra"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary-100 to-secondary-100" />
+                )}
               </div>
             </div>
 
-            <div className="lg:col-span-2">
-              <div className="sticky top-24 rounded-2xl border border-slate-200 bg-slate-50 p-6">
-                <h3 className="font-display text-sm font-bold text-slate-900">Core tech I build with</h3>
-                <div className="mt-5 space-y-4">
-                  {TECH_STACK.map((group) => (
-                    <div key={group.label}>
-                      <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-primary-600">
-                        {group.label}
-                      </div>
-                      <div className="flex flex-wrap gap-1.5">
-                        {group.items.map((item) => (
-                          <span
-                            key={item}
-                            className="rounded-md bg-white px-2.5 py-1 text-xs font-medium text-slate-600 ring-1 ring-slate-200"
-                          >
-                            {item}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+            {/* Description + tech stack — right */}
+            <div className="lg:col-span-3">
+              <span className="text-sm font-semibold uppercase tracking-wide text-primary-600">Who am I</span>
+              <h2 className="font-display mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                Reliable Full-Stack Developer &amp; AI Developer Expert
+              </h2>
+              <p className="mt-5 text-slate-600">
+                I&apos;m <strong className="font-semibold text-slate-900">Alan Ari Mahendra</strong>, a fullstack
+                developer building custom ERP, CRM, and web systems, the workflow automation that connects them,
+                and AI chatbots and LLM-powered features that plug straight into existing data, for teams across
+                the US, Australia, and Europe. Over 3+ years and 38+ production projects, I own the full stack
+                end-to-end, from database schema to deployed UI, so there is no hand-off gap between building a
+                feature, automating it, and keeping it reliable once real users arrive.
+              </p>
+
+              <div className="mt-7">
+                <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-400">Tech I work with</h3>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {TECH_STACK.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-md bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600 ring-1 ring-slate-200"
+                    >
+                      {item}
+                    </span>
                   ))}
                 </div>
               </div>
@@ -314,7 +327,7 @@ export default async function MarketingPage() {
       <section id="services" className="border-t border-slate-100 bg-slate-50 py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-wide text-primary-600">What I do</span>
+            <span className="text-sm font-semibold uppercase tracking-wide text-primary-600">My Service</span>
             <h2 className="font-display mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
               Built to slot into your team
             </h2>

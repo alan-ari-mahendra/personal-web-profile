@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { prisma } from "@/lib/prisma"
 import { SocialLinkIcon } from "@/components/social-link-icon"
+import { ContactForm } from "@/components/marketing/contact-form"
 
 const EMAIL = "dev.alanari14@gmail.com"
 
@@ -10,11 +11,22 @@ export const metadata: Metadata = {
     "Get in touch with Alan Ari Mahendra, fullstack developer building ERP, CRM, web systems, automation, and AI chatbots. Email, GitHub, LinkedIn, WhatsApp. Remote, async-first, GMT+7.",
 }
 
-function hostLabel(url: string): string {
+// Real, human-readable address per platform instead of a raw API/host string
+// (e.g. "api.whatsapp.com"). Falls back to host + path for anything else.
+function realAddress(label: string, url: string): string {
+  const lower = label.toLowerCase()
   try {
-    return new URL(url).host.replace(/^www\./, "")
+    const u = new URL(url)
+    if (lower.includes("whatsapp")) {
+      const digits = (u.searchParams.get("phone") ?? u.pathname.replace(/\D/g, "")).replace(/\D/g, "")
+      if (digits.length > 2) {
+        return `+${digits.slice(0, 2)} ${digits.slice(2, 5)}-${digits.slice(5, 9)}-${digits.slice(9)}`
+      }
+    }
+    const path = u.pathname.replace(/\/$/, "")
+    return `${u.host.replace(/^www\./, "")}${path}`
   } catch {
-    return ""
+    return url
   }
 }
 
@@ -29,7 +41,7 @@ export default async function ContactPage() {
       <div className="blob -left-32 -top-32 h-96 w-96 bg-primary-200" />
       <div className="blob -right-24 top-40 h-80 w-80 bg-secondary-100" />
 
-      <section className="relative z-10 mx-auto max-w-4xl px-6 pb-24 pt-16 lg:px-8 lg:pt-24">
+      <section className="relative z-10 mx-auto max-w-5xl px-6 pb-24 pt-16 lg:px-8 lg:pt-24">
         <div className="mx-auto max-w-2xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1.5 text-xs font-semibold text-emerald-700">
             <span className="relative flex h-2 w-2">
@@ -73,43 +85,57 @@ export default async function ContactPage() {
           </div>
         </div>
 
-        {/* Contact channels */}
-        <div className="mt-14 grid gap-4 sm:grid-cols-2">
-          {/* Email */}
-          <a
-            href={`mailto:${EMAIL}`}
-            className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-lg"
-          >
-            <span className="flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-primary-50 text-primary-600">
-              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                <rect x="3" y="5" width="18" height="14" rx="2" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="m3.5 6.5 8.5 6 8.5-6" />
-              </svg>
-            </span>
-            <span className="min-w-0">
-              <span className="block font-semibold text-slate-900">Email</span>
-              <span className="block truncate text-sm text-slate-500">{EMAIL}</span>
-            </span>
-          </a>
-
-          {/* Social / contact links from the DB */}
-          {socials.map((link) => (
+        {/* Contact channels + form, side by side */}
+        <div className="mt-14 grid gap-6 lg:grid-cols-2 lg:items-start">
+          {/* Left: contact channels */}
+          <div className="flex flex-col gap-4">
+            {/* Email */}
             <a
-              key={link.id}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`mailto:${EMAIL}`}
               className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-lg"
             >
               <span className="flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-primary-50 text-primary-600">
-                <SocialLinkIcon iconType={link.iconType} iconValue={link.iconValue} size={20} />
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m3.5 6.5 8.5 6 8.5-6" />
+                </svg>
               </span>
               <span className="min-w-0">
-                <span className="block font-semibold text-slate-900">{link.label}</span>
-                <span className="block truncate text-sm text-slate-500">{hostLabel(link.url) || link.url}</span>
+                <span className="block font-semibold text-slate-900">Email</span>
+                <span className="block truncate text-sm text-slate-500">{EMAIL}</span>
               </span>
             </a>
-          ))}
+
+            {/* Social / contact links from the DB */}
+            {socials.map((link) => (
+              <a
+                key={link.id}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-lg"
+              >
+                <span className="flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-primary-50 text-primary-600">
+                  <SocialLinkIcon iconType={link.iconType} iconValue={link.iconValue} size={20} />
+                </span>
+                <span className="min-w-0">
+                  <span className="block font-semibold text-slate-900">{link.label}</span>
+                  <span className="block truncate text-sm text-slate-500">{realAddress(link.label, link.url)}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+
+          {/* Right: send a message form */}
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+            <h2 className="font-display text-xl font-bold text-slate-900">Send a message directly</h2>
+            <p className="mt-1.5 text-sm text-slate-500">
+              This opens your email app with everything pre-filled, ready to send.
+            </p>
+            <div className="mt-6">
+              <ContactForm />
+            </div>
+          </div>
         </div>
       </section>
     </main>

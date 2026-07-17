@@ -43,30 +43,31 @@ export default async function MarketingLayout({
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
           <a href="/#top" className="font-display flex items-center gap-2 text-lg font-extrabold tracking-tight text-slate-900">
             {profileImage ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={profileImage}
-                alt="Alan Ari M"
-                className="h-8 w-8 rounded-lg object-cover ring-1 ring-slate-900/10"
-              />
+              <span className="relative flex h-12 w-12 flex-none overflow-hidden rounded-full ring-1 ring-slate-900/10">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={profileImage}
+                  alt="Alan Ari Mahendra"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </span>
             ) : (
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 text-sm text-white">A</span>
+              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-600 text-sm text-white">A</span>
             )}
-            <span className="text-primary-600">Alan Ari M</span>
+            <span className="text-primary-600">alanari.com</span>
           </a>
           <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
             <a href="/#about" className="transition hover:text-primary-600">About</a>
             <a href="/#services" className="transition hover:text-primary-600">Services</a>
             <a href="/#portfolio" className="transition hover:text-primary-600">Portfolio</a>
             <a href="/#testimonials" className="transition hover:text-primary-600">Testimonials</a>
-            <Link href="/contact" className="transition hover:text-primary-600">Contact</Link>
           </nav>
-          <a
-            href={`mailto:${EMAIL}`}
+          <Link
+            href="/contact"
             className="inline-flex items-center gap-1.5 rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm shadow-primary-600/20 transition hover:bg-primary-700"
           >
             Get in touch
-          </a>
+          </Link>
         </div>
       </header>
 
@@ -89,7 +90,7 @@ export default async function MarketingLayout({
           </div>
           <div className="mt-8 flex flex-col items-center justify-between gap-2 border-t border-slate-800 pt-6 text-xs sm:flex-row">
             <span>© 2026 Alan Ari Mahendra</span>
-            <span>Semarang · GMT+7 · Fluent English · Serving US, Australia &amp; Europe</span>
+            <span>Indonesia · GMT+7 · Fluent English · Serving US, Australia &amp; Europe</span>
           </div>
         </div>
       </footer>

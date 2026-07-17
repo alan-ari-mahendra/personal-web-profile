@@ -30,3 +30,13 @@ details > summary::-webkit-details-marker {
 details[open] .chev {
   transform: rotate(180deg);
 }
+
+/* Hide the scrollbar on the testimonials carousel track while keeping native
+   scroll-snap + touch swipe working. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
