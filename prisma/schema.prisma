@@ -25,6 +25,35 @@ model Project {
   updatedAt   DateTime      @updatedAt
 }
 
+enum DemoRunStatus {
+  running
+  success
+  empty
+  error
+}
+
+// One visitor-triggered run of a live workflow demo. The site fires the n8n
+// webhook and returns immediately; n8n posts the result back to
+// /api/demo/callback, which is why the row starts out as `running`.
+model DemoRun {
+  id            String        @id @default(cuid())
+  slug          String
+  ip            String
+  status        DemoRunStatus @default(running)
+  input         Json
+  result        Json?
+  reason        String?
+  // Per-run bearer token n8n must echo back on the callback. Cleared once the
+  // callback lands so a token is never reusable.
+  callbackToken String?
+  durationMs    Int?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([slug, ip, createdAt])
+  @@index([createdAt])
+}
+
 model Blog {
   id          String   @id @default(cuid())
   title       String

@@ -1,0 +1,407 @@
+{
+  "name": "Lead Enrichment (Public Demo)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "demo-lead-enrichment",
+        "authentication": "headerAuth",
+        "options": {}
+      },
+      "id": "d1000000-0000-4000-8000-000000000001",
+      "name": "Receive Demo Request",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "notes": "Public entry point. Header Auth credential must send x-demo-secret. Responds on receipt; the result is delivered by the callback node at the end."
+    },
+    {
+      "parameters": {
+        "url": "https://nominatim.openstreetmap.org/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "alanari.com portfolio demo (contact: dev.alanari14@gmail.com)"
+            }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.body.location }}"
+            },
+            {
+              "name": "format",
+              "value": "json"
+            },
+            {
+              "name": "limit",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d1000000-0000-4000-8000-000000000002",
+      "name": "Geocode Location",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        220,
+        0
+      ],
+      "alwaysOutputData": true,
+      "notes": "alwaysOutputData is on so an unresolvable location still emits an item and can be reported as location_not_found instead of silently stalling the run."
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $('Receive Demo Request').first().json.body;\nconst geo = $input.first().json || {};\n\nconst lat = parseFloat(geo.lat);\nconst lon = parseFloat(geo.lon);\nconst geoFound = Number.isFinite(lat) && Number.isFinite(lon);\n\n// The demo caps the radius at 2 km. Production allows up to 10 km.\nfunction parseRadius(value) {\n  const s = String(value || '').toLowerCase().trim();\n  const num = parseFloat(s.replace(/[^0-9.]/g, '')) || 0;\n  const meters = s.includes('km') ? num * 1000 : num;\n  if (!meters) return 1000;\n  return Math.min(Math.max(Math.round(meters), 100), 2000);\n}\n\nfunction amenityFilter(category) {\n  const kw = String(category || '').toLowerCase().trim();\n  if (kw.includes('cafe') || kw.includes('coffee') || kw.includes('kopi')) return '[\"amenity\"=\"cafe\"]';\n  if (kw.includes('fast')) return '[\"amenity\"=\"fast_food\"]';\n  if (kw.includes('bar') || kw.includes('pub')) return '[\"amenity\"~\"bar|pub\"]';\n  return '[\"amenity\"~\"restaurant|cafe|fast_food|bar|pub|food_court\"]';\n}\n\nconst radius = parseRadius(body.radius);\nconst category = body.category || 'restaurant';\nconst f = amenityFilter(category);\n\n// When the location did not resolve we still build a valid query (around 0,0\n// returns nothing fast) so the run reaches Pick Top Places and reports a\n// proper reason rather than dying mid-graph.\nconst qLat = geoFound ? lat : 0;\nconst qLon = geoFound ? lon : 0;\n\n// Cap the raw result count in the query itself (`out body N`), not just after\n// the fact in Pick Top Places. A broad category like \"restaurant\" matches 5\n// amenity types at once, and an uncapped query over a dense area can ask the\n// shared public Overpass server for thousands of elements, which is what\n// trips their rate limiter. 25 is comfortably more than the 5 we keep, enough\n// for Pick Top Places to still choose the best-documented ones.\nconst RAW_LIMIT = 25;\nconst query = `[out:json][timeout:20];(node${f}(around:${radius},${qLat},${qLon});way${f}(around:${radius},${qLat},${qLon}););out body ${RAW_LIMIT} qt;>;out skel qt;`;\n\nreturn [{ json: { query, radius, category, geoFound, lat: qLat, lon: qLon } }];"
+      },
+      "id": "d1000000-0000-4000-8000-000000000003",
+      "name": "Build Overpass Query",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://overpass-api.de/api/interpreter",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "alanari.com portfolio demo (contact: dev.alanari14@gmail.com)"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "data",
+              "value": "={{ $('Build Overpass Query').first().json.query }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 24000
+        }
+      },
+      "id": "d1000000-0000-4000-8000-000000000004",
+      "name": "Fetch Nearby Places",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        660,
+        0
+      ],
+      "onError": "continueErrorOutput",
+      "notes": "Overpass is a free shared service and rate limits under load. The error output reports upstream_busy to the site instead of leaving the visitor waiting."
+    },
+    {
+      "parameters": {
+        "jsCode": "const MAX_LEADS = 5;\n\nconst meta = $('Build Overpass Query').first().json;\nconst elements = ($input.first().json || {}).elements || [];\nconst named = elements.filter((el) => el.tags && el.tags.name);\n\nif (!meta.geoFound) {\n  return [{ json: { _empty: true, reason: 'location_not_found' } }];\n}\nif (named.length === 0) {\n  return [{ json: { _empty: true, reason: 'no_places' } }];\n}\n\n// Richer OSM entries make for a more convincing demo card, so pick the\n// best-documented places first rather than whatever Overpass returned first.\nfunction score(el) {\n  const t = el.tags;\n  return ['addr:street', 'phone', 'contact:phone', 'website', 'contact:website', 'cuisine', 'opening_hours']\n    .filter((k) => t[k])\n    .length;\n}\n\nconst seen = new Set();\nconst picked = [];\n\nfor (const el of named.slice().sort((a, b) => score(b) - score(a))) {\n  const name = String(el.tags.name).trim();\n  const key = name.toLowerCase();\n  if (seen.has(key)) continue;\n  seen.add(key);\n\n  picked.push({\n    json: {\n      _empty: false,\n      name,\n      category: el.tags.amenity || null,\n      cuisine: el.tags.cuisine || null,\n      address: [el.tags['addr:street'], el.tags['addr:housenumber']].filter(Boolean).join(' ') || null,\n      phone: el.tags.phone || el.tags['contact:phone'] || null,\n      website: el.tags.website || el.tags['contact:website'] || null,\n      email: el.tags.email || el.tags['contact:email'] || null,\n    },\n  });\n\n  if (picked.length >= MAX_LEADS) break;\n}\n\nreturn picked;"
+      },
+      "id": "d1000000-0000-4000-8000-000000000005",
+      "name": "Pick Top Places",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d1000000-0000-4000-8000-0000000000a1",
+              "leftValue": "={{ $json._empty }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d1000000-0000-4000-8000-000000000006",
+      "name": "Any Places Found?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1100,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a B2B sales consultant helping local food and beverage businesses go digital.\n\nBUSINESS DATA (from OpenStreetMap)\nName: {{ $json.name }}\nCategory: {{ $json.category }}\nCuisine: {{ $json.cuisine }}\nAddress: {{ $json.address }}\nPhone: {{ $json.phone }}\nWebsite: {{ $json.website }}\nEmail: {{ $json.email }}\n\nTASK\n1. Infer 2 to 3 concrete pain points this business most likely has. Base them on what is missing from the data (no website, no listed phone, no online ordering) and on what is typical for this kind of business. Each pain point is one sentence, phrased as a business problem rather than a technical one.\n2. Write one short personalised cold email offering a concrete solution to the strongest pain point. Greet the business by name. Do not invent statistics, awards, or facts that are not in the data.\n\nOUTPUT\nRespond with ONLY a raw JSON object, and nothing else. Do not think out loud, do not show your reasoning, do not wrap the answer in <think> tags or any other tag, and do not add a markdown fence or commentary before or after it. The very first character of your response must be {.\n{\"painPoints\":[\"...\",\"...\"],\"emailSubject\":\"...\",\"emailBody\":\"...\"}\n\nWrite everything in English regardless of the language of the business name. emailBody is plain text, 120 words maximum, using \\n for line breaks.",
+        "batching": {}
+      },
+      "id": "d1000000-0000-4000-8000-000000000007",
+      "name": "Analyze Lead",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        1320,
+        100
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "Runs once per place. A single failed generation degrades that one card instead of killing the whole run."
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "id": "d1000000-0000-4000-8000-000000000008",
+      "name": "Groq Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        1320,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// The model is asked for raw JSON but sometimes wraps it in a fence, adds a\n// sentence around it, or (reasoning-style output) prefixes the whole thing\n// with a <think>...</think> block of raw chain-of-thought. That block often\n// contains an example of the target JSON shape inline, so it must be removed\n// before we go looking for braces, or we would grab the example instead of\n// the real answer.\nfunction stripThink(text) {\n  let s = String(text || '').trim();\n  // Drop a complete <think>...</think> block anywhere in the text.\n  s = s.replace(/<think>[\\s\\S]*?<\\/think>/gi, '').trim();\n  // If generation was cut off before the closing tag, drop everything from\n  // the opening tag onward rather than risk showing half a reasoning trace.\n  const openThink = s.search(/<think>/i);\n  if (openThink !== -1) s = s.slice(0, openThink).trim();\n  return s;\n}\n\nfunction parseAnalysis(text) {\n  if (!text) return null;\n  let s = stripThink(text);\n  s = s.replace(/^```(?:json)?/i, '').replace(/```$/, '').trim();\n\n  const start = s.indexOf('{');\n  const end = s.lastIndexOf('}');\n  if (start === -1 || end === -1) return null;\n  try {\n    return JSON.parse(s.slice(start, end + 1));\n  } catch (e) {\n    return null;\n  }\n}\n\nconst body = $('Receive Demo Request').first().json.body;\nconst meta = $('Build Overpass Query').first().json;\nconst places = $('Pick Top Places').all();\nconst analyses = $input.all();\n\nconst leads = places.map((place, i) => {\n  const p = place.json;\n  const raw = analyses[i] && analyses[i].json ? analyses[i].json.text : '';\n  const parsed = parseAnalysis(raw) || {};\n  // Last-resort fallback if the model didn't return parseable JSON at all.\n  // Still sanitised, so a stray <think> block never reaches the UI even here.\n  const cleanRaw = stripThink(raw);\n\n  return {\n    name: p.name,\n    category: p.category,\n    address: p.address,\n    phone: p.phone,\n    website: p.website,\n    email: p.email,\n    painPoints: Array.isArray(parsed.painPoints) ? parsed.painPoints.slice(0, 3).map(String) : [],\n    emailSubject: String(parsed.emailSubject || ('A quick idea for ' + p.name)),\n    emailBody: String(parsed.emailBody || cleanRaw || ''),\n  };\n});\n\nreturn [{\n  json: {\n    runId: body.runId,\n    ok: true,\n    leads,\n    stats: {\n      placesScanned: places.length,\n      leadsEnriched: leads.length,\n      radius: meta.radius,\n      category: meta.category,\n    },\n  },\n}];"
+      },
+      "id": "d1000000-0000-4000-8000-000000000009",
+      "name": "Build Demo Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $('Receive Demo Request').first().json.body;\nconst incoming = $input.first().json || {};\n\n// Reached either from the \"no usable places\" branch or from the Overpass error\n// output, so work out which one this is.\nconst reason = incoming.error ? 'upstream_busy' : (incoming.reason || 'no_places');\n\nreturn [{\n  json: {\n    runId: body.runId,\n    ok: false,\n    reason,\n    leads: [],\n    stats: { placesScanned: 0, leadsEnriched: 0 },\n  },\n}];"
+      },
+      "id": "d1000000-0000-4000-8000-00000000000a",
+      "name": "Build Empty Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Receive Demo Request').first().json.body.callbackUrl }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-demo-token",
+              "value": "={{ $('Receive Demo Request').first().json.body.callbackToken }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "d1000000-0000-4000-8000-00000000000b",
+      "name": "Send Result To Website",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1980,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "notes": "The callback URL and the one-time token both come from the request the website sent, so no long-lived site secret is stored inside this workflow. Retries 3x because during local dev the callback target is an ngrok tunnel, which can drop a connection briefly."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Belt-and-suspenders pass, right before the payload leaves n8n for good.\n// Build Demo Payload already strips a leaked <think> block per lead, but this\n// node catches anything that slips through it too — a prompt edit, a model\n// swap, or a manual test run wired differently — so raw chain-of-thought can\n// never reach the website UI regardless of which upstream node produced it.\nfunction stripThink(value) {\n  if (typeof value !== 'string') return value;\n  let s = value.trim();\n  s = s.replace(/<think>[\\s\\S]*?<\\/think>/gi, '').trim();\n  const openThink = s.search(/<think>/i);\n  if (openThink !== -1) s = s.slice(0, openThink).trim();\n  return s;\n}\n\nconst payload = $input.first().json;\n\nconst leads = Array.isArray(payload.leads)\n  ? payload.leads.map((lead) => ({\n      ...lead,\n      emailSubject: stripThink(lead.emailSubject),\n      emailBody: stripThink(lead.emailBody),\n      painPoints: Array.isArray(lead.painPoints) ? lead.painPoints.map(stripThink) : lead.painPoints,\n    }))\n  : payload.leads;\n\nreturn [{ json: { ...payload, leads } }];"
+      },
+      "id": "d1000000-0000-4000-8000-00000000000c",
+      "name": "Sanitize Leads Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        -80
+      ]
+    }
+  ],
+  "connections": {
+    "Receive Demo Request": {
+      "main": [
+        [
+          {
+            "node": "Geocode Location",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Geocode Location": {
+      "main": [
+        [
+          {
+            "node": "Build Overpass Query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Overpass Query": {
+      "main": [
+        [
+          {
+            "node": "Fetch Nearby Places",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Nearby Places": {
+      "main": [
+        [
+          {
+            "node": "Pick Top Places",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Empty Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick Top Places": {
+      "main": [
+        [
+          {
+            "node": "Any Places Found?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Any Places Found?": {
+      "main": [
+        [
+          {
+            "node": "Analyze Lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Empty Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Analyze Lead",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Lead": {
+      "main": [
+        [
+          {
+            "node": "Build Demo Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Demo Payload": {
+      "main": [
+        [
+          {
+            "node": "Sanitize Leads Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Empty Payload": {
+      "main": [
+        [
+          {
+            "node": "Sanitize Leads Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sanitize Leads Output": {
+      "main": [
+        [
+          {
+            "node": "Send Result To Website",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "tags": []
+}

@@ -61,6 +61,16 @@ export default async function MarketingLayout({
             <a href="/#services" className="transition hover:text-primary-600">Services</a>
             <a href="/#portfolio" className="transition hover:text-primary-600">Portfolio</a>
             <a href="/#testimonials" className="transition hover:text-primary-600">Testimonials</a>
+            <Link
+              href="/demo/lead-enrichment"
+              className="inline-flex items-center gap-1.5 text-primary-600 transition hover:text-primary-700"
+            >
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              </span>
+              Live demo
+            </Link>
           </nav>
           <Link
             href="/contact"

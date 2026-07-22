@@ -32,7 +32,37 @@ export default async function ProjectsPage() {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Live demo banner. Sits above the grid because a runnable workflow is
+            the strongest proof on this page. */}
+        <Link
+          href="/demo/lead-enrichment"
+          className="group mt-12 flex flex-col items-start gap-5 rounded-2xl border-2 border-primary-200 bg-primary-50/40 p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-lg sm:flex-row sm:items-center sm:p-8"
+        >
+          <span className="flex h-12 w-12 flex-none items-center justify-center rounded-xl bg-primary-600 text-white">
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="flex flex-wrap items-center gap-2">
+              <span className="font-display text-lg font-bold text-slate-900">
+                Lead Enrichment automation
+              </span>
+              <span className="rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                Live demo
+              </span>
+            </span>
+            <span className="mt-1 block text-sm text-slate-600">
+              Run the real n8n workflow yourself: pick a city, get back qualified leads with their
+              pain points and a cold email already written.
+            </span>
+          </span>
+          <span className="inline-flex flex-none items-center gap-1.5 rounded-lg bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white transition group-hover:bg-primary-700">
+            Try it now
+          </span>
+        </Link>
+
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {projects.map((project) => (
             <MarketingProjectCard key={project.id} project={project} />
           ))}
