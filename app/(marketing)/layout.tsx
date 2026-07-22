@@ -62,7 +62,7 @@ export default async function MarketingLayout({
             <a href="/#services" className="transition hover:text-primary-600">Services</a>
             <a href="/#portfolio" className="transition hover:text-primary-600">Portfolio</a>
             <a href="/#testimonials" className="transition hover:text-primary-600">Testimonials</a>
-            <Link
+            {/* <Link
               href="/demo/lead-enrichment"
               className="inline-flex items-center gap-1.5 text-primary-600 transition hover:text-primary-700"
             >
@@ -71,7 +71,7 @@ export default async function MarketingLayout({
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
               </span>
               Live demo
-            </Link>
+            </Link> */}
           </nav>
           <Link
             href="/contact"
