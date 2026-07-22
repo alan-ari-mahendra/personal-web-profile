@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Open_Sans, Rubik } from "next/font/google"
 import { prisma } from "@/lib/prisma"
 import "./marketing.css"
+import { Analytics } from "@vercel/analytics/next"
 
 const openSans = Open_Sans({
   subsets: ["latin"],
